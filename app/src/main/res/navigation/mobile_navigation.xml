@@ -22,4 +22,10 @@
         android:name="com.ufms.nes.fiscalizacaoagems.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/signup"
+        android:name="com.ufms.nes.fiscalizacaoagems.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
 </navigation>
