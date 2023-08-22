@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">FiscalizacaoAGEMS</string>
+
+    <string name="login">Login</string>
+    <string name="email">E-mail</string>
+    <string name="password">Senha</string>
+    <string name="logo_content_description">Logo Fiscalização DSBRS - AGEMS</string>
+    <string name="forget_password">Esqueceu a senha?</string>
+    <string name="enter">Entrar</string>
+    <string name="register">Cadastrar</string>
+
+    <string name="password_invalid">A senha deve atender aos seguintes critérios:
+        \n 1. Comprimento mínimo de 8 caracteres.
+        \n 2. Contém pelo menos uma letra maiúscula.
+        \n 3. Contém pelo menos uma letra minúscula.
+        \n 4. Contém pelo menos um dígito.
+        \n 5. Contém pelo menos um caractere especial. </string>
+
+    <string name="error_message">Desculpe, ocorreu algum erro.</string>
+</resources>
