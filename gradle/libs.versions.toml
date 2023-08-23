@@ -11,7 +11,7 @@ androidxRoom = "2.5.1"
 androidxTest = "1.5.0"
 androidxTestExt = "1.1.5"
 androidxTestRunner = "1.5.2"
-coroutines = "1.6.4"
+coroutines = "1.7.1"
 hilt = "2.46"
 junit = "4.13.2"
 kotlin = "1.8.20"
@@ -60,4 +60,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt-gradle = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-#serializable = { id = "plugin.serialization" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

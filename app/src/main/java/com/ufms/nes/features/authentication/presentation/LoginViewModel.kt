@@ -2,7 +2,8 @@ package com.ufms.nes.features.authentication.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ufms.nes.R
+import com.ufms.nes.core.commons.Constants.EMPTY_FIELDS
+import com.ufms.nes.core.commons.Constants.PASSWORD_INVALID
 import com.ufms.nes.core.commons.Resource
 import com.ufms.nes.core.commons.Validators
 import com.ufms.nes.features.authentication.data.model.User
@@ -60,23 +61,35 @@ class LoginViewModel @Inject constructor(
             it.copy(isLoading = true)
         }
         viewModelScope.launch {
-            if (Validators.isPasswordValid(_uiState.value.password)) {
-                when (repository.loginUser(user = createUser())) {
-                    is Resource.Error -> {
-                        _uiState.update {
-                            it.copy(userMessage = R.string.error_message)
-                        }
+            when {
+                _uiState.value.email.isNullOrEmpty() || _uiState.value.password.isNullOrEmpty() -> {
+                    _uiState.update {
+                        it.copy(userMessage = EMPTY_FIELDS)
                     }
+                }
 
-                    is Resource.Success -> {
-                        _uiState.update {
-                            it.copy(userLogged = true)
+                Validators.isPasswordValid(_uiState.value.password) -> {
+                    val result = repository.loginUser(user = createUser())
+
+                    when (result) {
+                        is Resource.Error -> {
+                            _uiState.update {
+                                it.copy(userMessage = result.error)
+                            }
+                        }
+
+                        is Resource.Success -> {
+                            _uiState.update {
+                                it.copy(userLogged = true)
+                            }
                         }
                     }
                 }
-            } else {
-                _uiState.update {
-                    it.copy(userMessage = R.string.password_invalid)
+
+                else -> {
+                    _uiState.update {
+                        it.copy(userMessage = PASSWORD_INVALID)
+                    }
                 }
             }
             _uiState.update {
@@ -94,7 +107,7 @@ data class LoginUiState(
     var password: String? = null,
     var isLoading: Boolean = false,
     var userLogged: Boolean = false,
-    var userMessage: Int? = null
+    var userMessage: String? = null
 )
 
 sealed class LoginEvent {
