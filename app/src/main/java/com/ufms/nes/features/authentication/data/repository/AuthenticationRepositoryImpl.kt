@@ -1,5 +1,6 @@
 package com.ufms.nes.features.authentication.data.repository
 
+import com.ufms.nes.core.commons.Constants.ERROR_MESSAGE
 import com.ufms.nes.core.commons.Resource
 import com.ufms.nes.features.authentication.data.model.User
 import com.ufms.nes.features.authentication.data.model.UserResponse
@@ -17,7 +18,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
             val result = service.registerUser(user)
             Resource.Success(data = result)
         } catch (ex: Exception) {
-            Resource.Error(data = null, error = "Desculpe, ocorreu algum erro")
+            Resource.Error(data = null, error = ERROR_MESSAGE)
         }
     }
 
@@ -31,7 +32,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
 
             Resource.Error(data = null, error = exceptionMessage)
         } catch (ex: Throwable) {
-            Resource.Error(data = null, error = "Desculpe, ocorreu algum erro")
+            Resource.Error(data = null, error = ERROR_MESSAGE)
         }
     }
 }
