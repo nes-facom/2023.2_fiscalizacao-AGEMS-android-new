@@ -8,6 +8,11 @@
     <string name="forget_password">Esqueceu a senha?</string>
     <string name="enter">Entrar</string>
     <string name="register">Cadastrar</string>
+    <string name="registerScreenTitle">Novo Usuário</string>
+    <string name="passwordConfirmation">Confirme a nova senha</string>
+    <string name="returnToLoginScreen">Retornar ao Login</string>
+    <string name="nome">Nome</string>
+    <string name="role">Cargo</string>
 
     <string name="password_invalid">A senha deve atender aos seguintes critérios:
         \n 1. Comprimento mínimo de 8 caracteres.

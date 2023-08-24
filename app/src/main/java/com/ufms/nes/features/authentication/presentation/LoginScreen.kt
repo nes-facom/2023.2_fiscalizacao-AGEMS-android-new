@@ -31,9 +31,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.rememberNavController
 import com.ufms.nes.R
 
 @Composable
@@ -41,7 +43,6 @@ fun LoginScreen(
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
-
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
@@ -63,6 +64,7 @@ fun LoginContent(
     modifier: Modifier = Modifier
 ) {
 
+    val navController = rememberNavController()
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -133,7 +135,9 @@ fun LoginContent(
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             OutlinedButton(
-                onClick = { /*TODO() - Navegar para tela de cadastro */ },
+                onClick = {
+                    navController.navigate(2)
+                },
             ) {
                 Text(text = stringResource(id = R.string.register))
             }
