@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.hilt.gradle)
     alias(libs.plugins.ksp)
-//    alias(libs.plugins.serializable)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -122,4 +122,7 @@ dependencies {
     implementation(libs.ktor.client.logging)
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
+
+    testImplementation(libs.mockk)
+    testImplementation(libs.androidx.core.testing)
 }

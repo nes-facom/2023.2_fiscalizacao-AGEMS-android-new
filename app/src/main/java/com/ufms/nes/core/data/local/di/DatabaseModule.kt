@@ -11,7 +11,6 @@ import com.ufms.nes.core.data.local.AppDatabase
 import com.ufms.nes.core.data.local.AgemsTypeDao
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 class DatabaseModule {
@@ -26,7 +25,7 @@ class DatabaseModule {
         return Room.databaseBuilder(
             appContext,
             AppDatabase::class.java,
-            "AgemsType"
+            "agems_db"
         ).build()
     }
 }

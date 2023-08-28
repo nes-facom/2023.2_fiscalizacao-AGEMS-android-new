@@ -2,7 +2,7 @@ package com.ufms.nes.core.commons
 
 sealed class Resource<T>(
     open val data: T?,
-    open val error: Throwable? = null
+    open val error: String? = null
 ) {
 
     data class Success<T>(
@@ -11,6 +11,6 @@ sealed class Resource<T>(
 
     data class Error<T>(
         override val data: T?,
-        override val error: Throwable
+        override val error: String
     ) : Resource<T>(data, error)
 }
