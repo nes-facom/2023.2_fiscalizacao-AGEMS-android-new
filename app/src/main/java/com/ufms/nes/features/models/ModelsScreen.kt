@@ -1,4 +1,4 @@
-package com.ufms.nes.features.home
+package com.ufms.nes.features.models
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,14 +14,14 @@ import com.ufms.nes.R
 import com.ufms.nes.core.ui.components.DrawerTopBar
 
 @Composable
-fun HomeScreen(
+fun ModelsScreen(
     drawerState: DrawerState,
 ) {
     Scaffold(
         topBar = {
             DrawerTopBar(
                 drawerState = drawerState,
-                title = R.string.tab_home
+                title = R.string.tab_model
             )
         }
     ) { paddingValues ->
@@ -32,7 +32,8 @@ fun HomeScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Home")
+
+            Text(text = "Model Screen")
         }
     }
 }

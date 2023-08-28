@@ -27,9 +27,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import com.ufms.nes.R
 import com.ufms.nes.core.ui.model.drawerOptions
-import com.ufms.nes.features.home.homeNavigationRoute
 import com.ufms.nes.main.navigation.NavRoutes
+import com.ufms.nes.main.navigation.formNavigationRoute
+import com.ufms.nes.main.navigation.homeNavigationRoute
 import com.ufms.nes.main.navigation.mainGraph
+import com.ufms.nes.main.navigation.modelNavigationRoute
+import com.ufms.nes.main.navigation.navigateToForms
+import com.ufms.nes.main.navigation.navigateToModels
 import kotlinx.coroutines.launch
 
 @Composable
@@ -74,6 +78,12 @@ fun AgemsApp(
                                         appState.navController.navigate(item.route) {
                                             popUpTo(NavRoutes.MainRoute.name)
                                         }
+                                    }
+                                    modelNavigationRoute -> {
+                                        appState.navController.navigateToModels()
+                                    }
+                                    formNavigationRoute -> {
+                                        appState.navController.navigateToForms()
                                     }
                                 }
                             },
