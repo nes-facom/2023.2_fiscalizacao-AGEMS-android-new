@@ -12,15 +12,9 @@ import com.ufms.nes.features.form.FormsScreen
 import com.ufms.nes.features.home.HomeScreen
 import com.ufms.nes.features.models.ModelsScreen
 
-enum class NavRoutes {
-    MainRoute,
-    AuthenticationRoute
-}
-
 fun NavGraphBuilder.mainGraph(
     drawerState: DrawerState,
     onBackClick: () -> Unit,
-    onFloatingButtonClick: () -> Unit,
     onShortcutClick: (route: String) -> Unit,
     onLoginSuccess: () -> Unit
 ) {
@@ -36,9 +30,13 @@ fun NavGraphBuilder.mainGraph(
     }
 }
 
-const val homeNavigationRoute = "home_screen"
-const val modelNavigationRoute = "models_screen"
-const val formNavigationRoute = "forms_screen"
+fun NavController.navigateToModels(navOptions: NavOptions? = null) {
+    this.navigate(modelNavigationRoute, navOptions)
+}
+
+fun NavController.navigateToForms(navOptions: NavOptions? = null) {
+    this.navigate(formNavigationRoute, navOptions)
+}
 
 fun NavGraphBuilder.homeScreen(
     drawerState: DrawerState,
@@ -52,30 +50,28 @@ fun NavGraphBuilder.homeScreen(
     }
 }
 
-fun NavController.navigateToModels(navOptions: NavOptions? = null) {
-    this.navigate(modelNavigationRoute, navOptions)
-}
-
 fun NavGraphBuilder.modelsScreen(
     drawerState: DrawerState,
 ) {
     composable(route = modelNavigationRoute) {
-        ModelsScreen(
-            drawerState = drawerState
-        )
+        ModelsScreen(drawerState = drawerState)
     }
-}
-
-fun NavController.navigateToForms(navOptions: NavOptions? = null) {
-    this.navigate(formNavigationRoute, navOptions)
 }
 
 fun NavGraphBuilder.formsScreen(
     drawerState: DrawerState,
 ) {
     composable(route = formNavigationRoute) {
-        FormsScreen(
-            drawerState = drawerState
-        )
+        FormsScreen(drawerState = drawerState)
     }
 }
+
+enum class NavRoutes {
+    MainRoute,
+    AuthenticationRoute
+}
+
+const val homeNavigationRoute = "home_screen"
+const val modelNavigationRoute = "models_screen"
+const val formNavigationRoute = "forms_screen"
+const val exitNavigationRoute = "exit_app"
