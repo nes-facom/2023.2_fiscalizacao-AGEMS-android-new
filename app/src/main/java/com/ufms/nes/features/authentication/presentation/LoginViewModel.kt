@@ -3,9 +3,7 @@ package com.ufms.nes.features.authentication.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ufms.nes.core.commons.Constants.EMPTY_FIELDS
-import com.ufms.nes.core.commons.Constants.PASSWORD_INVALID
 import com.ufms.nes.core.commons.Resource
-import com.ufms.nes.core.commons.Validators
 import com.ufms.nes.features.authentication.data.model.User
 import com.ufms.nes.features.authentication.data.repository.AuthenticationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -57,44 +55,31 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun loginUser() {
-        _uiState.update {
-            it.copy(isLoading = true)
-        }
-        viewModelScope.launch {
-            when {
-                _uiState.value.email.isNullOrEmpty() || _uiState.value.password.isNullOrEmpty() -> {
-                    _uiState.update {
-                        it.copy(userMessage = EMPTY_FIELDS)
-                    }
-                }
+        _uiState.update { it.copy(isLoading = true) }
 
-                Validators.isPasswordValid(_uiState.value.password) -> {
-                    val result = repository.loginUser(user = createUser())
-
-                    when (result) {
-                        is Resource.Error -> {
-                            _uiState.update {
-                                it.copy(userMessage = result.error)
-                            }
-                        }
-
-                        is Resource.Success -> {
-                            _uiState.update {
-                                it.copy(userLogged = true)
-                            }
-                        }
-                    }
-                }
-
-                else -> {
-                    _uiState.update {
-                        it.copy(userMessage = PASSWORD_INVALID)
-                    }
-                }
-            }
+        if (_uiState.value.email.isNullOrEmpty() || _uiState.value.password.isNullOrEmpty()) {
             _uiState.update {
-                it.copy(isLoading = false)
+                it.copy(userMessage = EMPTY_FIELDS)
             }
+            return
+        }
+
+        viewModelScope.launch {
+
+            repository.loginUser(user = createUser()).let { result ->
+                if (result is Resource.Success) {
+                    _uiState.update {
+                        it.copy(userLogged = true)
+                    }
+                } else {
+                    _uiState.update {
+                        it.copy(userMessage = result.error)
+                    }
+                }
+            }
+        }
+        _uiState.update {
+            it.copy(isLoading = false)
         }
     }
 
