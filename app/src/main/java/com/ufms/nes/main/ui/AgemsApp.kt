@@ -79,9 +79,11 @@ fun AgemsApp(
                                             popUpTo(NavRoutes.MainRoute.name)
                                         }
                                     }
+
                                     modelNavigationRoute -> {
                                         appState.navController.navigateToModels()
                                     }
+
                                     formNavigationRoute -> {
                                         appState.navController.navigateToForms()
                                     }
@@ -113,6 +115,9 @@ fun AgemsApp(
                                     inclusive = true
                                 }
                             }
+                        },
+                        onShortcutClick = {
+                            appState.navController.navigate(it)
                         }
                     )
                 }

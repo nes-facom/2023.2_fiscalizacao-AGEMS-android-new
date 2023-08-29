@@ -21,6 +21,7 @@ fun NavGraphBuilder.mainGraph(
     drawerState: DrawerState,
     onBackClick: () -> Unit,
     onFloatingButtonClick: () -> Unit,
+    onShortcutClick: (route: String) -> Unit,
     onLoginSuccess: () -> Unit
 ) {
     navigation(
@@ -29,7 +30,7 @@ fun NavGraphBuilder.mainGraph(
         loginScreen(onLoginSuccess = onLoginSuccess)
     }
     navigation(startDestination = homeNavigationRoute, route = NavRoutes.MainRoute.name) {
-        homeScreen(drawerState = drawerState)
+        homeScreen(drawerState = drawerState, onShortcutClick = onShortcutClick)
         modelsScreen(drawerState = drawerState)
         formsScreen(drawerState = drawerState)
     }
@@ -41,10 +42,12 @@ const val formNavigationRoute = "forms_screen"
 
 fun NavGraphBuilder.homeScreen(
     drawerState: DrawerState,
+    onShortcutClick: (route: String) -> Unit,
 ) {
     composable(route = homeNavigationRoute) {
         HomeScreen(
-            drawerState = drawerState
+            drawerState = drawerState,
+            onShortcutClick = onShortcutClick
         )
     }
 }
