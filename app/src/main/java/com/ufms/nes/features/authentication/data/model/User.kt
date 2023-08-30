@@ -21,5 +21,5 @@ data class User(
 
     @SerialName("cargo") private val cargo: String? = null,
 
-    @SerialName("permissao") private val userType: String? = UserType.ADMIN.name
+    @SerialName("funcao") private val userType: String? = UserType.ADMIN.name
 )

@@ -15,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Key
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -30,7 +29,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -130,19 +128,6 @@ fun LoginContent(
 
         Spacer(modifier = Modifier.height(height = 30.dp))
 
-//        TextField(
-//            modifier = Modifier.fillMaxWidth(),
-//            value = uiState.password.orEmpty(),
-//            onValueChange = {
-//                onEvent(LoginEvent.EnteredPassword(it))
-//            },
-//            placeholder = {
-//                Text(text = stringResource(id = R.string.password))
-//            },
-//            leadingIcon = { Icon(imageVector = Icons.Default.Key, contentDescription = null) },
-//            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-//        )
-
         PasswordTextFieldComponent(
             labelValue = stringResource(id = R.string.password),
             onTextSelected = { onEvent(LoginEvent.EnteredPassword(it)) },
@@ -150,15 +135,15 @@ fun LoginContent(
             leadingIcon = Icons.Default.Key
         )
 
-        Button(
-            onClick = { /*TODO*/ },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent,
-                contentColor = Color.Gray
-            )
-        ) {
-            Text(text = stringResource(id = R.string.forget_password))
-        }
+//        Button(
+//            onClick = { /*TODO*/ },
+//            colors = ButtonDefaults.buttonColors(
+//                containerColor = Color.Transparent,
+//                contentColor = Color.Gray
+//            )
+//        ) {
+//            Text(text = stringResource(id = R.string.forget_password))
+//        }
 
         Spacer(modifier = Modifier.weight(1f))
 

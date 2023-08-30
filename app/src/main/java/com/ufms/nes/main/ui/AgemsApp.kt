@@ -1,7 +1,9 @@
 package com.ufms.nes.main.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Divider
@@ -21,16 +23,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import com.ufms.nes.R
 import com.ufms.nes.core.ui.model.drawerOptions
-import com.ufms.nes.features.home.homeNavigationRoute
-import com.ufms.nes.features.registration.presentation.registrationNavigationRoute
 import com.ufms.nes.main.navigation.NavRoutes
+import com.ufms.nes.main.navigation.exitNavigationRoute
+import com.ufms.nes.main.navigation.formNavigationRoute
+import com.ufms.nes.main.navigation.homeNavigationRoute
 import com.ufms.nes.main.navigation.mainGraph
+import com.ufms.nes.main.navigation.modelNavigationRoute
+import com.ufms.nes.main.navigation.navigateToForms
+import com.ufms.nes.main.navigation.navigateToModels
 import kotlinx.coroutines.launch
 
 @Composable
@@ -56,9 +64,13 @@ fun AgemsApp(
                             .padding(vertical = 20.dp)
                             .padding(start = 24.dp)
                     ) {
-                        Text(
-                            text = stringResource(id = R.string.app_name),
-                            style = MaterialTheme.typography.titleLarge
+                        Image(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(80.dp),
+                            alignment = Alignment.BottomStart,
+                            painter = painterResource(id = R.drawable.app_logo),
+                            contentDescription = stringResource(R.string.logo_content_description)
                         )
                     }
                     Divider(thickness = 1.dp, modifier = Modifier.padding(bottom = 10.dp))
@@ -75,6 +87,18 @@ fun AgemsApp(
                                         appState.navController.navigate(item.route) {
                                             popUpTo(NavRoutes.MainRoute.name)
                                         }
+                                    }
+
+                                    modelNavigationRoute -> {
+                                        appState.navController.navigateToModels()
+                                    }
+
+                                    formNavigationRoute -> {
+                                        appState.navController.navigateToForms()
+                                    }
+
+                                    exitNavigationRoute -> {
+                                        // TODO() - Deslogar usuário
                                     }
                                 }
                             },
@@ -97,7 +121,6 @@ fun AgemsApp(
                     mainGraph(
                         drawerState = drawerState,
                         onBackClick = appState::onBackClick,
-                        onFloatingButtonClick = {},
                         onLoginSuccess = {
                             appState.navController.navigate(NavRoutes.MainRoute.name) {
                                 popUpTo(NavRoutes.AuthenticationRoute.name) {
@@ -105,12 +128,7 @@ fun AgemsApp(
                                 }
                             }
                         },
-                        onRegistrationSuccess = {
-                            appState.navController.navigate(registrationNavigationRoute)
-                        },
-                        onRegistrationButtonClick = {
-                            appState.navController.navigate(registrationNavigationRoute)
-                        }
+                        onShortcutClick = { route -> appState.navController.navigate(route) }
                     )
                 }
             }
