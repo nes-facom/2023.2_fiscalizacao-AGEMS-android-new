@@ -10,14 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CardTravel
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Key
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -26,16 +24,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -43,23 +42,34 @@ import com.ufms.nes.R
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.ufms.nes.core.ui.components.PasswordTextFieldComponent
 
 @Composable
 fun RegistrationScreen(
     modifier: Modifier = Modifier,
-    viewModel: RegistrationViewModel = hiltViewModel()
+    onRegistrationSuccess: () -> Unit,
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    registrationViewModel: RegistrationViewModel = hiltViewModel()
 ) {
 
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by registrationViewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
-        modifier.fillMaxWidth()
+        modifier.fillMaxWidth(),
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { paddingValues ->
         RegistrationContent(
             uiState = uiState,
-            onEvent = viewModel::onEvent,
+            onEvent = registrationViewModel::onEvent,
             modifier = Modifier.padding(paddingValues)
         )
+        uiState.userMessage?.let { message ->
+            print(message)
+            LaunchedEffect(snackbarHostState, registrationViewModel, message, message) {
+                snackbarHostState.showSnackbar(message)
+                registrationViewModel.snackbarMessageShown()
+            }
+        }
     }
 
 }
@@ -98,7 +108,7 @@ fun RegistrationContent(
             modifier = Modifier.fillMaxWidth(),
             value = uiState.nome.orEmpty(),
             onValueChange = {
-                onEvent(RegistrationEvent.EnteredEmail(it))
+                onEvent(RegistrationEvent.EnteredName(it))
             },
             placeholder = {
                 Text(text = stringResource(id = R.string.nome))
@@ -172,32 +182,20 @@ fun RegistrationContent(
         
         Spacer(modifier = Modifier.height(height = 30.dp))
 
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = uiState.password.orEmpty(),
-            onValueChange = {
-                onEvent(RegistrationEvent.EnteredPassword(it))
-            },
-            placeholder = {
-                Text(text = stringResource(id = R.string.password))
-            },
-            leadingIcon = { Icon(imageVector = Icons.Default.Key, contentDescription = null) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        PasswordTextFieldComponent(
+            labelValue = stringResource(id = R.string.password),
+            onTextSelected = { onEvent(RegistrationEvent.EnteredPassword(it)) },
+            errorStatus = true,
+            leadingIcon = Icons.Default.Key
         )
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = uiState.passwordConfirmation.orEmpty(),
-            onValueChange = {
-                onEvent(RegistrationEvent.EnteredPassword(it))
-            },
-            placeholder = {
-                Text(text = stringResource(id = R.string.passwordConfirmation))
-            },
-            leadingIcon = { Icon(imageVector = Icons.Default.Key, contentDescription = null) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        PasswordTextFieldComponent(
+            labelValue = stringResource(id = R.string.passwordConfirmation),
+            onTextSelected = { onEvent(RegistrationEvent.EnteredPasswordConfirmation(it)) },
+            errorStatus = true,
+            leadingIcon = Icons.Default.Key
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -215,7 +213,7 @@ fun RegistrationContent(
             }
 
             Button(
-                onClick = { onEvent(RegistrationEvent.LoginEnter) },
+                onClick = { onEvent(RegistrationEvent.RegistrationEnter) },
             ) {
                 Text(text = stringResource(id = R.string.register))
             }

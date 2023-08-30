@@ -3,6 +3,7 @@ package com.ufms.nes.features.registration.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ufms.nes.R
+import com.ufms.nes.core.commons.Constants
 import com.ufms.nes.core.commons.Resource
 import com.ufms.nes.core.commons.Validators
 import com.ufms.nes.features.authentication.data.model.User
@@ -32,6 +33,16 @@ class RegistrationViewModel @Inject constructor(
 
     fun onEvent(event: RegistrationEvent) {
         when (event) {
+            is RegistrationEvent.EnteredName -> {
+                _uiState.update {
+                    it.copy(nome = event.value)
+                }
+            }
+
+            is RegistrationEvent.EnteredCargo -> {
+
+            }
+
             is RegistrationEvent.EnteredEmail -> {
                 _uiState.update {
                     it.copy(email = event.value)
@@ -44,8 +55,14 @@ class RegistrationViewModel @Inject constructor(
                 }
             }
 
-            is RegistrationEvent.LoginEnter -> {
+            is RegistrationEvent.RegistrationEnter -> {
                 registerUser()
+            }
+
+            is RegistrationEvent.EnteredPasswordConfirmation -> {
+                _uiState.update {
+                    it.copy(passwordConfirmation = event.value)
+                }
             }
         }
     }
@@ -61,23 +78,38 @@ class RegistrationViewModel @Inject constructor(
             it.copy(isLoading = true)
         }
         viewModelScope.launch {
-            if (Validators.isPasswordValid(_uiState.value.password)) {
-                when (repository.loginUser(user = createUser())) {
-                    is Resource.Error -> {
-                        _uiState.update {
-                            it.copy(userMessage = R.string.error_message)
-                        }
-                    }
-
-                    is Resource.Success -> {
-//                        _uiState.update {
-//                            it.copy(userLogged = true)
-//                        }
+            when {
+                _uiState.value.email.isNullOrEmpty() ||
+                        _uiState.value.password.isNullOrEmpty() ||
+                        _uiState.value.passwordConfirmation.isNullOrEmpty() ||
+                        _uiState.value.nome.isNullOrEmpty() -> {
+                    println("should be gettin here")
+                    _uiState.update {
+                        it.copy(userMessage = Constants.EMPTY_FIELDS)
                     }
                 }
-            } else {
-                _uiState.update {
-                    it.copy(userMessage = R.string.password_invalid)
+
+                !Validators.isEmailValid(email = _uiState.value.email.toString()) -> {
+                    _uiState.update {
+                        it.copy(userMessage = Constants.EMAIL_INVALID)
+                    }
+                }
+
+                !Validators.isPasswordValid(password = _uiState.value.password) -> {
+                    _uiState.update {
+                        it.copy(userMessage = Constants.PASSWORD_INVALID)
+                    }
+                }
+
+                (_uiState.value.password != _uiState.value.passwordConfirmation) -> {
+                    _uiState.update {
+                        it.copy(userMessage = Constants.PASSWORD_NOT_MATCHING)
+                    }
+                }
+
+                else -> {
+                    println("escopo sucesso")
+//                    val result = repository.registerUser()
                 }
             }
             _uiState.update {
@@ -98,11 +130,14 @@ data class RegistrationUiState(
     var cargo: CargoType? = null,
     var isLoading: Boolean = false,
     var isPasswordEqualsConfirmation: Boolean = false,
-    var userMessage: Int? = null
+    var userMessage: String? = null
 )
 
 sealed class RegistrationEvent {
     data class EnteredEmail(val value: String) : RegistrationEvent()
     data class EnteredPassword(val value: String) : RegistrationEvent()
-    object LoginEnter : RegistrationEvent()
+    data class EnteredPasswordConfirmation(val value: String) : RegistrationEvent()
+    data class EnteredName(val value: String) : RegistrationEvent()
+    data class EnteredCargo(val value: String) : RegistrationEvent()
+    object RegistrationEnter : RegistrationEvent()
 }

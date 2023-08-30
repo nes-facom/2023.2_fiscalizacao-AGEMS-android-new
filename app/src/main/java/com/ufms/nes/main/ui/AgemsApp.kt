@@ -28,6 +28,7 @@ import androidx.navigation.compose.NavHost
 import com.ufms.nes.R
 import com.ufms.nes.core.ui.model.drawerOptions
 import com.ufms.nes.features.home.homeNavigationRoute
+import com.ufms.nes.features.registration.presentation.registrationNavigationRoute
 import com.ufms.nes.main.navigation.NavRoutes
 import com.ufms.nes.main.navigation.mainGraph
 import kotlinx.coroutines.launch
@@ -103,6 +104,12 @@ fun AgemsApp(
                                     inclusive = true
                                 }
                             }
+                        },
+                        onRegistrationSuccess = {
+                            appState.navController.navigate(registrationNavigationRoute)
+                        },
+                        onRegistrationButtonClick = {
+                            appState.navController.navigate(registrationNavigationRoute)
                         }
                     )
                 }

@@ -11,5 +11,9 @@ object Constants {
 
     const val EMPTY_FIELDS = "Todos os campos precisam ser preenchidos"
 
+    const val PASSWORD_NOT_MATCHING = "A confirmação deve ser igual à senha"
+
+    const val EMAIL_INVALID = "E-mail inválido"
+
     const val ERROR_MESSAGE = "Desculpe, ocorreu algum erro"
 }

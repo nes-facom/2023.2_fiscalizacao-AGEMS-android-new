@@ -36,13 +36,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.Navigation
+import androidx.navigation.compose.rememberNavController
 import com.ufms.nes.R
 import com.ufms.nes.core.ui.components.PasswordTextFieldComponent
+import com.ufms.nes.features.registration.presentation.registrationNavigationRoute
 
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
     onLoginSuccess: () -> Unit,
+    onRegistrationButtonClick: () -> Unit,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
@@ -56,6 +62,7 @@ fun LoginScreen(
         LoginContent(
             uiState = uiState,
             onEvent = loginViewModel::onEvent,
+            onRegistrationButtonClick = onRegistrationButtonClick,
             modifier = Modifier.padding(paddingValues)
         )
 
@@ -81,6 +88,7 @@ fun LoginScreen(
 fun LoginContent(
     uiState: LoginUiState,
     onEvent: (LoginEvent) -> Unit,
+    onRegistrationButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -161,7 +169,7 @@ fun LoginContent(
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             OutlinedButton(
-                onClick = { /*TODO() - Navegar para tela de cadastro */ },
+                onClick = { onRegistrationButtonClick() },
             ) {
                 Text(text = stringResource(id = R.string.register))
             }
