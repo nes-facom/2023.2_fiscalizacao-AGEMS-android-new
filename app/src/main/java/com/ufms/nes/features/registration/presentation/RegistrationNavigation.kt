@@ -6,9 +6,10 @@ import androidx.navigation.compose.composable
 const val registrationNavigationRoute = "registration_screen"
 
 fun NavGraphBuilder.registrationScreen(
-    onRegistrationSuccess: () -> Unit
+    onRegistrationSuccess: () -> Unit,
+    onReturnToLoginClick: () -> Unit
 ) {
     composable(route = registrationNavigationRoute) {
-        RegistrationScreen(onRegistrationSuccess = onRegistrationSuccess)
+        RegistrationScreen(onRegistrationSuccess = onRegistrationSuccess, onReturnToLoginClick = onReturnToLoginClick)
     }
 }

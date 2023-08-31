@@ -31,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import com.ufms.nes.R
 import com.ufms.nes.core.ui.model.drawerOptions
+import com.ufms.nes.features.authentication.presentation.loginNavigationRoute
+import com.ufms.nes.features.registration.presentation.registrationNavigationRoute
 import com.ufms.nes.main.navigation.NavRoutes
 import com.ufms.nes.main.navigation.exitNavigationRoute
 import com.ufms.nes.main.navigation.formNavigationRoute
@@ -128,7 +130,13 @@ fun AgemsApp(
                                 }
                             }
                         },
-                        onShortcutClick = { route -> appState.navController.navigate(route) }
+                        onRegistrationButtonClick = {
+                            appState.navController.navigate(registrationNavigationRoute)
+                        },
+                        onShortcutClick = { route -> appState.navController.navigate(route) },
+                        onReturnToLoginClick = {
+                            appState.navController.navigate(loginNavigationRoute)
+                        }
                     )
                 }
             }

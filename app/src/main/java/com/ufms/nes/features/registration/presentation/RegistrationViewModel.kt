@@ -2,13 +2,11 @@ package com.ufms.nes.features.registration.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ufms.nes.R
 import com.ufms.nes.core.commons.Constants
 import com.ufms.nes.core.commons.Resource
 import com.ufms.nes.core.commons.Validators
 import com.ufms.nes.features.authentication.data.model.User
 import com.ufms.nes.features.authentication.data.repository.AuthenticationRepository
-import com.ufms.nes.features.registration.data.enums.CargoType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -108,7 +106,18 @@ class RegistrationViewModel @Inject constructor(
                 }
 
                 else -> {
-                    println("escopo sucesso")
+                    repository.registerUser(user = createUser()).let { result ->
+                        if (result is Resource.Success) {
+                            _uiState.update {
+                                it.copy(registrationMessage = "result.data.")
+                            }
+                        }
+                        else {
+                            _uiState.update {
+                                it.copy(registrationMessage = result.error)
+                            }
+                        }
+                    }
 //                    val result = repository.registerUser()
                 }
             }
@@ -119,7 +128,13 @@ class RegistrationViewModel @Inject constructor(
     }
 
     private fun createUser() =
-        User(email = _uiState.value.email, password = _uiState.value.password)
+        User(
+            name = _uiState.value.nome,
+            email = _uiState.value.email,
+            cargo = _uiState.value.cargo,
+            password = _uiState.value.password,
+            passwordConfirmation = _uiState.value.passwordConfirmation
+        )
 }
 
 data class RegistrationUiState(
@@ -127,10 +142,11 @@ data class RegistrationUiState(
     var email: String? = null,
     var password: String? = null,
     var passwordConfirmation: String? = null,
-    var cargo: CargoType? = null,
+    var cargo: String? = null,
     var isLoading: Boolean = false,
     var isPasswordEqualsConfirmation: Boolean = false,
-    var userMessage: String? = null
+    var userMessage: String? = null,
+    var registrationMessage: String? = null
 )
 
 sealed class RegistrationEvent {

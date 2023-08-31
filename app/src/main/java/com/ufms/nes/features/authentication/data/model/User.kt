@@ -16,6 +16,8 @@ data class User(
 
     @SerialName("senha") private val password: String? = null,
 
+    @SerialName("senhaConfirmacao") private val passwordConfirmation: String? = null,
+
     @Serializable(with = LocalDateSerializer::class)
     @SerialName("dataCriacao") private val dateCreated: LocalDate? = null,
 

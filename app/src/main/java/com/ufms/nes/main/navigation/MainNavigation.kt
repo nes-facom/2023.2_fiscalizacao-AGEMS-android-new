@@ -11,17 +11,22 @@ import com.ufms.nes.features.authentication.presentation.loginScreen
 import com.ufms.nes.features.form.FormsScreen
 import com.ufms.nes.features.home.HomeScreen
 import com.ufms.nes.features.models.ModelsScreen
+import com.ufms.nes.features.registration.presentation.registrationNavigationRoute
+import com.ufms.nes.features.registration.presentation.registrationScreen
 
 fun NavGraphBuilder.mainGraph(
     drawerState: DrawerState,
     onBackClick: () -> Unit,
     onShortcutClick: (route: String) -> Unit,
+    onRegistrationButtonClick: () -> Unit,
+    onReturnToLoginClick: () -> Unit,
     onLoginSuccess: () -> Unit
 ) {
     navigation(
         startDestination = loginNavigationRoute, route = NavRoutes.AuthenticationRoute.name
     ) {
-        loginScreen(onLoginSuccess = onLoginSuccess)
+        loginScreen(onLoginSuccess = onLoginSuccess, onRegistrationButtonClick = onRegistrationButtonClick)
+        registrationScreen(onRegistrationSuccess = {}, onReturnToLoginClick = onReturnToLoginClick)
     }
     navigation(startDestination = homeNavigationRoute, route = NavRoutes.MainRoute.name) {
         homeScreen(drawerState = drawerState, onShortcutClick = onShortcutClick)
