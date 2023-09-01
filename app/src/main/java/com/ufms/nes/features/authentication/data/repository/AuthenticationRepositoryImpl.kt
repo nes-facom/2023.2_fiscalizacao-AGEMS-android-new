@@ -43,11 +43,16 @@ class AuthenticationRepositoryImpl @Inject constructor(
 
     private suspend fun saveInfoInCache(result: UserResponse) {
         result.accessToken?.let {
-            dataStore.saveStringValue("accessToken", it)
+            dataStore.saveStringValue(ACCESS_TOKEN_KEY, it)
         }
         result.refreshToken?.let {
-            dataStore.saveStringValue("refreshToken", it)
+            dataStore.saveStringValue(REFRESH_TOKEN_KEY, it)
         }
         dataStore.saveUserLogged(true)
+    }
+
+    companion object {
+        const val ACCESS_TOKEN_KEY = "accessToken"
+        const val REFRESH_TOKEN_KEY = "refreshToken"
     }
 }

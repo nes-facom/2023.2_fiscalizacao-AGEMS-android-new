@@ -34,14 +34,14 @@ import com.ufms.nes.R
 import com.ufms.nes.core.ui.model.drawerOptions
 import com.ufms.nes.features.authentication.presentation.loginNavigationRoute
 import com.ufms.nes.features.authentication.presentation.loginScreen
-import com.ufms.nes.features.home.homeNavigationRoute
-import com.ufms.nes.features.home.homeScreen
 import com.ufms.nes.main.navigation.NavRoutes
 import com.ufms.nes.main.navigation.exitNavigationRoute
 import com.ufms.nes.main.navigation.formNavigationRoute
+import com.ufms.nes.main.navigation.formsScreen
 import com.ufms.nes.main.navigation.homeNavigationRoute
-import com.ufms.nes.main.navigation.mainGraph
+import com.ufms.nes.main.navigation.homeScreen
 import com.ufms.nes.main.navigation.modelNavigationRoute
+import com.ufms.nes.main.navigation.modelsScreen
 import com.ufms.nes.main.navigation.navigateToForms
 import com.ufms.nes.main.navigation.navigateToModels
 import kotlinx.coroutines.launch
@@ -61,7 +61,6 @@ fun AgemsApp(
             gesturesEnabled = drawerState.isOpen,
             drawerContent = {
                 ModalDrawerSheet(
-                    drawerShape = MaterialTheme.shapes.extraLarge,
                     modifier = Modifier.width(280.dp)
                 ) {
                     Box(
@@ -144,7 +143,14 @@ fun AgemsApp(
                         startDestination = homeNavigationRoute,
                         route = NavRoutes.MainRoute.name
                     ) {
-                        homeScreen(drawerState = drawerState)
+                        homeScreen(
+                            drawerState = drawerState,
+                            onShortcutClick = { route ->
+                                appState.navController.navigate(route)
+                            }
+                        )
+                        modelsScreen(drawerState = drawerState)
+                        formsScreen(drawerState = drawerState)
                     }
                 }
             }
