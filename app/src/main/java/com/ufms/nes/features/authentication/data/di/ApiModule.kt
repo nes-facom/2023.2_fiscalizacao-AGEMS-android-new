@@ -22,8 +22,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ApiModule {
 
-    @Provides //tells dagger hilt this is a recipe ;)
-    @Singleton //only one instance will be shared between our viewModels
+    @Provides
+    @Singleton
     fun provideKtorClient(): HttpClient {
         val client = HttpClient(Android) {
             expectSuccess = true

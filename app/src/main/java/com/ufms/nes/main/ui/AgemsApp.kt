@@ -25,16 +25,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.navigation
 import com.ufms.nes.R
 import com.ufms.nes.core.ui.model.drawerOptions
+import com.ufms.nes.features.authentication.presentation.loginNavigationRoute
+import com.ufms.nes.features.authentication.presentation.loginScreen
 import com.ufms.nes.features.home.homeNavigationRoute
+import com.ufms.nes.features.home.homeScreen
 import com.ufms.nes.main.navigation.NavRoutes
-import com.ufms.nes.main.navigation.mainGraph
 import kotlinx.coroutines.launch
 
 @Composable
 fun AgemsApp(
-    appState: AgemsAppState = rememberAgemsAppState()
+    appState: AgemsAppState = rememberAgemsAppState(),
+    userLogged: Boolean
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -91,20 +95,30 @@ fun AgemsApp(
             content = {
                 NavHost(
                     navController = appState.navController,
-                    startDestination = NavRoutes.AuthenticationRoute.name
+                    startDestination = if (userLogged) {
+                        NavRoutes.MainRoute.name
+                    } else {
+                        NavRoutes.AuthenticationRoute.name
+                    }
                 ) {
-                    mainGraph(
-                        drawerState = drawerState,
-                        onBackClick = appState::onBackClick,
-                        onFloatingButtonClick = {},
-                        onLoginSuccess = {
+                    navigation(
+                        startDestination = loginNavigationRoute,
+                        route = NavRoutes.AuthenticationRoute.name
+                    ) {
+                        loginScreen(onLoginSuccess = {
                             appState.navController.navigate(NavRoutes.MainRoute.name) {
                                 popUpTo(NavRoutes.AuthenticationRoute.name) {
                                     inclusive = true
                                 }
                             }
-                        }
-                    )
+                        })
+                    }
+                    navigation(
+                        startDestination = homeNavigationRoute,
+                        route = NavRoutes.MainRoute.name
+                    ) {
+                        homeScreen(drawerState = drawerState)
+                    }
                 }
             }
         )
