@@ -4,8 +4,12 @@ import com.ufms.nes.features.authentication.data.datastore.DataStorePreferences
 import javax.inject.Inject
 
 class UserDataRepositoryImpl @Inject constructor(
-    dataStorePreferences: DataStorePreferences
+    private val dataStorePreferences: DataStorePreferences
 ) : UserDataRepository {
 
     override val userLogged = dataStorePreferences.getUserLogged()
+
+    override suspend fun deleteUserPreferences() {
+        dataStorePreferences.deleteUserPreferences()
+    }
 }

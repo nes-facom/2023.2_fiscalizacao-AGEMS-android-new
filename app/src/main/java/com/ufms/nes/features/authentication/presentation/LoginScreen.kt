@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -146,12 +147,14 @@ fun LoginContent(
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             OutlinedButton(
+                modifier =Modifier.defaultMinSize(minWidth = 150.dp),
                 onClick = { /*TODO() - Navegar para tela de cadastro */ },
             ) {
                 Text(text = stringResource(id = R.string.register))
             }
 
             Button(
+                modifier =Modifier.defaultMinSize(minWidth = 150.dp),
                 onClick = { onEvent(LoginEvent.LoginEnter) },
             ) {
                 Text(text = stringResource(id = R.string.enter))

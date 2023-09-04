@@ -53,4 +53,3 @@ enum class NavRoutes {
 const val homeNavigationRoute = "home_screen"
 const val modelNavigationRoute = "models_screen"
 const val formNavigationRoute = "forms_screen"
-const val exitNavigationRoute = "exit_app"

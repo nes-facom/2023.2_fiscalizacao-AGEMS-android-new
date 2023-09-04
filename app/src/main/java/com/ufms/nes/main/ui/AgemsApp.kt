@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
@@ -16,6 +19,7 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,7 +39,6 @@ import com.ufms.nes.core.ui.model.drawerOptions
 import com.ufms.nes.features.authentication.presentation.loginNavigationRoute
 import com.ufms.nes.features.authentication.presentation.loginScreen
 import com.ufms.nes.main.navigation.NavRoutes
-import com.ufms.nes.main.navigation.exitNavigationRoute
 import com.ufms.nes.main.navigation.formNavigationRoute
 import com.ufms.nes.main.navigation.formsScreen
 import com.ufms.nes.main.navigation.homeNavigationRoute
@@ -49,11 +52,34 @@ import kotlinx.coroutines.launch
 @Composable
 fun AgemsApp(
     appState: AgemsAppState = rememberAgemsAppState(),
+    deleteUserPreferences: () -> Unit,
     userLogged: Boolean
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     var selectedItem by remember { mutableStateOf(drawerOptions[0]) }
+    val openDialog = remember { mutableStateOf(false) }
+
+    if (openDialog.value) {
+        AlertDialog(
+            onDismissRequest = { openDialog.value = false },
+            title = { Text(text = stringResource(id = R.string.exit_app)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    deleteUserPreferences()
+                    openDialog.value = false
+                    appState.navController.navigate(NavRoutes.AuthenticationRoute.name)
+                }) {
+                    Text(stringResource(id = R.string.confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { openDialog.value = false }) {
+                    Text(stringResource(id = R.string.back))
+                }
+            }
+        )
+    }
 
     Surface {
         ModalNavigationDrawer(
@@ -101,10 +127,6 @@ fun AgemsApp(
                                     formNavigationRoute -> {
                                         appState.navController.navigateToForms()
                                     }
-
-                                    exitNavigationRoute -> {
-                                        // TODO() - Deslogar usuário
-                                    }
                                 }
                             },
                             icon = {
@@ -116,6 +138,22 @@ fun AgemsApp(
                             modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                         )
                     }
+                    NavigationDrawerItem(
+                        label = { Text(text = stringResource(id = R.string.tab_exit)) },
+                        onClick = {
+                            scope.launch { drawerState.close() }
+                            openDialog.value = true
+                        },
+                        selected = false,
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Default.ExitToApp,
+                                contentDescription = stringResource(id = R.string.tab_exit)
+                            )
+                        },
+                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                    )
+
                 }
             },
             content = {

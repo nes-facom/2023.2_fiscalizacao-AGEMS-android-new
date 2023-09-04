@@ -59,7 +59,10 @@ class MainActivity : ComponentActivity() {
             CompositionLocalProvider {
                 AgemsApplicationTheme {
                     AgemsApp(
-                        userLogged = userLogged
+                        userLogged = userLogged,
+                        deleteUserPreferences = {
+                            viewModel.deleteUserPreferences()
+                        }
                     )
                 }
             }

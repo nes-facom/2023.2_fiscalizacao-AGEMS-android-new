@@ -9,6 +9,8 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.ufms.nes.BuildConfig
+import com.ufms.nes.features.authentication.data.repository.AuthenticationRepositoryImpl.Companion.ACCESS_TOKEN_KEY
+import com.ufms.nes.features.authentication.data.repository.AuthenticationRepositoryImpl.Companion.REFRESH_TOKEN_KEY
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -33,6 +35,14 @@ class DataStorePreferencesImpl @Inject constructor(
             emit(emptyPreferences())
         }.map {
             it[booleanPreferencesKey(USER_KEY)] ?: false
+        }
+    }
+
+    override suspend fun deleteUserPreferences() {
+        context.dataStore.edit { preferences ->
+            preferences.remove(stringPreferencesKey(USER_KEY))
+            preferences.remove(stringPreferencesKey(ACCESS_TOKEN_KEY))
+            preferences.remove(stringPreferencesKey(REFRESH_TOKEN_KEY))
         }
     }
 
