@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.navigation
 import com.ufms.nes.R
+import com.ufms.nes.core.ui.ContainerColor
 import com.ufms.nes.core.ui.model.drawerOptions
 import com.ufms.nes.features.authentication.presentation.loginNavigationRoute
 import com.ufms.nes.features.authentication.presentation.loginScreen
@@ -63,7 +64,8 @@ fun AgemsApp(
     if (openDialog.value) {
         AlertDialog(
             onDismissRequest = { openDialog.value = false },
-            title = { Text(text = stringResource(id = R.string.exit_app)) },
+            title = { Text(text = stringResource(id = R.string.tab_exit)) },
+            text = { Text(text = stringResource(id = R.string.confirm_exit))},
             confirmButton = {
                 TextButton(onClick = {
                     deleteUserPreferences()
@@ -75,7 +77,7 @@ fun AgemsApp(
             },
             dismissButton = {
                 TextButton(onClick = { openDialog.value = false }) {
-                    Text(stringResource(id = R.string.back))
+                    Text(stringResource(id = R.string.cancel))
                 }
             }
         )
@@ -107,6 +109,9 @@ fun AgemsApp(
                     Divider(thickness = 1.dp, modifier = Modifier.padding(bottom = 10.dp))
                     drawerOptions.forEach { item ->
                         NavigationDrawerItem(
+                            colors = NavigationDrawerItemDefaults.colors(
+                                selectedContainerColor = ContainerColor
+                            ),
                             shape = MaterialTheme.shapes.medium,
                             label = { Text(text = stringResource(id = item.label)) },
                             selected = item == selectedItem,
