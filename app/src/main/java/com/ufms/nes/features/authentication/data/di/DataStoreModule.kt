@@ -1,8 +1,8 @@
 package com.ufms.nes.features.authentication.data.di
 
 import android.content.Context
-import com.ufms.nes.features.authentication.data.datastore.DataStorePreferences
-import com.ufms.nes.features.authentication.data.datastore.DataStorePreferencesImpl
+import com.ufms.nes.features.authentication.data.datastore.LocalService
+import com.ufms.nes.features.authentication.data.datastore.LocalServiceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,6 +16,6 @@ object DataStoreModule {
 
     @Singleton
     @Provides
-    fun providePreferences(@ApplicationContext app: Context): DataStorePreferences =
-        DataStorePreferencesImpl(app)
+    fun providePreferences(@ApplicationContext app: Context): LocalService =
+        LocalServiceImpl(app)
 }

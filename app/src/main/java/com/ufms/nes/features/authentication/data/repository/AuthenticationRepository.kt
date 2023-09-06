@@ -9,4 +9,6 @@ interface AuthenticationRepository {
     suspend fun registerUser(user: User): Resource<UserResponse>
 
     suspend fun loginUser(user: User): Resource<UserResponse>
+
+    suspend fun refreshToken(): Resource<UserResponse>
 }

@@ -1,7 +1,7 @@
 package com.ufms.nes.features.authentication.data.repository
 
 import com.ufms.nes.core.commons.Constants.ERROR_MESSAGE
-import com.ufms.nes.features.authentication.data.datastore.DataStorePreferences
+import com.ufms.nes.features.authentication.data.datastore.LocalService
 import com.ufms.nes.features.authentication.data.model.User
 import com.ufms.nes.features.authentication.data.model.UserResponse
 import com.ufms.nes.features.authentication.data.service.ApiService
@@ -17,14 +17,14 @@ class AuthenticationRepositoryImplTest {
 
     private lateinit var apiService: ApiService
     private lateinit var authRepository: AuthenticationRepository
-    private var dataStorePreferences: DataStorePreferences = mockk()
+    private var localService: LocalService = mockk()
 
     private val userMock: User = mockk()
 
     @Before
     fun setup() {
         apiService = mockk()
-        authRepository = AuthenticationRepositoryImpl(apiService, dataStorePreferences)
+        authRepository = AuthenticationRepositoryImpl(apiService, localService)
     }
 
     @Test
