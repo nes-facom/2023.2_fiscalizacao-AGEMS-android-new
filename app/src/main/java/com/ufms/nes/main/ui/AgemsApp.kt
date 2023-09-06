@@ -51,6 +51,14 @@ fun AgemsApp(
     val scope = rememberCoroutineScope()
     var selectedItem by remember { mutableStateOf(drawerOptions[0]) }
 
+    fun navigateHome() {
+        appState.navController.navigate(NavRoutes.MainRoute.name) {
+            popUpTo(NavRoutes.AuthenticationRoute.name) {
+                inclusive = true
+            }
+        }
+    }
+
     Surface {
         ModalNavigationDrawer(
             drawerState = drawerState,
@@ -124,11 +132,7 @@ fun AgemsApp(
                         drawerState = drawerState,
                         onBackClick = appState::onBackClick,
                         onLoginSuccess = {
-                            appState.navController.navigate(NavRoutes.MainRoute.name) {
-                                popUpTo(NavRoutes.AuthenticationRoute.name) {
-                                    inclusive = true
-                                }
-                            }
+                            navigateHome()
                         },
                         onRegistrationButtonClick = {
                             appState.navController.navigate(registrationNavigationRoute)
@@ -136,6 +140,9 @@ fun AgemsApp(
                         onShortcutClick = { route -> appState.navController.navigate(route) },
                         onReturnToLoginClick = {
                             appState.navController.navigate(loginNavigationRoute)
+                        },
+                        onRegistrationSuccess = {
+                            navigateHome()
                         }
                     )
                 }

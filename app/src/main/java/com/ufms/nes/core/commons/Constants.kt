@@ -16,4 +16,6 @@ object Constants {
     const val EMAIL_INVALID = "E-mail inválido"
 
     const val ERROR_MESSAGE = "Desculpe, ocorreu algum erro"
+
+    const val REGISTRATION_SUCCESS = "Usuário Cadastrado!"
 }

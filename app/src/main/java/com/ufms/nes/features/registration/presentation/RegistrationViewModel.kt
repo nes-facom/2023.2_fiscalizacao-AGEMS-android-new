@@ -1,5 +1,6 @@
 package com.ufms.nes.features.registration.presentation
 
+import android.os.Handler
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ufms.nes.core.commons.Constants
@@ -14,6 +15,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
+import java.util.Timer
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,7 +41,9 @@ class RegistrationViewModel @Inject constructor(
             }
 
             is RegistrationEvent.EnteredCargo -> {
-
+                _uiState.update {
+                    it.copy(cargo = event.value)
+                }
             }
 
             is RegistrationEvent.EnteredEmail -> {
@@ -106,19 +111,24 @@ class RegistrationViewModel @Inject constructor(
                 }
 
                 else -> {
-                    repository.registerUser(user = createUser()).let { result ->
-                        if (result is Resource.Success) {
-                            _uiState.update {
-                                it.copy(registrationMessage = "result.data.")
+                    try {
+                        repository.registerUser(user = createUser()).let { result ->
+                            if (result is Resource.Success) {
+                                _uiState.update {
+                                    it.copy(registrationMessage = Constants.REGISTRATION_SUCCESS)
+                                    it.copy(isUserRegistered = true)
+                                }
                             }
-                        }
-                        else {
-                            _uiState.update {
-                                it.copy(registrationMessage = result.error)
+                            else {
+                                _uiState.update {
+                                    it.copy(registrationMessage = result.error)
+                                }
                             }
+                            print(result)
                         }
+                    } catch (e: Exception) {
+                        print(e.message)
                     }
-//                    val result = repository.registerUser()
                 }
             }
             _uiState.update {
@@ -146,7 +156,8 @@ data class RegistrationUiState(
     var isLoading: Boolean = false,
     var isPasswordEqualsConfirmation: Boolean = false,
     var userMessage: String? = null,
-    var registrationMessage: String? = null
+    var registrationMessage: String? = null,
+    var isUserRegistered: Boolean = false
 )
 
 sealed class RegistrationEvent {

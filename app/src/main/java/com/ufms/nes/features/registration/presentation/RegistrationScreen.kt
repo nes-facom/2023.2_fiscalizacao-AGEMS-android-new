@@ -72,6 +72,19 @@ fun RegistrationScreen(
                 registrationViewModel.snackbarMessageShown()
             }
         }
+        uiState.registrationMessage?.let { message ->
+            print(message)
+            LaunchedEffect(snackbarHostState, registrationViewModel, message, message) {
+                snackbarHostState.showSnackbar(message)
+                registrationViewModel.snackbarMessageShown()
+            }
+            uiState.registrationMessage = ""
+        }
+        LaunchedEffect(uiState.isUserRegistered) {
+            if (uiState.isUserRegistered) {
+                onRegistrationSuccess()
+            }
+        }
     }
 
 }
@@ -140,8 +153,9 @@ fun RegistrationContent(
         Spacer(modifier = Modifier.height(height = 30.dp))
 
         var expanded by remember { mutableStateOf(false) }
-        val cargos = listOf<String>("Analista de regulação", "Assessor jurídico", "Assessor técnico", "Técnico")
+        val cargos = listOf<String>("Analista de Regulação", "Assessor Jurídico", "Assessor Técnico", "Coordenador")
         var selectedCargo by remember { mutableStateOf(cargos[0]) }
+        uiState.cargo = selectedCargo
 
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -153,7 +167,9 @@ fun RegistrationContent(
                 modifier = Modifier.menuAnchor().fillMaxWidth(),
                 readOnly = true,
                 value = selectedCargo,
-                onValueChange = {},
+                onValueChange = {
+                    onEvent(RegistrationEvent.EnteredCargo(it))
+                },
                 label = { Text(stringResource(id = R.string.role)) },
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(

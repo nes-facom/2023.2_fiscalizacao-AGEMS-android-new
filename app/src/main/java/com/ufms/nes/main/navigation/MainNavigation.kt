@@ -20,13 +20,14 @@ fun NavGraphBuilder.mainGraph(
     onShortcutClick: (route: String) -> Unit,
     onRegistrationButtonClick: () -> Unit,
     onReturnToLoginClick: () -> Unit,
-    onLoginSuccess: () -> Unit
+    onLoginSuccess: () -> Unit,
+    onRegistrationSuccess: () -> Unit
 ) {
     navigation(
         startDestination = loginNavigationRoute, route = NavRoutes.AuthenticationRoute.name
     ) {
         loginScreen(onLoginSuccess = onLoginSuccess, onRegistrationButtonClick = onRegistrationButtonClick)
-        registrationScreen(onRegistrationSuccess = {}, onReturnToLoginClick = onReturnToLoginClick)
+        registrationScreen(onRegistrationSuccess = onRegistrationSuccess, onReturnToLoginClick = onReturnToLoginClick)
     }
     navigation(startDestination = homeNavigationRoute, route = NavRoutes.MainRoute.name) {
         homeScreen(drawerState = drawerState, onShortcutClick = onShortcutClick)
