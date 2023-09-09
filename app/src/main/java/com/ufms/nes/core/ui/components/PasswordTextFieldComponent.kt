@@ -8,9 +8,8 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,11 +40,10 @@ fun PasswordTextFieldComponent(
         mutableStateOf(false)
     }
 
-    TextField(
+    OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth(),
         placeholder = { Text(text = labelValue) },
-        colors = TextFieldDefaults.colors(),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,
             imeAction = ImeAction.Done

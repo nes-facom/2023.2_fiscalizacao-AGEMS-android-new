@@ -33,7 +33,7 @@ fun ModelsScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Text(text = "Model Screen")
+            Text(text = "Modelos")
         }
     }
 }
