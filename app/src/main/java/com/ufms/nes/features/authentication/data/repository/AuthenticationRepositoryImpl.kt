@@ -19,6 +19,9 @@ class AuthenticationRepositoryImpl @Inject constructor(
     override suspend fun registerUser(user: User): Resource<UserResponse> {
         return try {
             val result = service.registerUser(user)
+
+            saveInfoInCache(result)
+
             Resource.Success(data = result)
         } catch (ex: ClientRequestException) {
             val exceptionMessage = Http().getHttpExceptionMessage(ex.response)

@@ -1,6 +1,7 @@
 package com.ufms.nes.features.registration.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,6 +24,7 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -42,6 +44,7 @@ import com.ufms.nes.R
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import com.ufms.nes.core.ui.components.PasswordTextFieldComponent
 
 @Composable
@@ -120,7 +123,7 @@ fun RegistrationContent(
             style = MaterialTheme.typography.headlineMedium
         )
 
-        TextField(
+        OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = uiState.nome.orEmpty(),
             onValueChange = {
@@ -136,7 +139,7 @@ fun RegistrationContent(
 
         Spacer(modifier = Modifier.height(height = 30.dp))
 
-        TextField(
+        OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = uiState.email.orEmpty(),
             onValueChange = {
@@ -163,7 +166,7 @@ fun RegistrationContent(
                 expanded = !expanded
             }
         ) {
-            TextField(
+            OutlinedTextField(
                 modifier = Modifier.menuAnchor().fillMaxWidth(),
                 readOnly = true,
                 value = selectedCargo,
@@ -177,7 +180,6 @@ fun RegistrationContent(
                     )
                 },
                 leadingIcon = { Icon(imageVector = Icons.Default.CardTravel, contentDescription = null) },
-                colors = ExposedDropdownMenuDefaults.textFieldColors()
             )
             ExposedDropdownMenu(
                 expanded = expanded,
