@@ -193,7 +193,14 @@ fun AgemsApp(
                                 appState.navController.navigate(registrationNavigationRoute)
                             }
                         )
-
+                        registrationScreen(
+                            onRegistrationSuccess = {
+                                navigateHome()
+                            },
+                            onReturnToLoginClick = {
+                                appState.navController.navigate(loginNavigationRoute)
+                            }
+                        )
                     }
                     navigation(
                         startDestination = homeNavigationRoute,
@@ -207,19 +214,6 @@ fun AgemsApp(
                         )
                         modelsScreen(drawerState = drawerState)
                         formsScreen(drawerState = drawerState)
-                    }
-                    navigation(
-                        startDestination = registrationNavigationRoute,
-                        route = NavRoutes.MainRoute.name
-                    ) {
-                        registrationScreen(
-                            onRegistrationSuccess = {
-                                navigateHome()
-                            },
-                            onReturnToLoginClick = {
-                                appState.navController.navigate(loginNavigationRoute)
-                            }
-                        )
                     }
                 }
             }
