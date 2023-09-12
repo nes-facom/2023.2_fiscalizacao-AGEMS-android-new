@@ -1,9 +1,9 @@
-package com.ufms.nes.features.authentication.data.di
+package com.ufms.nes.core.data.di
 
 import android.util.Log
 import com.ufms.nes.features.authentication.data.datastore.LocalService
 import com.ufms.nes.features.authentication.data.model.UserResponse
-import com.ufms.nes.features.authentication.data.service.ApiService
+import com.ufms.nes.core.data.network.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,7 +30,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ApiModule {
+object NetworkModule {
 
     @Provides
     @Singleton
@@ -70,7 +70,7 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun providePostApi(httpClient: HttpClient, localService: LocalService):ApiService {
+    fun providePostApi(httpClient: HttpClient, localService: LocalService): ApiService {
         return ApiService(httpClient, localService)
     }
 }

@@ -5,7 +5,7 @@ import com.ufms.nes.core.commons.Resource
 import com.ufms.nes.features.authentication.data.datastore.LocalService
 import com.ufms.nes.features.authentication.data.model.User
 import com.ufms.nes.features.authentication.data.model.UserResponse
-import com.ufms.nes.features.authentication.data.service.ApiService
+import com.ufms.nes.core.data.network.ApiService
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.statement.bodyAsText
 import javax.inject.Inject

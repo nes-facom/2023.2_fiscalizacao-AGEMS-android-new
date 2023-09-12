@@ -1,4 +1,4 @@
-package com.ufms.nes.features.authentication.data.di
+package com.ufms.nes.core.data.di
 
 import android.content.Context
 import com.ufms.nes.features.authentication.data.datastore.LocalService
@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DataStoreModule {
+object LocalModule {
 
     @Singleton
     @Provides

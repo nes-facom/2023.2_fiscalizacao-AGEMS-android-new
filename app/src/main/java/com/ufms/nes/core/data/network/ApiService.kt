@@ -1,11 +1,13 @@
-package com.ufms.nes.features.authentication.data.service
+package com.ufms.nes.core.data.network
 
 import com.ufms.nes.BuildConfig
 import com.ufms.nes.features.authentication.data.datastore.LocalService
 import com.ufms.nes.features.authentication.data.model.User
 import com.ufms.nes.features.authentication.data.model.UserResponse
+import com.ufms.nes.features.models.data.model.ModelsResponseItem
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.headers
 import io.ktor.client.request.post
@@ -41,4 +43,14 @@ class ApiService @Inject constructor(
             }
         }.body()
     }
+
+    suspend fun getModels(): List<ModelsResponseItem> {
+        val bearerToken = localService.getBearerToken()
+        return client.get("${BuildConfig.BASE_URL}/modelo/todos") {
+            headers {
+                append(HttpHeaders.Authorization, "Bearer $bearerToken")
+            }
+        }.body()
+    }
+
 }
