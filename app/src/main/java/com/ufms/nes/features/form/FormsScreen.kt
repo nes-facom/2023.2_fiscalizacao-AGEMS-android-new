@@ -33,7 +33,7 @@ fun FormsScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Text(text = "Forms Screen")
+            Text(text = "Formulário")
         }
     }
 }

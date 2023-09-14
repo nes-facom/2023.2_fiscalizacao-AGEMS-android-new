@@ -24,4 +24,8 @@
     <string name="tab_model">Modelos</string>
     <string name="tab_form">Formulários</string>
     <string name="tab_exit">Sair</string>
+    <string name="exit_app">Deseja sair do aplicativo?</string>
+    <string name="confirm">Sair</string>
+    <string name="cancel">Cancelar</string>
+    <string name="confirm_exit">Tem certeza de que deseja sair?</string>
 </resources>
