@@ -37,23 +37,26 @@ class ModelsViewModel @Inject constructor(
         fetchModels()
     }
 
-    private fun fetchModels() {
+    fun fetchModels() {
+        _uiState.update {
+            it.copy(isLoading = true)
+        }
         viewModelScope.launch {
             modelRepository.getModels()
                 .catch {
                     _uiState.update {
-                        it.copy(isError = true)
+                        it.copy(isError = true, isLoading = false)
                     }
                 }
                 .collect {
                     it.data?.let { models ->
                         _uiState.update {
-                            it.copy(models = models)
+                            it.copy(models = models, isLoading = false)
                         }
                     }
                     it.error?.let { error ->
                         _uiState.update {
-                            it.copy(isError = true)
+                            it.copy(isError = true, isLoading = false)
                         }
                     }
                 }
