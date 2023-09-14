@@ -2,20 +2,20 @@ package com.ufms.nes.features.models.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ufms.nes.core.commons.Resource
-import com.ufms.nes.features.models.data.model.ModelsResponseItem
+import com.ufms.nes.core.model.Model
 import com.ufms.nes.features.models.data.repository.ModelRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class ModelUiState(
-    val models: List<ModelsResponseItem> = emptyList(),
+    val models: List<Model> = emptyList(),
     val isError: Boolean = false,
     val isLoading: Boolean = false
 )
@@ -34,33 +34,29 @@ class ModelsViewModel @Inject constructor(
         )
 
     init {
-        getModels()
+        fetchModels()
     }
 
-    private fun getModels() {
+    private fun fetchModels() {
         viewModelScope.launch {
-            try {
-                val result = modelRepository.getModels()
-
-                if (result is Resource.Success) {
-                    _uiState.update {
-                        it.copy(models = result.data ?: emptyList())
-                    }
-                } else {
+            modelRepository.getModels()
+                .catch {
                     _uiState.update {
                         it.copy(isError = true)
                     }
                 }
-
-            } catch (e: Throwable) {
-                _uiState.update {
-                    it.copy(isError = true)
+                .collect {
+                    it.data?.let { models ->
+                        _uiState.update {
+                            it.copy(models = models)
+                        }
+                    }
+                    it.error?.let { error ->
+                        _uiState.update {
+                            it.copy(isError = true)
+                        }
+                    }
                 }
-            }
-
-            _uiState.update {
-                it.copy(isLoading = false)
-            }
         }
     }
 }

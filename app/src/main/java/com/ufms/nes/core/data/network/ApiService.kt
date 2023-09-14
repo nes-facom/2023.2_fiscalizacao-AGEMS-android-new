@@ -4,7 +4,6 @@ import com.ufms.nes.BuildConfig
 import com.ufms.nes.features.authentication.data.datastore.LocalService
 import com.ufms.nes.features.authentication.data.model.User
 import com.ufms.nes.features.authentication.data.model.UserResponse
-import com.ufms.nes.features.models.data.model.ModelsResponseItem
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -44,7 +43,7 @@ class ApiService @Inject constructor(
         }.body()
     }
 
-    suspend fun getModels(): List<ModelsResponseItem> {
+    suspend fun getModels(): List<ModelDTO> {
         val bearerToken = localService.getBearerToken()
         return client.get("${BuildConfig.BASE_URL}/modelo/todos") {
             headers {
@@ -52,5 +51,4 @@ class ApiService @Inject constructor(
             }
         }.body()
     }
-
 }
