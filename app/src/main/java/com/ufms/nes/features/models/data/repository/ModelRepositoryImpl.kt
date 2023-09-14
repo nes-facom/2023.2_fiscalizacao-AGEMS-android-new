@@ -26,8 +26,8 @@ class ModelRepositoryImpl @Inject constructor(
 
         try {
             val resultApi = service.getModels()
-            modelDao.clearAllModels()
-            modelDao.insertModels(resultApi.toModelEntity())
+
+            modelDao.clearAllModelsAndInsertModels(resultApi.toModelEntity())
 
             emit(Resource.Success(modelsFromDb))
         } catch (ex: Throwable) {
