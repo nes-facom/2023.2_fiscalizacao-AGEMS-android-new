@@ -12,8 +12,11 @@ import com.ufms.nes.features.form.FormsScreen
 import com.ufms.nes.features.home.HomeScreen
 import com.ufms.nes.features.models.ModelsScreen
 import com.ufms.nes.features.registration.presentation.registrationScreen
+import com.ufms.nes.features.form.FormsScreen
+import com.ufms.nes.features.home.HomeScreen
+import com.ufms.nes.features.models.ModelsScreen
 
-fun NavGraphBuilder.mainGraph(
+fun NavGraphBuilder.modelsScreen(
     drawerState: DrawerState,
     onBackClick: () -> Unit,
     onShortcutClick: (route: String) -> Unit,
@@ -79,4 +82,3 @@ enum class NavRoutes {
 const val homeNavigationRoute = "home_screen"
 const val modelNavigationRoute = "models_screen"
 const val formNavigationRoute = "forms_screen"
-const val exitNavigationRoute = "exit_app"
