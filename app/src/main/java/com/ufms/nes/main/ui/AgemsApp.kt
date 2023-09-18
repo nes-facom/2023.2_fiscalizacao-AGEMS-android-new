@@ -38,8 +38,7 @@ import com.ufms.nes.R
 import com.ufms.nes.core.ui.ContainerColor
 import com.ufms.nes.core.ui.model.drawerOptions
 import com.ufms.nes.features.authentication.presentation.loginNavigationRoute
-import com.ufms.nes.features.registration.presentation.registrationNavigationRoute
-import com.ufms.nes.features.authentication.presentation.loginNavigationRoute
+import com.ufms.nes.features.registration.presentation.REGISTRATION_NAVIGATION_ROUTE
 import com.ufms.nes.features.authentication.presentation.loginScreen
 import com.ufms.nes.features.registration.presentation.registrationScreen
 import com.ufms.nes.main.navigation.NavRoutes
@@ -190,7 +189,7 @@ fun AgemsApp(
                                 navigateHome()
                             },
                             onRegistrationButtonClick = {
-                                appState.navController.navigate(registrationNavigationRoute)
+                                appState.navController.navigate(REGISTRATION_NAVIGATION_ROUTE)
                             }
                         )
                         registrationScreen(

@@ -2,14 +2,13 @@ package com.ufms.nes.features.authentication.data.repository
 
 import com.ufms.nes.core.commons.Constants.ERROR_MESSAGE
 import com.ufms.nes.core.commons.Resource
+import com.ufms.nes.core.utils.getHttpExceptionMessage
 import com.ufms.nes.features.authentication.data.datastore.DataStorePreferences
 import com.ufms.nes.features.authentication.data.model.User
 import com.ufms.nes.features.authentication.data.model.UserResponse
 import com.ufms.nes.features.authentication.data.service.ApiService
 import io.ktor.client.plugins.ClientRequestException
-import io.ktor.client.statement.bodyAsText
 import javax.inject.Inject
-import com.ufms.nes.core.utils.Http
 
 class AuthenticationRepositoryImpl @Inject constructor(
     private val service: ApiService,
@@ -24,8 +23,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
 
             Resource.Success(data = result)
         } catch (ex: ClientRequestException) {
-            val exceptionMessage = Http().getHttpExceptionMessage(ex.response)
-            Resource.Error(data = null, error = exceptionMessage)
+            Resource.Error(data = null, error = ex.response.getHttpExceptionMessage())
         } catch (ex: Throwable) {
             Resource.Error(data = null, error = ERROR_MESSAGE)
         }
@@ -39,9 +37,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
 
             Resource.Success(data = result)
         } catch (ex: ClientRequestException) {
-            val exceptionMessage = Http().getHttpExceptionMessage(ex.response)
-
-            Resource.Error(data = null, error = exceptionMessage)
+            Resource.Error(data = null, error = ex.response.getHttpExceptionMessage())
         } catch (ex: Throwable) {
             Resource.Error(data = null, error = ERROR_MESSAGE)
         }

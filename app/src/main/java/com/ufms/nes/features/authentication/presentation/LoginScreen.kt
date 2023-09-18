@@ -39,13 +39,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.Navigation
-import androidx.navigation.compose.rememberNavController
 import com.ufms.nes.R
 import com.ufms.nes.core.ui.components.PasswordTextFieldComponent
-import com.ufms.nes.features.registration.presentation.registrationNavigationRoute
 
 @Composable
 fun LoginScreen(

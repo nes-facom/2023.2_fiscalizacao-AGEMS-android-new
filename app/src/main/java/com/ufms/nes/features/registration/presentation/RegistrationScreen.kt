@@ -1,7 +1,6 @@
 package com.ufms.nes.features.registration.presentation
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,7 +28,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -44,7 +42,6 @@ import com.ufms.nes.R
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.Color
 import com.ufms.nes.core.ui.components.PasswordTextFieldComponent
 
 @Composable
@@ -119,7 +116,7 @@ fun RegistrationContent(
 
         Text(
             modifier = Modifier.padding(30.dp),
-            text = stringResource(id = R.string.registerScreenTitle),
+            text = stringResource(id = R.string.registration_screen_title),
             style = MaterialTheme.typography.headlineMedium
         )
 
@@ -213,7 +210,7 @@ fun RegistrationContent(
         Spacer(modifier = Modifier.height(30.dp))
 
         PasswordTextFieldComponent(
-            labelValue = stringResource(id = R.string.passwordConfirmation),
+            labelValue = stringResource(id = R.string.password_confirmation),
             onTextSelected = { onEvent(RegistrationEvent.EnteredPasswordConfirmation(it)) },
             errorStatus = true,
             leadingIcon = Icons.Default.Key
@@ -230,7 +227,7 @@ fun RegistrationContent(
             OutlinedButton(
                 onClick = { onReturnToLoginClick() },
             ) {
-                Text(text = stringResource(id = R.string.returnToLoginScreen))
+                Text(text = stringResource(id = R.string.return_to_login_screen))
             }
 
             Button(

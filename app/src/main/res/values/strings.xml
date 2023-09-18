@@ -8,9 +8,9 @@
     <string name="forget_password">Esqueceu a senha?</string>
     <string name="enter">Entrar</string>
     <string name="register">Cadastrar</string>
-    <string name="registerScreenTitle">Novo Usuário</string>
-    <string name="passwordConfirmation">Confirme a senha</string>
-    <string name="returnToLoginScreen">Retornar ao Login</string>
+    <string name="registration_screen_title">Novo Usuário</string>
+    <string name="password_confirmation">Confirme a senha</string>
+    <string name="return_to_login_screen">Retornar ao Login</string>
     <string name="nome">Nome</string>
     <string name="role">Cargo</string>
 
