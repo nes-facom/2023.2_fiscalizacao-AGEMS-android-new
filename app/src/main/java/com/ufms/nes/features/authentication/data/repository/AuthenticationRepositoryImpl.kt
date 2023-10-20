@@ -3,7 +3,7 @@ package com.ufms.nes.features.authentication.data.repository
 import com.ufms.nes.core.commons.Constants.ERROR_MESSAGE
 import com.ufms.nes.core.commons.Resource
 import com.ufms.nes.features.authentication.data.datastore.LocalService
-import com.ufms.nes.features.authentication.data.model.User
+import com.ufms.nes.features.authentication.data.model.UserDTO
 import com.ufms.nes.features.authentication.data.model.UserResponse
 import com.ufms.nes.core.data.network.ApiService
 import io.ktor.client.plugins.ClientRequestException
@@ -15,7 +15,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
     private val dataStore: LocalService
 ) : AuthenticationRepository {
 
-    override suspend fun registerUser(user: User): Resource<UserResponse> {
+    override suspend fun registerUser(user: UserDTO): Resource<UserResponse> {
         return try {
             val result = service.registerUser(user)
             Resource.Success(data = result)
@@ -24,7 +24,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun loginUser(user: User): Resource<UserResponse> {
+    override suspend fun loginUser(user: UserDTO): Resource<UserResponse> {
         return try {
             val result = service.loginUser(user)
 

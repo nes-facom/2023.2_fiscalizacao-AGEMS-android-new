@@ -1,9 +1,9 @@
-package com.ufms.nes.features.models.presentation
+package com.ufms.nes.features.template.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ufms.nes.core.model.Model
-import com.ufms.nes.features.models.data.repository.ModelRepository
+import com.ufms.nes.features.template.data.model.Model
+import com.ufms.nes.features.template.data.repository.ModelRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -37,27 +37,46 @@ class ModelsViewModel @Inject constructor(
         fetchModels()
     }
 
+//    fun fetchModels() {
+//        _uiState.update {
+//            it.copy(isLoading = true)
+//        }
+//        viewModelScope.launch {
+//            modelRepository.getModels()
+//                .catch {
+//                    _uiState.update {
+//                        it.copy(isError = true, isLoading = false)
+//                    }
+//                }
+//                .collect {
+//                    it.data?.let { models ->
+//                        _uiState.update {
+//                            it.copy(models = models, isLoading = false)
+//                        }
+//                    }
+//                    it.error?.let { error ->
+//                        _uiState.update {
+//                            it.copy(isError = true, isLoading = false)
+//                        }
+//                    }
+//                }
+//        }
+//    }
+
     fun fetchModels() {
         _uiState.update {
             it.copy(isLoading = true)
         }
         viewModelScope.launch {
-            modelRepository.getModels()
+            modelRepository.getModelsList()
                 .catch {
                     _uiState.update {
                         it.copy(isError = true, isLoading = false)
                     }
                 }
-                .collect {
-                    it.data?.let { models ->
-                        _uiState.update {
-                            it.copy(models = models, isLoading = false)
-                        }
-                    }
-                    it.error?.let { error ->
-                        _uiState.update {
-                            it.copy(isError = true, isLoading = false)
-                        }
+                .collect { models ->
+                    _uiState.update {
+                        it.copy(models = models, isLoading = false)
                     }
                 }
         }

@@ -28,4 +28,18 @@
     <string name="confirm">Sair</string>
     <string name="cancel">Cancelar</string>
     <string name="confirm_exit">Tem certeza de que deseja sair?</string>
+    <string name="create_model">Criar modelo</string>
+    <string name="save_model">Salvar modelo</string>
+    <string name="add_question">Adicionar questão</string>
+    <string name="edit_question">Editar questão</string>
+    <string name="name_model">Nome do modelo</string>
+    <string name="select_question_type">Selecione o tipo de resposta:</string>
+    <string name="remove_question">Remover questão</string>
+    <string name="remove_question_body">Deseja remover a questão do modelo?</string>
+    <string name="remove">Remover</string>
+    <string name="response">Resposta</string>
+    <string name="entered_question">Informe a pergunta:</string>
+    <string name="add_questions">Adicione as alternativas:</string>
+    <string name="entered_ordinance">Informe a portaria:</string>
+    <string name="details_model">Detalhes do modelo</string>
 </resources>

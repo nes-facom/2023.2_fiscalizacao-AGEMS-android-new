@@ -1,7 +1,7 @@
-package com.ufms.nes.features.models.data.di
+package com.ufms.nes.features.template.data.di
 
-import com.ufms.nes.features.models.data.repository.ModelRepository
-import com.ufms.nes.features.models.data.repository.ModelRepositoryImpl
+import com.ufms.nes.features.template.data.repository.ModelRepository
+import com.ufms.nes.features.template.data.repository.ModelRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

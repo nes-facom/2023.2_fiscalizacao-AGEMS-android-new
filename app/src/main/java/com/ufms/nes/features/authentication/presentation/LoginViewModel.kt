@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ufms.nes.core.commons.Constants.EMPTY_FIELDS
 import com.ufms.nes.core.commons.Resource
-import com.ufms.nes.features.authentication.data.model.User
+import com.ufms.nes.features.authentication.data.model.UserDTO
 import com.ufms.nes.features.authentication.data.repository.AuthenticationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -84,7 +84,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun createUser() =
-        User(email = _uiState.value.email, password = _uiState.value.password)
+        UserDTO(email = _uiState.value.email, password = _uiState.value.password)
 }
 
 data class LoginUiState(
