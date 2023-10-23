@@ -1,8 +1,6 @@
 package com.ufms.nes.core.data.network
 
 import com.ufms.nes.BuildConfig
-import com.ufms.nes.core.data.network.model.AddModelDTO
-import com.ufms.nes.core.data.network.model.AddModelResponseDTO
 import com.ufms.nes.core.data.network.model.ModelDTO
 import com.ufms.nes.features.authentication.data.datastore.LocalService
 import com.ufms.nes.features.authentication.data.model.UserDTO
@@ -52,17 +50,6 @@ class ApiService @Inject constructor(
             headers {
                 append(HttpHeaders.Authorization, "Bearer $bearerToken")
             }
-        }.body()
-    }
-
-    suspend fun registerModel(model: AddModelDTO): AddModelResponseDTO {
-        val bearerToken = localService.getBearerToken()
-        return client.post("${BuildConfig.BASE_URL}/modelo/add") {
-            header(HttpHeaders.ContentType, ContentType.Application.Json)
-            headers {
-                append(HttpHeaders.Authorization, "Bearer $bearerToken")
-            }
-            setBody(model)
         }.body()
     }
 }

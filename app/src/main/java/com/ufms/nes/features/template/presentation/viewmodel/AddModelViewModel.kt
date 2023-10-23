@@ -125,7 +125,7 @@ class AddModelViewModel @Inject constructor(
             }
         }
 
-        // Enviar para API se tiver com internet via Wifi
+        // TODO() - Enviar para API se tiver com internet via Wifi
     }
 
     fun clearCurrentQuestion() {

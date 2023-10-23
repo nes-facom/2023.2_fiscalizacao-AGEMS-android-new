@@ -114,7 +114,7 @@ fun AddQuestionScreen(
                     if (uiState.questionIsEmpty) {
                         Text(
                             modifier = Modifier.fillMaxWidth(),
-                            text = "Campo obrigatório",
+                            text = stringResource(id = R.string.required_field),
                             color = MaterialTheme.colorScheme.error
                         )
                     }
@@ -139,7 +139,7 @@ fun AddQuestionScreen(
                     if (uiState.ordinanceIsEmpty) {
                         Text(
                             modifier = Modifier.fillMaxWidth(),
-                            text = "Campo obrigatório",
+                            text = stringResource(id = R.string.required_field),
                             color = MaterialTheme.colorScheme.error
                         )
                     }
@@ -188,7 +188,7 @@ fun AddQuestionScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 10.dp),
-                        text = "Adicione ao menos uma alternativa",
+                        text = stringResource(id = R.string.add_alternative),
                         color = MaterialTheme.colorScheme.error
                     )
                 }

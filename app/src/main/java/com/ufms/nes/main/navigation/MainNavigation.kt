@@ -21,19 +21,8 @@ fun NavController.navigateToForms(navOptions: NavOptions? = null) {
     this.navigate(formNavigationRoute, navOptions)
 }
 
-fun NavController.navigateToAddEditModel(navOptions: NavOptions? = null) {
-    this.navigate(ADD_EDIT_MODEL_NAVIGATION_ROUTE, navOptions)
-}
-
 fun NavController.navigateToAddEditQuestion(navOptions: NavOptions? = null) {
     this.navigate(ADD_EDIT_QUESTION_NAVIGATION_ROUTE, navOptions)
-}
-
-fun NavController.navigateToAddEditQuestion(
-    navOptions: NavOptions? = null,
-    questionId: String?
-) {
-    this.navigate("$ADD_EDIT_QUESTION_NAVIGATION_ROUTE?$QUESTION_ID_ARG=${questionId}", navOptions)
 }
 
 fun NavGraphBuilder.homeScreen(
@@ -97,8 +86,7 @@ fun NavGraphBuilder.modelDetailScreen(
                 type = NavType.StringType; nullable = true
             },
         )
-    ) { entry ->
-        val modelId = entry.arguments?.getString(MODEL_ID_ARG)
+    ) {
         ModelDetailsScreen(onBack = onBackClick)
     }
 }
@@ -121,7 +109,6 @@ const val modelNavigationRoute = "models_screen"
 const val formNavigationRoute = "forms_screen"
 const val ADD_EDIT_MODEL_NAVIGATION_ROUTE = "add_edit_model_screen"
 const val ADD_EDIT_QUESTION_NAVIGATION_ROUTE = "add_edit_question_screen"
-const val QUESTION_ID_ARG = "questionId"
 const val MODEL_DETAIL_NAVIGATION_ROUTE = "model_detail_screen"
 
 const val MODEL_ID_ARG = "modelId"

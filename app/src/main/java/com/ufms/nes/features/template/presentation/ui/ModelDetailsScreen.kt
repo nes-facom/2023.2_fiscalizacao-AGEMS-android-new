@@ -37,10 +37,7 @@ import com.ufms.nes.core.ui.CardColor
 import com.ufms.nes.core.ui.components.SmallTopBar
 import com.ufms.nes.core.ui.components.TopBarData
 import com.ufms.nes.features.template.data.model.Question
-import com.ufms.nes.features.template.presentation.state.AddModelUiState
 import com.ufms.nes.features.template.presentation.state.ModelDetailsUiState
-import com.ufms.nes.features.template.presentation.state.QuestionModelUiState
-import com.ufms.nes.features.template.presentation.viewmodel.AddModelViewModel
 import com.ufms.nes.features.template.presentation.viewmodel.ModelDetailsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

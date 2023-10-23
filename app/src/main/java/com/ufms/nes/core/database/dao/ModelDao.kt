@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import com.ufms.nes.core.commons.toQuestionEntity
 import com.ufms.nes.core.database.model.ModelEntity
 import com.ufms.nes.core.database.model.ModelWithQuestionsDataObject
 import com.ufms.nes.core.database.model.QuestionEntity
@@ -12,8 +13,6 @@ import com.ufms.nes.core.database.model.QuestionModelEntity
 import com.ufms.nes.core.database.model.QuestionResponseEntity
 import com.ufms.nes.core.database.model.QuestionWithResponsesDataObject
 import com.ufms.nes.core.database.model.ResponseEntity
-import com.ufms.nes.features.template.data.mapper.toQuestionEntity
-import com.ufms.nes.features.template.data.model.Model
 import com.ufms.nes.features.template.data.model.Question
 import kotlinx.coroutines.flow.Flow
 
@@ -98,24 +97,3 @@ interface ModelDao {
     }
 }
 
-fun ModelWithQuestionsDataObject.toModel(): Model {
-    return Model(
-        id = modelEntity.modelId,
-        name = modelEntity.name,
-        questions = questions.zip(modelQuestionEntities).map { pair ->
-            Question(
-                id = pair.component1().questionId,
-                question = pair.component1().question,
-                isObjective = pair.component1().isObjective,
-                portaria = pair.component1().portaria,
-                responses = emptyList()
-            )
-        }
-    )
-}
-
-fun QuestionWithResponsesDataObject.toResponse(): List<String> {
-    return responses.zip(questionResponseEntities).mapNotNull { pair ->
-        pair.first.response
-    }
-}

@@ -4,10 +4,9 @@ import com.ufms.nes.core.commons.Constants.ERROR_MESSAGE
 import com.ufms.nes.core.commons.Resource
 import com.ufms.nes.core.commons.toModel
 import com.ufms.nes.core.commons.toModelEntity
+import com.ufms.nes.core.commons.toResponse
 import com.ufms.nes.core.data.network.ApiService
 import com.ufms.nes.core.database.dao.ModelDao
-import com.ufms.nes.core.database.dao.toResponse
-import com.ufms.nes.features.template.data.mapper.toModelEntity
 import com.ufms.nes.features.template.data.model.Model
 import com.ufms.nes.features.template.data.model.Question
 import kotlinx.coroutines.flow.Flow
