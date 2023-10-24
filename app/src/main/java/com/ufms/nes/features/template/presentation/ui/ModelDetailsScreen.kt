@@ -2,6 +2,7 @@ package com.ufms.nes.features.template.presentation.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -139,10 +141,13 @@ fun QuestionDetailRow(
                 )
             } else {
                 Text(
-                    modifier = Modifier.padding(bottom = 5.dp, start = 10.dp),
+                    modifier = Modifier
+                        .padding(bottom = 5.dp, start = 10.dp)
+                        .defaultMinSize(minHeight = 48.dp),
                     text = stringResource(R.string.response),
                     fontSize = 15.sp,
-                    color = Color.Gray
+                    color = Color.Gray,
+                    textAlign = TextAlign.Center
                 )
                 Divider(
                     modifier = Modifier

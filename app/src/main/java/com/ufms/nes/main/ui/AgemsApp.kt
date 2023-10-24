@@ -19,6 +19,8 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -65,6 +67,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun AgemsApp(
     appState: AgemsAppState = rememberAgemsAppState(),
+    windowSize: WindowSizeClass,
     deleteUserPreferences: () -> Unit,
     userLogged: Boolean
 ) {
@@ -72,6 +75,12 @@ fun AgemsApp(
     val scope = rememberCoroutineScope()
     var selectedItem by remember { mutableStateOf(drawerOptions[0]) }
     val openDialog = remember { mutableStateOf(false) }
+
+    val customModifier = if (windowSize.widthSizeClass > WindowWidthSizeClass.Compact) {
+        Modifier.padding(horizontal = 65.dp, vertical = 25.dp)
+    } else {
+        Modifier
+    }
 
     if (openDialog.value) {
         NesDialog(
@@ -200,6 +209,7 @@ fun AgemsApp(
                             }
                         )
                         modelsScreen(
+                            modifier = customModifier,
                             drawerState = drawerState,
                             onFloatingButtonClick = {
                                 appState.navController.navigate(NavRoutes.ModelRoute.name)
@@ -209,7 +219,10 @@ fun AgemsApp(
                             }
                         )
                         formsScreen(drawerState = drawerState)
-                        modelDetailScreen(onBackClick = { appState.onBackClick() })
+                        modelDetailScreen(
+                            modifier = customModifier,
+                            onBackClick = { appState.onBackClick() }
+                        )
                     }
 
                     navigation(
@@ -220,6 +233,7 @@ fun AgemsApp(
                             val viewModel =
                                 it.sharedViewModel<AddModelViewModel>(appState.navController)
                             AddEditModelScreen(
+                                modifier = customModifier,
                                 onBackClick = appState::onBackClick,
                                 viewModel = viewModel,
                                 onEditAddQuestionClick = {
@@ -231,6 +245,7 @@ fun AgemsApp(
                             val viewModel =
                                 it.sharedViewModel<AddModelViewModel>(appState.navController)
                             AddQuestionScreen(
+                                modifier = customModifier,
                                 viewModel = viewModel,
                                 onBack = { appState.onBackClick() }
                             )

@@ -1,6 +1,7 @@
 package com.ufms.nes.main.navigation
 
 import androidx.compose.material3.DrawerState
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -37,30 +38,15 @@ fun NavGraphBuilder.homeScreen(
     }
 }
 
-//fun NavGraphBuilder.addEditQuestionScreen(
-//) {
-//    composable(route = ADD_EDIT_QUESTION_NAVIGATION_ROUTE) {
-//        AddQuestionScreen()
-//    }
-//}
-
-//fun NavGraphBuilder.addEditModelScreen(
-//    onBackClick: () -> Unit
-//) {
-//    composable(route = ADD_EDIT_MODEL_NAVIGATION_ROUTE) {
-//        AddEditModelScreen(
-//            onBackClick = onBackClick
-//        )
-//    }
-//}
-
 fun NavGraphBuilder.modelsScreen(
+    modifier: Modifier,
     drawerState: DrawerState,
     onFloatingButtonClick: () -> Unit,
     onModelClick: (Model) -> Unit
 ) {
     composable(route = modelNavigationRoute) {
         ModelsScreen(
+            modifier = modifier,
             drawerState = drawerState,
             onFloatingButtonClick = onFloatingButtonClick,
             onModelClick = onModelClick
@@ -77,6 +63,7 @@ fun NavGraphBuilder.formsScreen(
 }
 
 fun NavGraphBuilder.modelDetailScreen(
+    modifier: Modifier = Modifier,
     onBackClick: () -> Unit
 ) {
     composable(
@@ -87,7 +74,7 @@ fun NavGraphBuilder.modelDetailScreen(
             },
         )
     ) {
-        ModelDetailsScreen(onBack = onBackClick)
+        ModelDetailsScreen(modifier = modifier, onBack = onBackClick)
     }
 }
 

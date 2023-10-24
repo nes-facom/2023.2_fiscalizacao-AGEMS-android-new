@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -64,6 +65,7 @@ enum class EventQuestionType {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditModelScreen(
+    modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
     onEditAddQuestionClick: (EventQuestionType) -> Unit,
     viewModel: AddModelViewModel = hiltViewModel()
@@ -114,7 +116,7 @@ fun AddEditModelScreen(
         val uiState = viewModel.modelUiState.collectAsStateWithLifecycle()
 
         AddEditModelContent(
-            modifier = Modifier.padding(paddingValues),
+            modifier = modifier.padding(paddingValues),
             uiState = uiState,
             viewModel = viewModel,
             onEditAddQuestionClick = onEditAddQuestionClick,
@@ -246,7 +248,7 @@ fun QuestionRow(
                 )
             } else {
                 Text(
-                    modifier = Modifier.padding(bottom = 5.dp, start = 10.dp),
+                    modifier = Modifier.padding(bottom = 5.dp, start = 10.dp).defaultMinSize(minHeight = 48.dp),
                     text = stringResource(R.string.response),
                     fontSize = 15.sp,
                     color = Color.Gray

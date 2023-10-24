@@ -34,6 +34,7 @@ import com.ufms.nes.features.template.presentation.viewmodel.ModelsViewModel
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ModelsScreen(
+    modifier: Modifier,
     drawerState: DrawerState,
     onFloatingButtonClick: () -> Unit,
     onModelClick: (Model) -> Unit,
@@ -66,7 +67,7 @@ fun ModelsScreen(
     ) { paddingValues ->
 
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
