@@ -27,14 +27,8 @@ import java.time.format.DateTimeFormatter
  */
 data class Form(
     val id: Int,
-    val title: String,
-    val description: String,
-    val created: LocalDateTime,
+    val user: String,
+    val model: String?,
+    val creationDate: LocalDateTime,
+    val unit: String?
 )
-
-
-val Form.createdText: String @RequiresApi(Build.VERSION_CODES.O)
-get() = articleDateFormatter.format(created)
-
-@RequiresApi(Build.VERSION_CODES.O)
-private val articleDateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy")

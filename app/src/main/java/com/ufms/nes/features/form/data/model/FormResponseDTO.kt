@@ -1,48 +1,21 @@
 package com.ufms.nes.features.form.data.model
 
 import kotlinx.serialization.SerialName
+import java.time.LocalDateTime
 
 data class FormResponseDto(
-
     @SerialName("id")
     val id: Int,
 
-    @SerialName("adult")
-    val adult: Boolean,
+    @SerialName("user")
+    val user: String,
 
-    @SerialName("backdrop_path")
-    val backdropPath: String?,
+    @SerialName("model")
+    val model: String?,
 
-    @SerialName("genre_ids")
-    val genreIds: List<Int>,
+    @SerialName("creationDate")
+    val creationDate: LocalDateTime,
 
-    @SerialName("original_language")
-    val originalLanguage: String?,
-
-    @SerialName("original_title")
-    val originalTitle: String?,
-
-    @SerialName("overview")
-    val overview: String?,
-
-    @SerialName("popularity")
-    val popularity: Double,
-
-    @SerialName("poster_path")
-    val posterPath: String?,
-
-    @SerialName("release_date")
-    val releaseDate: String?,
-
-    @SerialName("title")
-    val title: String?,
-
-    @SerialName("video")
-    val video: Boolean,
-
-    @SerialName("vote_average")
-    val voteAverage: Double,
-
-    @SerialName("vote_count")
-    val voteCount: Int
+    @SerialName("unit")
+    val unit: String?,
 )
