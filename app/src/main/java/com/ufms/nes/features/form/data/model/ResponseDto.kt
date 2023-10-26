@@ -1,4 +1,4 @@
-package com.ufms.nes.features.form.data
+package com.ufms.nes.features.form.data.model
 
 import kotlinx.serialization.SerialName
 

@@ -1,5 +1,6 @@
 package com.ufms.nes.features.form.data
 
+import com.ufms.nes.features.form.data.model.Form
 import com.ufms.nes.features.form.data.model.FormResponseDto
 
 fun FormResponseDto.mapFromEntity() = Form(

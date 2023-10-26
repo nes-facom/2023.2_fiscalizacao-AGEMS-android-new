@@ -1,4 +1,4 @@
-package com.ufms.nes.features.form.ui.component
+package com.ufms.nes.features.form.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -27,8 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.customview.R
-import com.ufms.nes.features.form.data.Form
+import com.ufms.nes.features.form.data.model.Form
 
 @Composable
 fun ItemForm(

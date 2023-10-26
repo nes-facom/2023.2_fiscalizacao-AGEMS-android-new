@@ -1,4 +1,4 @@
-package com.ufms.nes.features.form
+package com.ufms.nes.features.form.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -28,8 +28,8 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ufms.nes.R
-import com.ufms.nes.features.form.data.Form
-import com.ufms.nes.features.form.ui.component.ItemForm
+import com.ufms.nes.features.form.data.model.Form
+import com.ufms.nes.features.form.presentation.component.ItemForm
 import com.ufms.nes.features.form.util.ErrorMessage
 import com.ufms.nes.features.form.util.LoadingNextPageItem
 import com.ufms.nes.features.form.util.PageLoader
@@ -71,17 +71,17 @@ fun FormsScreen(
                     textAlign = TextAlign.Center
                 )
 
-//                IconButton(
-//                    onClick = {
-//                    }
-//                ) {
-//                    Icon(
-//                        imageVector = Icons.Default.Home,
-//                        contentDescription = null,
-//                        tint = MaterialTheme.colorScheme.onPrimary,
-//                        modifier = Modifier.size(25.dp)
-//                    )
-//                }
+                IconButton(
+                    onClick = {
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Home,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.size(25.dp)
+                    )
+                }
             }
         }
     ) {
@@ -100,10 +100,12 @@ fun FormsScreen(
             formPagingItems.apply {
                 when {
                     loadState.refresh is LoadState.Loading -> {
+                        print("refresh loading")
                         item { PageLoader(modifier = Modifier.fillParentMaxSize()) }
                     }
 
                     loadState.refresh is LoadState.Error -> {
+                        print("refresh error")
                         val error = formPagingItems.loadState.refresh as LoadState.Error
                         item {
                             ErrorMessage(
@@ -114,10 +116,12 @@ fun FormsScreen(
                     }
 
                     loadState.append is LoadState.Loading -> {
+                        print("append loading")
                         item { LoadingNextPageItem(modifier = Modifier) }
                     }
 
                     loadState.append is LoadState.Error -> {
+                        print("append error")
                         val error = formPagingItems.loadState.append as LoadState.Error
                         item {
                             ErrorMessage(

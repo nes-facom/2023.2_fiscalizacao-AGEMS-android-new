@@ -1,10 +1,10 @@
-package com.ufms.nes.features.form
+package com.ufms.nes.features.form.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.ufms.nes.features.form.data.Form
+import com.ufms.nes.features.form.data.model.Form
 import com.ufms.nes.features.form.data.repository.FormRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,34 +17,35 @@ class FormViewModel @Inject constructor(
     private val repository: FormRepository
 ) : ViewModel() {
 
-    private val _moviesState: MutableStateFlow<PagingData<Form>> = MutableStateFlow(value = PagingData.empty())
+    private val _formsState: MutableStateFlow<PagingData<Form>> = MutableStateFlow(value = PagingData.empty())
 
-    val formsState: MutableStateFlow<PagingData<Form>> get() = _moviesState
+    val formsState: MutableStateFlow<PagingData<Form>> get() = _formsState
 
     init {
-        onEvent(FormScreenEvent.GetFormScreen)
+        onEvent(FormEvent.GetForm)
     }
 
-    private fun onEvent(event: FormScreenEvent) {
+    private fun onEvent(event: FormEvent) {
         viewModelScope.launch {
             when (event) {
-                is FormScreenEvent.GetFormScreen -> {
-                    getMovies()
+                is FormEvent.GetForm -> {
+                    getForms()
                 }
             }
         }
     }
 
-    private suspend fun getMovies() {
+    private suspend fun getForms() {
+        println("getForms() do viewmodel")
         repository.getForms(10, 1)
             .distinctUntilChanged()
             .cachedIn(viewModelScope)
             .collect {
-                _moviesState.value = it
+                _formsState.value = it
             }
     }
 }
 
-sealed class FormScreenEvent {
-    object GetFormScreen : FormScreenEvent()
+sealed class FormEvent {
+    object GetForm : FormEvent()
 }

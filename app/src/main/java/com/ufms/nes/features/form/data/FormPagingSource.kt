@@ -1,18 +1,29 @@
 package com.ufms.nes.features.form.data
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.ufms.nes.core.data.network.ApiService
+import com.ufms.nes.features.form.data.model.Form
 import com.ufms.nes.features.form.data.model.FormResponseDto
+import com.ufms.nes.features.form.data.model.ResponseDto
 import io.ktor.utils.io.errors.IOException
 import java.lang.Integer.max
 
 const val STARTING_KEY = 0
 
 class FormPagingSource(
-    private val forms: ResponseDto<List<FormResponseDto>>
+    private val service: ApiService
 ) : PagingSource<Int, Form>() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Form> {
         val currentPage = params.key ?: STARTING_KEY
+
+        val forms = service.getForms(
+            currentPage = currentPage,
+            pageSize = 10
+        )
 
         return try {
             LoadResult.Page(

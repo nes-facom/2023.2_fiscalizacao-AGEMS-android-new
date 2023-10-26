@@ -2,11 +2,12 @@ package com.ufms.nes.core.data.network
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.pager.PageSize
 import com.ufms.nes.BuildConfig
 import com.ufms.nes.features.authentication.data.datastore.LocalService
 import com.ufms.nes.features.authentication.data.model.User
 import com.ufms.nes.features.authentication.data.model.UserResponse
-import com.ufms.nes.features.form.data.ResponseDto
+import com.ufms.nes.features.form.data.model.ResponseDto
 import com.ufms.nes.features.form.data.model.FormResponseDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -58,9 +59,9 @@ class ApiService @Inject constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    suspend fun getForms(): ResponseDto<List<FormResponseDto>> {
+    suspend fun getForms(currentPage: Int, pageSize: Int): ResponseDto<List<FormResponseDto>> {
         var res = ResponseDto<List<FormResponseDto>>()
-        val items = (1..10).map {
+        val items = (1..35).map {
             FormResponseDto(
                 id = it,
                 user = "User $it",
