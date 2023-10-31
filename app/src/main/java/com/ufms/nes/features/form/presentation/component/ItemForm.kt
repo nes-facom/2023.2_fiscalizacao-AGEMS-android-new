@@ -1,11 +1,13 @@
 package com.ufms.nes.features.form.presentation.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,80 +33,29 @@ import com.ufms.nes.features.form.data.model.Form
 
 @Composable
 fun ItemForm(
-    itemEntity: Form,
-    onClick: () -> Unit
+    modifier: Modifier = Modifier,
+    form: Form,
+    onModelClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .clickable { onClick() },
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onModelClick() },
         shape = RoundedCornerShape(8.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 8.dp
-        )
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+        border = BorderStroke(1.dp, Color.White)
     ) {
-        Column {
-            Box(
-                modifier = Modifier
-                    .height(150.dp)
-                    .fillMaxWidth()
-            ) {
-                Image(
-                    imageVector = Icons.Default.Home,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(RoundedCornerShape(8.dp))
-                )
-                Row(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                        .align(Alignment.TopEnd),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        Icons.Default.Star,
-                        contentDescription = null,
-                        tint = Color.Yellow
-                    )
-
-                    Text(
-                        text = itemEntity.id.toString() + "/10",
-                        style = MaterialTheme.typography.titleSmall,
-                        color = Color.Yellow,
-                        modifier = Modifier.padding(start = 5.dp)
-                    )
-                }
-            }
-
-            Text(
-                text = itemEntity.user ,
-                color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.titleMedium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 8.dp)
-            )
-
-            Spacer(modifier = Modifier.padding(vertical = 4.dp))
-
-            Text(
-                text = itemEntity.toString(),
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 8.dp),
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
+        Row(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(horizontal = 10.dp)
+                .defaultMinSize(minHeight = 48.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = form.user, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(text = form.unit.toString(), maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(text = form.creationDate.toString(), maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
     }
 }
