@@ -41,7 +41,7 @@ fun NavGraphBuilder.formsScreen(
     drawerState: DrawerState,
 ) {
     composable(route = formNavigationRoute) {
-        FormsScreen(drawerState = drawerState)
+        FormsScreen()
     }
 }
 

@@ -15,7 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.DrawerState
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -42,7 +43,6 @@ import com.ufms.nes.features.form.util.PageLoader
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FormsScreen(
-    drawerState: DrawerState,
     viewModel: FormViewModel = hiltViewModel()
 ) {
     val formPagingItems: LazyPagingItems<Form> = viewModel.formsState.collectAsLazyPagingItems()
@@ -99,16 +99,23 @@ fun FormsScreen(
                 key = "header"
             ) {
                 Row (
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
                         .defaultMinSize(minHeight = 48.dp)
-                        .background(color = Color.Blue),
+                        .background(color = Color.White)
+                        .padding(horizontal = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceAround
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(text = "Usuario")
-                    Text(text = "Unidade")
-                    Text(text = "Data de Criação")
+                    Text(text = "Usuario", maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth(0.3f))
+                    Text(text = "Unidade", maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth(0.4f))
+                    Text(text = "Data de Criação", maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth(0.8f))
                 }
+                Divider(
+                    modifier = Modifier.fillMaxSize(),
+                    thickness = 1.dp,
+                    color = Color.Black
+                )
             }
             item { Spacer(modifier = Modifier.padding(4.dp)) }
             items(formPagingItems.itemCount) { index ->
