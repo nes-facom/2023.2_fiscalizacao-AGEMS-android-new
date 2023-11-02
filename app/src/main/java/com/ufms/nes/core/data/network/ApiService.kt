@@ -2,13 +2,12 @@ package com.ufms.nes.core.data.network
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.pager.PageSize
 import com.ufms.nes.BuildConfig
 import com.ufms.nes.features.authentication.data.datastore.LocalService
 import com.ufms.nes.features.authentication.data.model.User
 import com.ufms.nes.features.authentication.data.model.UserResponse
-import com.ufms.nes.features.form.data.model.ResponseDto
 import com.ufms.nes.features.form.data.model.FormResponseDto
+import com.ufms.nes.features.form.data.model.ResponseDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -71,7 +70,7 @@ class ApiService @Inject constructor(
             )
         }.toList()
 
-        res.results = items
+        res.results = items.chunked<FormResponseDto>(pageSize)[currentPage]
         res.page = 1
         res.totalPages = 5
         res.totalResults = 100
