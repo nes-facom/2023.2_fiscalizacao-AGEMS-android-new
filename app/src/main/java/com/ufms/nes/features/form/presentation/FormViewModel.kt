@@ -36,8 +36,7 @@ class FormViewModel @Inject constructor(
     }
 
     private suspend fun getForms() {
-        println("getForms() do viewmodel")
-        repository.getForms(10, 1)
+        repository.getForms()
             .distinctUntilChanged()
             .cachedIn(viewModelScope)
             .collect {

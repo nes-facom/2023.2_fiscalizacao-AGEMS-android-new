@@ -16,12 +16,9 @@ class FormRepositoryImpl @Inject constructor(
 ) : FormRepository {
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override suspend fun getForms(
-        pageSize: Int,
-        pageNumber: Int
-    ): Flow<PagingData<Form>> {
+    override suspend fun getForms(): Flow<PagingData<Form>> {
         return Pager(
-            config = PagingConfig(pageSize = pageSize, prefetchDistance = 1),
+            config = PagingConfig(pageSize = 10, prefetchDistance = 1),
             pagingSourceFactory = {
                 FormPagingSource(service)
             }

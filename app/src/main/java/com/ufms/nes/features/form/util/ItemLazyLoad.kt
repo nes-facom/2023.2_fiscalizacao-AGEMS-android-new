@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -52,7 +51,7 @@ fun ErrorMessage(
 ) {
     Row(
         modifier = modifier.padding(10.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -61,8 +60,8 @@ fun ErrorMessage(
             modifier = Modifier.weight(1f),
             maxLines = 2
         )
-        OutlinedButton(onClick = onClickRetry) {
-            Text(text = stringResource(id = R.string.forget_password))
-        }
+//        OutlinedButton(onClick = onClickRetry) {
+//            Text(text = stringResource(id = R.string.load_failed))
+//        }
     }
 }

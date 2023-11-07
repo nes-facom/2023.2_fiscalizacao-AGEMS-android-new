@@ -150,35 +150,34 @@ fun FormsScreen(
             formPagingItems.apply {
                 when {
                     loadState.refresh is LoadState.Loading -> {
-                        print("refresh loading")
+                        println("refresh loading")
                         item { PageLoader(modifier = Modifier.fillParentMaxSize()) }
                     }
 
                     loadState.refresh is LoadState.Error -> {
-                        print("refresh error")
+                        println("refresh error")
                         val error = formPagingItems.loadState.refresh as LoadState.Error
                         item {
                             ErrorMessage(
                                 modifier = Modifier.fillParentMaxSize(),
-                                message = error.error.localizedMessage!!,
+                                message = R.string.load_failed.toString(),
                                 onClickRetry = { retry() })
                         }
                     }
 
                     loadState.append is LoadState.Loading -> {
-                        print("append loading")
+                        println("append loading")
                         item { LoadingNextPageItem(modifier = Modifier) }
                     }
 
                     loadState.append is LoadState.Error -> {
-                        print("append error")
-                        val error = formPagingItems.loadState.append as LoadState.Error
-                        item {
-                            ErrorMessage(
-                                modifier = Modifier,
-                                message = error.error.localizedMessage!!,
-                                onClickRetry = { retry() })
-                        }
+//                        val error = formPagingItems.loadState.append as LoadState.Error
+//                        item {
+//                            ErrorMessage(
+//                                modifier = Modifier,
+//                                message = error.error.localizedMessage.orEmpty(),
+//                                onClickRetry = { retry() })
+//                        }
                     }
                 }
             }
