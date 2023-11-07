@@ -150,12 +150,10 @@ fun FormsScreen(
             formPagingItems.apply {
                 when {
                     loadState.refresh is LoadState.Loading -> {
-                        println("refresh loading")
                         item { PageLoader(modifier = Modifier.fillParentMaxSize()) }
                     }
 
                     loadState.refresh is LoadState.Error -> {
-                        println("refresh error")
                         val error = formPagingItems.loadState.refresh as LoadState.Error
                         item {
                             ErrorMessage(
@@ -166,18 +164,7 @@ fun FormsScreen(
                     }
 
                     loadState.append is LoadState.Loading -> {
-                        println("append loading")
                         item { LoadingNextPageItem(modifier = Modifier) }
-                    }
-
-                    loadState.append is LoadState.Error -> {
-//                        val error = formPagingItems.loadState.append as LoadState.Error
-//                        item {
-//                            ErrorMessage(
-//                                modifier = Modifier,
-//                                message = error.error.localizedMessage.orEmpty(),
-//                                onClickRetry = { retry() })
-//                        }
                     }
                 }
             }

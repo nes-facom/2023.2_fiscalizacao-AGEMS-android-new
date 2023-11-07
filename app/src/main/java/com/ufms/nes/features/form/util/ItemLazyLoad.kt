@@ -60,8 +60,5 @@ fun ErrorMessage(
             modifier = Modifier.weight(1f),
             maxLines = 2
         )
-//        OutlinedButton(onClick = onClickRetry) {
-//            Text(text = stringResource(id = R.string.load_failed))
-//        }
     }
 }

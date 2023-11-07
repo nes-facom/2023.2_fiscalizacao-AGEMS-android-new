@@ -21,7 +21,7 @@ class FormPagingSource(
             currentPage = currentPage,
             pageSize = 10
         )
-        println("FORMS RESULT ${forms.results?.size}")
+
         return try {
             LoadResult.Page(
                 data = forms.results!!.mapFromListModel(),
@@ -36,13 +36,7 @@ class FormPagingSource(
     }
 
     override fun getRefreshKey(state: PagingState<Int, Form>): Int? {
-        // In our case we grab the item closest to the anchor position
-        // then return its id - (state.config.pageSize / 2) as a buffer
         return state.anchorPosition
-//        val anchorPosition = state.anchorPosition ?: return null
-//        val form = state.closestItemToPosition(anchorPosition) ?: return null
-//        return ensureValidKey(key = form.id - (state.config.pageSize / 2))
 
     }
-//    private fun ensureValidKey(key: Int) = max(STARTING_KEY, key)
 }

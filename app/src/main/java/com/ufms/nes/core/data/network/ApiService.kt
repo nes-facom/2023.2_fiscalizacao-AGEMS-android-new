@@ -69,7 +69,7 @@ class ApiService @Inject constructor(
                 unit = "Unit $it"
             )
         }.toList()
-        println("CHUUUUUUUUUNK ${currentPage}")
+
         val chunkedItems = items.chunked<FormResponseDto>(pageSize)
 
         if (currentPage >= chunkedItems.size) return res
