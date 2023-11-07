@@ -37,8 +37,8 @@ import com.ufms.nes.core.ui.components.IconData
 import com.ufms.nes.core.ui.components.SmallTopBar
 import com.ufms.nes.core.ui.components.TopBarData
 import com.ufms.nes.features.template.presentation.viewmodel.AddModelViewModel
-import com.ufms.nes.features.template.ui.AlternativeItem
-import com.ufms.nes.features.template.ui.OutlinedBoxClickable
+import com.ufms.nes.core.ui.components.AlternativeItem
+import com.ufms.nes.core.ui.components.OutlinedBoxClickable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -2,7 +2,8 @@ package com.ufms.nes.features.template.presentation.state
 
 import androidx.compose.runtime.mutableStateListOf
 import com.ufms.nes.core.commons.Constants
-import com.ufms.nes.features.template.data.model.Question
+import com.ufms.nes.domain.model.AnswerAlternative
+import com.ufms.nes.domain.model.Question
 
 data class QuestionModelUiState(
     val question: String = Constants.EMPTY,
@@ -18,10 +19,11 @@ data class QuestionModelUiState(
 ) {
     fun toQuestion(): Question =
         Question(
-            id = null,
             question = question,
             isObjective = isObjective,
             portaria = ordinance,
-            responses = responses
+            responses = responses.map {
+                AnswerAlternative(description = it)
+            }
         )
 }

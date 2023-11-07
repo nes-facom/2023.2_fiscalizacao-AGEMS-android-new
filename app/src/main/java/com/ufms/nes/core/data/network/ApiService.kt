@@ -1,7 +1,9 @@
 package com.ufms.nes.core.data.network
 
 import com.ufms.nes.BuildConfig
-import com.ufms.nes.core.data.network.model.ModelDTO
+import com.ufms.nes.core.data.network.model.request.AddModelDTO
+import com.ufms.nes.core.data.network.model.response.AddModelResponseDTO
+import com.ufms.nes.core.data.network.model.response.ModelResponseDTO
 import com.ufms.nes.features.authentication.data.datastore.LocalService
 import com.ufms.nes.features.authentication.data.model.UserDTO
 import com.ufms.nes.features.authentication.data.model.UserResponse
@@ -14,6 +16,7 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
+import java.util.UUID
 import javax.inject.Inject
 
 class ApiService @Inject constructor(
@@ -44,9 +47,29 @@ class ApiService @Inject constructor(
         }.body()
     }
 
-    suspend fun getModels(): List<ModelDTO> {
+    suspend fun getModels(): List<ModelResponseDTO> {
         val bearerToken = localService.getBearerToken()
         return client.get("${BuildConfig.BASE_URL}/modelo/todos") {
+            headers {
+                append(HttpHeaders.Authorization, "Bearer $bearerToken")
+            }
+        }.body()
+    }
+
+    suspend fun registerModel(model: AddModelDTO): AddModelResponseDTO {
+        val bearerToken = localService.getBearerToken()
+        return client.post("${BuildConfig.BASE_URL}/modelo/add") {
+            header(HttpHeaders.ContentType, ContentType.Application.Json)
+            headers {
+                append(HttpHeaders.Authorization, "Bearer $bearerToken")
+            }
+            setBody(model)
+        }.body()
+    }
+
+    suspend fun getModelById(modelId: UUID): AddModelResponseDTO {
+        val bearerToken = localService.getBearerToken()
+        return client.get("${BuildConfig.BASE_URL}/modelo/$modelId") {
             headers {
                 append(HttpHeaders.Authorization, "Bearer $bearerToken")
             }

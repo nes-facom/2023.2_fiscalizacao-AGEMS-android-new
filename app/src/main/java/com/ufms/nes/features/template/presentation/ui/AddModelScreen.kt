@@ -56,7 +56,7 @@ import com.ufms.nes.core.ui.components.TopBarData
 import com.ufms.nes.features.template.presentation.state.AddModelUiState
 import com.ufms.nes.features.template.presentation.state.QuestionModelUiState
 import com.ufms.nes.features.template.presentation.viewmodel.AddModelViewModel
-import com.ufms.nes.features.template.ui.NesDialog
+import com.ufms.nes.core.ui.components.NesDialog
 
 enum class EventQuestionType {
     ADD, EDIT

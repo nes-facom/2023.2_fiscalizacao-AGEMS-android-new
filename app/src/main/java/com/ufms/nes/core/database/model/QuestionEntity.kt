@@ -1,13 +1,14 @@
 package com.ufms.nes.core.database.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.UUID
 
-@Entity(tableName = "question_entity")
+@Entity(tableName = "question")
 data class QuestionEntity(
-    @PrimaryKey(autoGenerate = true) val questionId: Long? = null,
-    var question: String? = null,
-    var isObjective: Boolean? = null,
-    var portaria: String? = null,
-    val synced: Boolean = false
+    @PrimaryKey @ColumnInfo(name = "question_id") val questionId: UUID,
+    @ColumnInfo(name = "question") var question: String? = null,
+    @ColumnInfo(name = "is_objective") var isObjective: Boolean? = null,
+    @ColumnInfo(name = "ordinance") var ordinance: String? = null
 )

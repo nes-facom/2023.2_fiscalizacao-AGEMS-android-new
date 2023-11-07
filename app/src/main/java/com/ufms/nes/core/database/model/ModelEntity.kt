@@ -1,11 +1,14 @@
 package com.ufms.nes.core.database.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.ufms.nes.core.commons.enums.SyncState
+import java.util.UUID
 
-@Entity(tableName = "model_entity")
+@Entity(tableName = "model")
 data class ModelEntity(
-    @PrimaryKey(autoGenerate = true) val modelId: Long? = null,
-    var name: String? = null,
-    val synced: Boolean = false
+    @PrimaryKey @ColumnInfo(name = "model_id") var modelId: UUID,
+    @ColumnInfo(name = "name") var name: String = "",
+    @ColumnInfo(name = "sync_state") val syncState: SyncState
 )

@@ -28,7 +28,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ufms.nes.R
 import com.ufms.nes.core.ui.components.DrawerTopBar
 import com.ufms.nes.core.ui.components.ModelItem
-import com.ufms.nes.features.template.data.model.Model
+import com.ufms.nes.domain.model.Model
 import com.ufms.nes.features.template.presentation.viewmodel.ModelsViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -79,7 +79,7 @@ fun ModelsScreen(
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 items(uiState.models) {
-                    ModelItem(label = it.name ?: "", onModelClick = { onModelClick(it) })
+                    ModelItem(label = it.name, onModelClick = { onModelClick(it) })
                 }
             }
 

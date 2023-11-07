@@ -1,4 +1,4 @@
-package com.ufms.nes.features.template.ui
+package com.ufms.nes.core.ui.components
 
 import androidx.annotation.StringRes
 import androidx.compose.material3.AlertDialog
