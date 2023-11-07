@@ -28,6 +28,7 @@ class SynchronizationUseCase @Inject constructor(
                 val modelsDTO = response.data
                 val models = modelsDTO.toModelDomain()
 
+                clearAllSyncedDataLocal()
                 insertModels(models)
             }
         )
@@ -44,7 +45,6 @@ class SynchronizationUseCase @Inject constructor(
 
     suspend fun sync() {
         sendLocalDataFromBackend()
-        clearAllSyncedDataLocal()
         updateLocalDatabaseWithBackendData()
     }
 
