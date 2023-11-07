@@ -35,8 +35,22 @@ fun SynchronizationScreen(
                 .padding(16.dp),
         ) {
 
-            Button(modifier = Modifier.fillMaxWidth(), onClick = { viewModel.syncMain() }) {
-                Text(text = stringResource(id = R.string.synchronization))
+            Button(modifier = Modifier.fillMaxWidth(), onClick = { viewModel.downloadData() }) {
+                Text(text = stringResource(R.string.download_data))
+            }
+
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { viewModel.uploadData() },
+            ) {
+                Text(text = stringResource(R.string.send_data))
+            }
+
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { viewModel.syncAll() },
+            ) {
+                Text(text = stringResource(R.string.sync_all))
             }
         }
     }

@@ -10,5 +10,5 @@ import java.util.UUID
 data class ModelEntity(
     @PrimaryKey @ColumnInfo(name = "model_id") var modelId: UUID,
     @ColumnInfo(name = "name") var name: String = "",
-    @ColumnInfo(name = "sync_state") val syncState: SyncState
+    @ColumnInfo(name = "sync_state") var syncState: SyncState
 )

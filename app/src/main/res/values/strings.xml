@@ -35,4 +35,7 @@
     <string name="add_alternative">Adicione ao menos uma alternativa</string>
     <string name="add">Adicionar</string>
     <string name="synchronization">Sincronizar</string>
+    <string name="download_data">Baixar dados</string>
+    <string name="send_data">Enviar dados</string>
+    <string name="sync_all">Sincronizar tudo</string>
 </resources>

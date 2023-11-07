@@ -13,9 +13,21 @@ class SynchronizationViewModel @Inject constructor(
     private val useCase: SynchronizationUseCase
 ) : ViewModel() {
 
-    fun syncMain() {
+    fun downloadData() {
         viewModelScope.launch(Dispatchers.IO) {
             useCase.updateLocalDatabaseWithBackendData()
+        }
+    }
+
+    fun uploadData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            useCase.sendLocalDataFromBackend()
+        }
+    }
+
+    fun syncAll() {
+        viewModelScope.launch(Dispatchers.IO) {
+            useCase.sync()
         }
     }
 }

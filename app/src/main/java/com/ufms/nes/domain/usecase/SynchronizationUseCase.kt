@@ -1,9 +1,13 @@
 package com.ufms.nes.domain.usecase
 
-import com.ufms.nes.core.commons.APIResult
-import com.ufms.nes.core.commons.mappers.Mappers.toQuestion
-import com.ufms.nes.core.data.network.model.response.AddModelResponseDTO
-import com.ufms.nes.core.data.network.model.response.ModelResponseDTO
+import com.ufms.nes.core.commons.enums.SyncState
+import com.ufms.nes.core.commons.mappers.Mappers.toModelDomain
+import com.ufms.nes.core.commons.verifyResponse
+import com.ufms.nes.core.data.network.model.request.AddModelDTO
+import com.ufms.nes.core.data.network.model.request.QuestionDTO
+import com.ufms.nes.core.data.network.model.request.ResponseTypeDTO
+import com.ufms.nes.core.database.model.AnswerAlternativeEntity
+import com.ufms.nes.core.database.model.ModelWithQuestionsDataObject
 import com.ufms.nes.domain.model.Model
 import com.ufms.nes.domain.repository.ModelLocalRepository
 import com.ufms.nes.domain.repository.NetworkRepository
@@ -14,59 +18,101 @@ class SynchronizationUseCase @Inject constructor(
     private val networkRepository: NetworkRepository
 ) {
 
+    private lateinit var alternativesEntity: List<AnswerAlternativeEntity>
+
     suspend fun updateLocalDatabaseWithBackendData() {
 
-        networkRepository.getModels().verifyResponse(
+        networkRepository.getModelsObjects().verifyResponse(
             onError = {},
-            onSuccess = { modelsId ->
-
-                val modelsDTO = getAllModelsObjects(modelsId)
-                val models = modelsDTO.toModel()
+            onSuccess = { response ->
+                val modelsDTO = response.data
+                val models = modelsDTO.toModelDomain()
 
                 insertModels(models)
             }
         )
     }
 
-    private fun List<AddModelResponseDTO>.toModel(): List<Model> {
-        return this.map { modelResponse ->
-            Model(
-                id = modelResponse.id,
-                name = modelResponse.name.orEmpty(),
-                questions = modelResponse.questions.toQuestion()
+    suspend fun sendLocalDataFromBackend() {
+        val modelsDb = localRepository.getAllUnSyncedModel()
+
+
+        modelsDb.forEach { modelWithQuestion ->
+            sendModel(modelWithQuestion)
+        }
+    }
+
+    suspend fun sync() {
+        sendLocalDataFromBackend()
+        clearAllSyncedDataLocal()
+        updateLocalDatabaseWithBackendData()
+    }
+
+    private suspend fun clearAllSyncedDataLocal() {
+        localRepository.clearSyncedData()
+    }
+
+    private suspend fun sendModel(model: ModelWithQuestionsDataObject) {
+        val modelDTO = model.toAddModelDTO()
+
+        networkRepository.saveModel(modelDTO)
+            .verifyResponse(
+                onError = {},
+                onSuccess = {
+                    setSyncedData(model)
+                }
+            )
+    }
+
+    private suspend fun setSyncedData(model: ModelWithQuestionsDataObject) {
+        val modelLocal = model.modelEntity
+        modelLocal.syncState = SyncState.SYNCED
+        localRepository.updateModel(modelLocal)
+
+        localRepository.updateQuestionModel(
+            modelId = model.modelEntity.modelId,
+            syncState = SyncState.SYNCED
+        )
+
+        model.questions.forEach { questionEntity ->
+            questionEntity.syncState = SyncState.SYNCED
+            localRepository.updateQuestion(questionEntity)
+
+            localRepository.updateAnswerAlternative(
+                questionId = questionEntity.questionId,
+                syncState = SyncState.SYNCED
             )
         }
     }
 
-    private suspend fun getAllModelsObjects(modelsId: List<ModelResponseDTO>): List<AddModelResponseDTO> {
-        val modelResponseDTO: MutableList<AddModelResponseDTO> = mutableListOf()
+    private suspend fun ModelWithQuestionsDataObject.toAddModelDTO(): AddModelDTO {
 
-        modelsId.forEach {
-            networkRepository.getModelById(it.id).verifyResponse(
-                onError = {},
-                onSuccess = { response ->
-                    modelResponseDTO.add(response)
-                }
+        val questions = this.questions.zip(this.modelQuestionEntities).map { pair ->
+
+            alternativesEntity =
+                localRepository.getAnswerAlternativeByQuestionId(pair.first.questionId)
+
+            val alternativesDTO = alternativesEntity.map { alternative ->
+                ResponseTypeDTO(response = alternative.description)
+            }
+
+            QuestionDTO(
+                question = pair.component1().question,
+                objective = pair.component1().isObjective,
+                portaria = pair.component1().ordinance,
+                responses = ArrayList(alternativesDTO)
             )
         }
 
-        return modelResponseDTO
+        return AddModelDTO(
+            name = this.modelEntity.name,
+            questions = ArrayList(questions)
+        )
     }
 
     private suspend fun insertModels(models: List<Model>) {
         models.forEach { model ->
-            localRepository.insertModel(model)
+            localRepository.insertModel(model, SyncState.SYNCED)
         }
-    }
-
-}
-
-inline fun <T> APIResult<T>.verifyResponse(
-    onSuccess: (T) -> Unit,
-    onError: () -> Unit
-) {
-    when (this) {
-        is APIResult.Success -> onSuccess(this.data)
-        is APIResult.Error -> onError()
     }
 }

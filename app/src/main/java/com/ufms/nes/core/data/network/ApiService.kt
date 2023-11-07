@@ -4,6 +4,7 @@ import com.ufms.nes.BuildConfig
 import com.ufms.nes.core.data.network.model.request.AddModelDTO
 import com.ufms.nes.core.data.network.model.response.AddModelResponseDTO
 import com.ufms.nes.core.data.network.model.response.ModelResponseDTO
+import com.ufms.nes.core.data.network.model.response.ModelsResponseDTO
 import com.ufms.nes.features.authentication.data.datastore.LocalService
 import com.ufms.nes.features.authentication.data.model.UserDTO
 import com.ufms.nes.features.authentication.data.model.UserResponse
@@ -50,6 +51,15 @@ class ApiService @Inject constructor(
     suspend fun getModels(): List<ModelResponseDTO> {
         val bearerToken = localService.getBearerToken()
         return client.get("${BuildConfig.BASE_URL}/modelo/todos") {
+            headers {
+                append(HttpHeaders.Authorization, "Bearer $bearerToken")
+            }
+        }.body()
+    }
+
+    suspend fun getModelsObjects(): ModelsResponseDTO {
+        val bearerToken = localService.getBearerToken()
+        return client.get("${BuildConfig.BASE_URL}/modelo/") {
             headers {
                 append(HttpHeaders.Authorization, "Bearer $bearerToken")
             }

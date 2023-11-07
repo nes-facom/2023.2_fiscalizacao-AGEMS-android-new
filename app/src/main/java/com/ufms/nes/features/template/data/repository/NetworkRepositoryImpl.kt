@@ -6,6 +6,7 @@ import com.ufms.nes.core.data.network.model.response.AddModelResponseDTO
 import com.ufms.nes.core.data.network.model.response.ModelResponseDTO
 import com.ufms.nes.domain.repository.NetworkRepository
 import com.ufms.nes.core.commons.APIResult
+import com.ufms.nes.core.data.network.model.response.ModelsResponseDTO
 import java.util.UUID
 import javax.inject.Inject
 
@@ -38,6 +39,16 @@ class NetworkRepositoryImpl @Inject constructor(
             val modelResponse = service.getModelById(modelId)
 
             APIResult.Success(modelResponse)
+        } catch (e: Exception) {
+            APIResult.Error(null)
+        }
+    }
+
+    override suspend fun getModelsObjects(): APIResult<ModelsResponseDTO> {
+        return try {
+            val models = service.getModelsObjects()
+
+            APIResult.Success(models)
         } catch (e: Exception) {
             APIResult.Error(null)
         }

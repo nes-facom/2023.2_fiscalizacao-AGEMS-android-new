@@ -6,6 +6,8 @@ import com.ufms.nes.core.database.dao.ModelDao
 import com.ufms.nes.core.database.model.AnswerAlternativeEntity
 import com.ufms.nes.core.database.model.ModelEntity
 import com.ufms.nes.core.database.model.ModelWithQuestionsDataObject
+import com.ufms.nes.core.database.model.QuestionEntity
+import com.ufms.nes.core.database.model.QuestionModelEntity
 import com.ufms.nes.domain.model.AnswerAlternative
 import com.ufms.nes.domain.model.Model
 import com.ufms.nes.domain.model.Question
@@ -24,8 +26,8 @@ class ModelLocalRepositoryImpl @Inject constructor(
             it.toModel()
         }
 
-    override suspend fun insertModel(model: Model) {
-        modelDao.insertModel(model)
+    override suspend fun insertModel(model: Model, syncState: SyncState) {
+        modelDao.insertModel(model, syncState = syncState)
     }
 
     override suspend fun getAllUnSyncedModel(): List<ModelWithQuestionsDataObject> {
@@ -66,12 +68,27 @@ class ModelLocalRepositoryImpl @Inject constructor(
         return modelDao.getAnswerAlternativeByQuestionId(questionId)
     }
 
-    override suspend fun clearDbAndInsertNews(
-        modelsId: List<UUID>,
-        questionsId: List<UUID>,
-        alternativesId: List<UUID>,
-        newModels: List<ModelEntity>
-    ) {
-        modelDao.clearUnSyncedDataBase(modelsId, questionsId, alternativesId, newModels)
+    override suspend fun clearSyncedData() {
+        modelDao.clearSyncedData()
+    }
+
+    override suspend fun updateModel(modelEntity: ModelEntity) {
+        modelDao.updateModel(modelEntity)
+    }
+
+    override suspend fun updateQuestionModel(questionModelEntity: QuestionModelEntity) {
+        modelDao.updateQuestionModel(questionModelEntity)
+    }
+
+    override suspend fun updateQuestionModel(modelId: UUID, syncState: SyncState) {
+        modelDao.updateQuestionModel(modelId, syncState)
+    }
+
+    override suspend fun updateQuestion(questionEntity: QuestionEntity) {
+        modelDao.updateQuestion(questionEntity)
+    }
+
+    override suspend fun updateAnswerAlternative(questionId: UUID, syncState: SyncState) {
+        modelDao.updateAnswerAlternative(questionId, syncState)
     }
 }

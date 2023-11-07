@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.ufms.nes.core.commons.enums.SyncState
 import com.ufms.nes.core.database.model.AnswerAlternativeEntity
 import com.ufms.nes.core.database.model.ModelEntity
@@ -26,9 +27,6 @@ interface ModelDao {
     @Query("SELECT * FROM model ORDER BY name")
     fun observeAllModels(): Flow<List<ModelEntity>>
 
-    @Query("SELECT * FROM model WHERE sync_state = :syncState")
-    fun findAllBySyncState(syncState: SyncState): List<ModelEntity>
-
     @Query("SELECT * FROM answer_alternative WHERE question_id IN (:questionId)")
     suspend fun getAnswerAlternativeByQuestionId(questionId: UUID): List<AnswerAlternativeEntity>
 
@@ -43,38 +41,30 @@ interface ModelDao {
     /**
      * CLEAR
      */
-    @Query("DELETE FROM model WHERE model_id NOT IN (:modelsId)")
-    suspend fun clearAllModelsUnSynced(modelsId: List<UUID>)
-
-    @Query("DELETE FROM answer_alternative WHERE alternative_id NOT IN (:alternativesId)")
-    suspend fun clearAllAlternativeUnSynced(alternativesId: List<UUID>)
-
-    @Query("DELETE FROM question_model WHERE question_id NOT IN (:questionsId)")
-    suspend fun clearAllQuestionUnSynced(questionsId: List<UUID>)
-
-    @Query("DELETE FROM question_model WHERE question_id NOT IN (:questionsId)")
-    suspend fun clearAllQuestionModelUnSynced(questionsId: List<UUID>)
-
     @Transaction
-    suspend fun clearUnSyncedDataBase(
-        modelsId: List<UUID>,
-        questionsId: List<UUID>,
-        alternativesId: List<UUID>,
-        newModels: List<ModelEntity>
-    ) {
-        clearAllModelsUnSynced(modelsId)
-        clearAllAlternativeUnSynced(alternativesId)
-        clearAllQuestionUnSynced(questionsId)
-        clearAllQuestionModelUnSynced(questionsId)
-
-        insertModels(newModels)
+    suspend fun clearSyncedData() {
+        val syncState = SyncState.SYNCED
+        clearModels(syncState)
+        clearQuestions(syncState)
+        clearQuestionModel(syncState)
+        clearAlternative(syncState)
     }
+
+    @Query("DELETE FROM model WHERE sync_state = :syncState")
+    suspend fun clearModels(syncState: SyncState)
+
+    @Query("DELETE FROM question WHERE sync_state = :syncState")
+    suspend fun clearQuestions(syncState: SyncState)
+
+    @Query("DELETE FROM question_model WHERE sync_state = :syncState")
+    suspend fun clearQuestionModel(syncState: SyncState)
+
+    @Query("DELETE FROM answer_alternative WHERE sync_state = :syncState")
+    suspend fun clearAlternative(syncState: SyncState)
 
     /**
      * INSERT
      */
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertModels(list: List<ModelEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertModel(modelEntity: ModelEntity)
@@ -89,24 +79,25 @@ interface ModelDao {
     suspend fun insertQuestion(questionEntity: QuestionEntity)
 
     @Transaction
-    suspend fun insertModel(model: Model) {
+    suspend fun insertModel(model: Model, syncState: SyncState) {
         val modelID = model.id ?: UUID.randomUUID()
         val modelEntity = ModelEntity(
             modelId = modelID,
             name = model.name,
-            syncState = SyncState.EDITED
+            syncState = syncState
         )
 
         insertModel(modelEntity)
 
         // Insert Questions
-        val modelQuestionEntities = insertQuestions(model.questions, modelID)
+        val modelQuestionEntities = insertQuestions(model.questions, modelID, syncState)
         insertModelQuestionEntities(modelQuestionEntities)
     }
 
     private suspend fun insertQuestions(
         questions: List<Question>,
-        modelId: UUID
+        modelId: UUID,
+        syncState: SyncState
     ): List<QuestionModelEntity> {
         val modelQuestionEntities = mutableListOf<QuestionModelEntity>()
 
@@ -116,19 +107,20 @@ interface ModelDao {
                 questionId = questionId,
                 question = question.question,
                 ordinance = question.portaria,
-                isObjective = question.isObjective
+                isObjective = question.isObjective,
+                syncState = syncState
             )
 
             insertQuestion(questionEntity)
 
             modelQuestionEntities.add(
                 QuestionModelEntity(
-                    modelId = modelId, questionId = questionId
+                    modelId = modelId, questionId = questionId, syncState = syncState
                 )
             )
 
             // Insert Answer Alternatives
-            insertAnswerAlternatives(question.responses, questionId)
+            insertAnswerAlternatives(question.responses, questionId, syncState)
         }
 
         return modelQuestionEntities
@@ -136,17 +128,37 @@ interface ModelDao {
 
     private suspend fun insertAnswerAlternatives(
         answerAlternatives: List<AnswerAlternative>,
-        questionId: UUID
+        questionId: UUID,
+        syncState: SyncState
     ) {
         answerAlternatives.forEach { alternative ->
             val localId = alternative.id ?: UUID.randomUUID()
             val answerAlternativeEntity = AnswerAlternativeEntity(
                 alternativeId = localId,
                 questionId = questionId,
-                description = alternative.description
+                description = alternative.description,
+                syncState = syncState
             )
 
             insertAnswerAlternative(answerAlternativeEntity)
         }
     }
+
+    /**
+     * UPDATE
+     */
+    @Update
+    fun updateModel(model: ModelEntity)
+
+    @Update
+    fun updateQuestion(question: QuestionEntity)
+
+    @Update
+    fun updateQuestionModel(model: QuestionModelEntity)
+
+    @Query("UPDATE answer_alternative SET sync_state = :syncState WHERE question_id = :questionId")
+    fun updateAnswerAlternative(questionId: UUID, syncState: SyncState)
+
+    @Query("UPDATE question_model SET sync_state = :syncState WHERE model_id = :modelId")
+    fun updateQuestionModel(modelId: UUID, syncState: SyncState)
 }
