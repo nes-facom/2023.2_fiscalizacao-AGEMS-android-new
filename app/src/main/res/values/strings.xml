@@ -38,4 +38,6 @@
     <string name="download_data">Baixar dados</string>
     <string name="send_data">Enviar dados</string>
     <string name="sync_all">Sincronizar tudo</string>
+    <string name="tab_unit">Unidades</string>
+    <string name="consume_unit_empty">Não há unidades cadastradas</string>
 </resources>

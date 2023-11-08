@@ -5,9 +5,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ListAlt
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.ufms.nes.R
+import com.ufms.nes.main.navigation.consumeUnitRoute
 import com.ufms.nes.main.navigation.formNavigationRoute
 import com.ufms.nes.main.navigation.homeNavigationRoute
 import com.ufms.nes.main.navigation.modelNavigationRoute
@@ -39,5 +41,10 @@ val drawerOptions = listOf(
         icon = Icons.Default.Sync,
         label = R.string.synchronization,
         route = synchronizationRoute
+    ),
+    DrawerItem(
+        icon = Icons.Default.LocationOn,
+        label = R.string.tab_unit,
+        route = consumeUnitRoute
     )
 )
