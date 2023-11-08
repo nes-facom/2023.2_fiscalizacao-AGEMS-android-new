@@ -38,13 +38,13 @@ val drawerOptions = listOf(
         route = formNavigationRoute
     ),
     DrawerItem(
-        icon = Icons.Default.Sync,
-        label = R.string.synchronization,
-        route = synchronizationRoute
-    ),
-    DrawerItem(
         icon = Icons.Default.LocationOn,
         label = R.string.tab_unit,
         route = consumeUnitRoute
+    ),
+    DrawerItem(
+        icon = Icons.Default.Sync,
+        label = R.string.synchronization,
+        route = synchronizationRoute
     )
 )

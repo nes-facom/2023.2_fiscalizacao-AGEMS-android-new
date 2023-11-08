@@ -1,4 +1,4 @@
-package com.ufms.nes.features.consumeunit
+package com.ufms.nes.features.consumeunit.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

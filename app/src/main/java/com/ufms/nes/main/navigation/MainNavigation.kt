@@ -9,11 +9,12 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.ufms.nes.domain.model.ConsumeUnit
+import com.ufms.nes.domain.model.Model
+import com.ufms.nes.features.consumeunit.presentation.AddConsumeUnitScreen
+import com.ufms.nes.features.consumeunit.presentation.ConsumeUnitScreen
 import com.ufms.nes.features.form.FormsScreen
 import com.ufms.nes.features.home.HomeScreen
 import com.ufms.nes.features.synchronization.SynchronizationScreen
-import com.ufms.nes.domain.model.Model
-import com.ufms.nes.features.consumeunit.ConsumeUnitScreen
 import com.ufms.nes.features.template.presentation.ui.ModelDetailsScreen
 import com.ufms.nes.features.template.presentation.ui.ModelsScreen
 
@@ -35,6 +36,10 @@ fun NavController.navigateToForms(navOptions: NavOptions? = null) {
 
 fun NavController.navigateToAddEditQuestion(navOptions: NavOptions? = null) {
     this.navigate(ADD_EDIT_QUESTION_NAVIGATION_ROUTE, navOptions)
+}
+
+fun NavController.navigateToAddConsumeUnit(navOptions: NavOptions? = null) {
+    this.navigate(addConsumeUnitRoute, navOptions)
 }
 
 fun NavGraphBuilder.homeScreen(
@@ -69,6 +74,18 @@ fun NavGraphBuilder.consumeUnitScreen(
             drawerState = drawerState,
             onFloatingButtonClick = onFloatingButtonClick,
             onConsumeUnitClick = onConsumeUnitClick
+        )
+    }
+}
+
+fun NavGraphBuilder.addConsumeUnitScreen(
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit
+) {
+    composable(route = addConsumeUnitRoute) {
+        AddConsumeUnitScreen(
+            modifier = modifier,
+            onBack = onBack
         )
     }
 }
@@ -130,6 +147,7 @@ const val homeNavigationRoute = "home_screen"
 const val modelNavigationRoute = "models_screen"
 const val synchronizationRoute = "synchronization_screen"
 const val consumeUnitRoute = "consume_unit_screen"
+const val addConsumeUnitRoute = "add_consume_unit_screen"
 const val formNavigationRoute = "forms_screen"
 const val ADD_EDIT_MODEL_NAVIGATION_ROUTE = "add_edit_model_screen"
 const val ADD_EDIT_QUESTION_NAVIGATION_ROUTE = "add_edit_question_screen"
