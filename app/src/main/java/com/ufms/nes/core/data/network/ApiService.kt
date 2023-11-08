@@ -17,7 +17,6 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 class ApiService @Inject constructor(
@@ -59,27 +58,34 @@ class ApiService @Inject constructor(
 
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getForms(currentPage: Int, pageSize: Int): ResponseDto<List<FormResponseDto>> {
-        var res = ResponseDto<List<FormResponseDto>>()
-        val items = (1..35).map {
-            FormResponseDto(
-                id = it,
-                user = "User $it",
-                model = "Model $it",
-                creationDate = LocalDateTime.now(),
-                unit = "Unit $it"
-            )
-        }.toList()
+        val bearerToken = localService.getBearerToken()
 
-        val chunkedItems = items.chunked<FormResponseDto>(pageSize)
-
-        if (currentPage >= chunkedItems.size) return res
-
-        res.results = chunkedItems[currentPage]
-        res.page = currentPage
-        res.totalPages = chunkedItems.size
-        res.totalResults = items.size
-
-        return res
+        return client.get("${BuildConfig.BASE_URL}/form/todos?pagina=${currentPage}&quantidade=${pageSize}") {
+            headers {
+                append(HttpHeaders.Authorization, "Bearer $bearerToken")
+            }
+        }.body()
+//        var res = ResponseDto<List<FormResponseDto>>()
+//        val items = (1..35).map {
+//            FormResponseDto(
+//                id = it,
+//                user = "User $it",
+//                model = "Model $it",
+//                creationDate = LocalDateTime.now(),
+//                unit = "Unit $it"
+//            )
+//        }.toList()
+//
+//        val chunkedItems = items.chunked<FormResponseDto>(pageSize)
+//
+//        if (currentPage >= chunkedItems.size) return res
+//
+//        res.results = chunkedItems[currentPage]
+//        res.page = currentPage
+//        res.totalPages = chunkedItems.size
+//        res.totalResults = items.size
+//
+//        return res
     }
 
 }
