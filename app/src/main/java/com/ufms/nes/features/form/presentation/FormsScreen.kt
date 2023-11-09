@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -141,6 +142,19 @@ fun FormsScreen(
                 )
             }
             item { Spacer(modifier = Modifier.padding(4.dp)) }
+            if (formPagingItems.itemCount == 0) {
+                item {
+                    Text(
+                        text = stringResource(id = R.string.no_items_found),
+                        color = Color.Black,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                            .padding(vertical = 16.dp, horizontal = 16.dp),
+                        textAlign = TextAlign.Center,
+                    )
+                }
+            }
             items(formPagingItems.itemCount) { index ->
                 ItemForm(
                     form = formPagingItems[index]!!,

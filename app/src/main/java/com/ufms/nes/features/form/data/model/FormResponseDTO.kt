@@ -1,21 +1,24 @@
 package com.ufms.nes.features.form.data.model
 
+import com.ufms.nes.core.commons.LocalDateSerializer
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
-import java.time.LocalDateTime
+import kotlinx.serialization.Serializable
+import java.time.LocalDate
 
+@Serializable
 data class FormResponseDto(
     @SerialName("id")
     val id: Int,
 
-    @SerialName("user")
-    val user: String,
+    @SerialName("usuario_criacao")
+    val usuario_criacao: String,
 
-    @SerialName("model")
-    val model: String?,
+    @Contextual
+    @SerialName("data_criacao")
+    @Serializable(LocalDateSerializer::class)
+    val data_criacao: LocalDate,
 
-    @SerialName("creationDate")
-    val creationDate: LocalDateTime,
-
-    @SerialName("unit")
-    val unit: String?,
+    @SerialName("unidade")
+    val unidade: String?,
 )

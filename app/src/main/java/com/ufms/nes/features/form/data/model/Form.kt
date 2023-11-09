@@ -17,10 +17,7 @@ package com.ufms.nes.features.form.data.model
  */
 
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.time.LocalDate
 
 /**
  * Immutable model class for an article
@@ -28,7 +25,6 @@ import java.time.format.DateTimeFormatter
 data class Form(
     val id: Int,
     val user: String,
-    val model: String?,
-    val creationDate: LocalDateTime,
+    val creationDate: LocalDate,
     val unit: String?
 )

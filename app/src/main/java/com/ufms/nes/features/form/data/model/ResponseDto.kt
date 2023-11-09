@@ -11,7 +11,4 @@ class ResponseDto<T : Any?> {
 
     @SerialName("total_pages")
     var totalPages: Int? = null
-
-    @SerialName("total_results")
-    var totalResults: Int? = null
 }

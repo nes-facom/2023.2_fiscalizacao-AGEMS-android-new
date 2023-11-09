@@ -17,6 +17,8 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import javax.inject.Inject
 
 class ApiService @Inject constructor(
@@ -60,11 +62,30 @@ class ApiService @Inject constructor(
     suspend fun getForms(currentPage: Int, pageSize: Int): ResponseDto<List<FormResponseDto>> {
         val bearerToken = localService.getBearerToken()
 
-        return client.get("${BuildConfig.BASE_URL}/form/todos?pagina=${currentPage}&quantidade=${pageSize}") {
+        val response = client.get("${BuildConfig.BASE_URL}/form/todos/?pagina=${currentPage}&quantidade=${pageSize}") {
             headers {
                 append(HttpHeaders.Authorization, "Bearer $bearerToken")
             }
-        }.body()
+        }
+        @Serializable
+        data class Formulario(
+            @SerialName("pagina")
+            val pagina: Int,
+
+            @SerialName("paginaMax")
+            val paginaMax: Int,
+
+            @SerialName("formularios")
+            val formularios: List<FormResponseDto>
+        )
+
+        val body = response.body<Formulario>()
+        var res = ResponseDto<List<FormResponseDto>>()
+        println("RESPONSEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ${res}")
+        res.results = body.formularios
+        res.page = currentPage
+        res.totalPages = body.paginaMax + 1
+        return res
 //        var res = ResponseDto<List<FormResponseDto>>()
 //        val items = (1..35).map {
 //            FormResponseDto(

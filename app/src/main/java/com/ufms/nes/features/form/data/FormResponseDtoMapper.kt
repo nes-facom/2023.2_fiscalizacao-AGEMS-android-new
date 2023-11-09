@@ -5,18 +5,16 @@ import com.ufms.nes.features.form.data.model.FormResponseDto
 
 fun FormResponseDto.mapFromEntity() = Form(
     id = this.id,
-    model = this.model,
-    unit = this.unit,
-    creationDate = this.creationDate,
-    user = this.user
+    unit = this.unidade,
+    creationDate = this.data_criacao,
+    user = this.usuario_criacao
 )
 
 fun Form.mapFromDomain() = FormResponseDto(
     id = this.id,
-    model = this.model,
-    unit = this.unit,
-    creationDate = this.creationDate,
-    user = this.user
+    unidade = this.unit,
+    data_criacao = this.creationDate,
+    usuario_criacao = this.user
 )
 
 fun List<FormResponseDto>.mapFromListModel(): List<Form> {
