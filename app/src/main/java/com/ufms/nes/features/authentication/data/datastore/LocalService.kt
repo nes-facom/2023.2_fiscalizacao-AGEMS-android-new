@@ -2,7 +2,7 @@ package com.ufms.nes.features.authentication.data.datastore
 
 import kotlinx.coroutines.flow.Flow
 
-interface DataStorePreferences {
+interface LocalService {
 
     fun getUserLogged(): Flow<Boolean>
 
@@ -10,7 +10,11 @@ interface DataStorePreferences {
 
     suspend fun saveUserLogged(logged: Boolean)
 
-    suspend fun saveStringValue(key: String, value: String)
-    
-    suspend fun getStringValue(key: String): String?
+    suspend fun saveBearerToken(bearerToken: String)
+
+    suspend fun saveRefreshToken(refreshToken: String)
+
+    suspend fun getBearerToken(): String?
+
+    suspend fun getRefreshToken(): String?
 }
