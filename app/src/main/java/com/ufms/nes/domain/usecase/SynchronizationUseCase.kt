@@ -1,26 +1,32 @@
 package com.ufms.nes.domain.usecase
 
 import com.ufms.nes.core.commons.enums.SyncState
+import com.ufms.nes.core.commons.mappers.Mappers.toConsumeUnit
+import com.ufms.nes.core.commons.mappers.Mappers.toConsumeUnitDTO
 import com.ufms.nes.core.commons.mappers.Mappers.toModelDomain
 import com.ufms.nes.core.commons.verifyResponse
 import com.ufms.nes.core.data.network.model.request.AddModelDTO
 import com.ufms.nes.core.data.network.model.request.QuestionDTO
 import com.ufms.nes.core.data.network.model.request.ResponseTypeDTO
 import com.ufms.nes.core.database.model.AnswerAlternativeEntity
+import com.ufms.nes.core.database.model.ConsumeUnitEntity
 import com.ufms.nes.core.database.model.ModelWithQuestionsDataObject
+import com.ufms.nes.domain.model.ConsumeUnit
 import com.ufms.nes.domain.model.Model
 import com.ufms.nes.domain.repository.ModelLocalRepository
 import com.ufms.nes.domain.repository.NetworkRepository
+import com.ufms.nes.features.consumeunit.data.ConsumeUnitRepository
 import javax.inject.Inject
 
 class SynchronizationUseCase @Inject constructor(
     private val localRepository: ModelLocalRepository,
-    private val networkRepository: NetworkRepository
+    private val networkRepository: NetworkRepository,
+    private val consumeUnitRepository: ConsumeUnitRepository
 ) {
 
     private lateinit var alternativesEntity: List<AnswerAlternativeEntity>
 
-    suspend fun updateLocalDatabaseWithBackendData() {
+    suspend fun getModels() {
 
         networkRepository.getModelsObjects().verifyResponse(
             onError = {},
@@ -34,7 +40,20 @@ class SynchronizationUseCase @Inject constructor(
         )
     }
 
-    suspend fun sendLocalDataFromBackend() {
+    suspend fun getConsumeUnits() {
+
+        networkRepository.getConsumeUnits().verifyResponse(
+            onError = {},
+            onSuccess = { consumeUnitDTOs ->
+                val consumeUnits = consumeUnitDTOs.toConsumeUnit()
+
+                consumeUnitRepository.clearAllConsumeUnitSynced()
+                insertConsumeUnits(consumeUnits)
+            }
+        )
+    }
+
+    suspend fun sendModels() {
         val modelsDb = localRepository.getAllUnSyncedModel()
 
 
@@ -43,9 +62,35 @@ class SynchronizationUseCase @Inject constructor(
         }
     }
 
-    suspend fun sync() {
-        sendLocalDataFromBackend()
-        updateLocalDatabaseWithBackendData()
+    suspend fun sendConsumeUnits() {
+        val consumeUnitsDb = consumeUnitRepository.getAllUnSyncedConsumeUnits()
+
+        consumeUnitsDb.forEach { consumeUnit ->
+            sendConsumeUnit(consumeUnit)
+        }
+    }
+
+    suspend fun syncModels() {
+        sendModels()
+        getModels()
+    }
+
+
+    suspend fun syncConsumeUnit() {
+        sendConsumeUnits()
+        getConsumeUnits()
+    }
+
+    private suspend fun sendConsumeUnit(consumeUnit: ConsumeUnitEntity) {
+        val consumeUnitDTO = consumeUnit.toConsumeUnitDTO()
+
+        networkRepository.saveConsumeUnit(consumeUnitDTO).verifyResponse(
+            onError = {},
+            onSuccess = {
+                consumeUnit.syncState = SyncState.SYNCED
+                consumeUnitRepository.updateConsumeUnit(consumeUnit)
+            }
+        )
     }
 
     private suspend fun clearAllSyncedDataLocal() {
@@ -113,6 +158,12 @@ class SynchronizationUseCase @Inject constructor(
     private suspend fun insertModels(models: List<Model>) {
         models.forEach { model ->
             localRepository.insertModel(model, SyncState.SYNCED)
+        }
+    }
+
+    private suspend fun insertConsumeUnits(consumeUnits: List<ConsumeUnit>) {
+        consumeUnits.forEach { consumeUnit ->
+            consumeUnitRepository.insertConsumeUnit(consumeUnit, SyncState.SYNCED)
         }
     }
 }

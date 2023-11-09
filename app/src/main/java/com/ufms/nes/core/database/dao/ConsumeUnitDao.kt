@@ -4,6 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
+import com.ufms.nes.core.commons.enums.SyncState
 import com.ufms.nes.core.database.model.ConsumeUnitEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -15,4 +17,13 @@ interface ConsumeUnitDao {
 
     @Query("SELECT * FROM consume_unit ORDER BY name")
     fun getAllConsumeUnit(): Flow<List<ConsumeUnitEntity>>
+
+    @Query("SELECT * FROM consume_unit WHERE sync_state = :syncState")
+    suspend fun getAllConsumeUnitBySyncState(syncState: SyncState): List<ConsumeUnitEntity>
+
+    @Query("DELETE FROM consume_unit WHERE sync_state = :syncState")
+    suspend fun clearConsumeUnits(syncState: SyncState)
+
+    @Update
+    fun updateConsumeUnit(unit: ConsumeUnitEntity)
 }
