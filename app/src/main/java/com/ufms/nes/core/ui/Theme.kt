@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
 
-private val LightColorScheme = lightColorScheme(
+private val lightColorScheme = lightColorScheme(
     primary = PrimaryColor,
     secondary = SecondaryColor,
     background = Color(0xFFFFFBFE),
@@ -32,13 +32,13 @@ fun AgemsApplicationTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            (view.context as Activity).window.statusBarColor = LightColorScheme.primary.toArgb()
+            (view.context as Activity).window.statusBarColor = lightColorScheme.primary.toArgb()
             ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
         }
     }
 
     MaterialTheme(
-        colorScheme = LightColorScheme,
+        colorScheme = lightColorScheme,
         typography = Typography,
         content = content
     )
