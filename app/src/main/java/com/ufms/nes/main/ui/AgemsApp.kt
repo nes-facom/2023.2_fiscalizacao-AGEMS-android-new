@@ -47,7 +47,7 @@ import com.ufms.nes.features.authentication.presentation.loginScreen
 import com.ufms.nes.features.template.presentation.ui.AddEditModelScreen
 import com.ufms.nes.features.template.presentation.ui.AddQuestionScreen
 import com.ufms.nes.features.template.presentation.viewmodel.AddModelViewModel
-import com.ufms.nes.features.template.ui.NesDialog
+import com.ufms.nes.core.ui.components.NesDialog
 import com.ufms.nes.main.navigation.ADD_EDIT_MODEL_NAVIGATION_ROUTE
 import com.ufms.nes.main.navigation.ADD_EDIT_QUESTION_NAVIGATION_ROUTE
 import com.ufms.nes.main.navigation.NavRoutes
@@ -62,6 +62,9 @@ import com.ufms.nes.main.navigation.navigateToAddEditQuestion
 import com.ufms.nes.main.navigation.navigateToForms
 import com.ufms.nes.main.navigation.navigateToModelDetail
 import com.ufms.nes.main.navigation.navigateToModels
+import com.ufms.nes.main.navigation.navigateToSynchronization
+import com.ufms.nes.main.navigation.synchronizationRoute
+import com.ufms.nes.main.navigation.synchronizationScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -149,6 +152,9 @@ fun AgemsApp(
                                     formNavigationRoute -> {
                                         appState.navController.navigateToForms()
                                     }
+                                    synchronizationRoute -> {
+                                        appState.navController.navigateToSynchronization()
+                                    }
                                 }
                             },
                             icon = {
@@ -223,6 +229,7 @@ fun AgemsApp(
                             modifier = customModifier,
                             onBackClick = { appState.onBackClick() }
                         )
+                        synchronizationScreen(drawerState)
                     }
 
                     navigation(

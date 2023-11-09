@@ -3,8 +3,9 @@ package com.ufms.nes.features.template.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ufms.nes.core.commons.Constants.EMPTY
-import com.ufms.nes.features.template.data.model.Model
-import com.ufms.nes.features.template.data.repository.ModelRepository
+import com.ufms.nes.core.commons.enums.SyncState
+import com.ufms.nes.domain.model.Model
+import com.ufms.nes.domain.repository.ModelLocalRepository
 import com.ufms.nes.features.template.presentation.state.AddModelUiState
 import com.ufms.nes.features.template.presentation.state.QuestionModelUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddModelViewModel @Inject constructor(
-    private val repository: ModelRepository
+    private val repository: ModelLocalRepository
 ) : ViewModel() {
 
     private val _modelUiState = MutableStateFlow(AddModelUiState())
@@ -115,8 +116,9 @@ class AddModelViewModel @Inject constructor(
                         name = _modelUiState.value.name,
                         questions = _modelUiState.value.questions.map {
                             it.toQuestion()
-                        }
-                    )
+                        },
+                    ),
+                    syncState = SyncState.EDITED
                 )
 
                 _modelUiState.update {
@@ -124,8 +126,6 @@ class AddModelViewModel @Inject constructor(
                 }
             }
         }
-
-        // TODO() - Enviar para API se tiver com internet via Wifi
     }
 
     fun clearCurrentQuestion() {

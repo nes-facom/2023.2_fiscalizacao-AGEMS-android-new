@@ -8,14 +8,14 @@ data class ModelWithQuestionsDataObject(
     @Embedded
     val modelEntity: ModelEntity,
     @Relation(
-        parentColumn = "modelId",
-        entityColumn = "questionId",
+        parentColumn = "model_id",
+        entityColumn = "question_id",
         associateBy = Junction(QuestionModelEntity::class)
     )
     val questions: List<QuestionEntity>,
     @Relation(
-        parentColumn = "modelId",
-        entityColumn = "modelId"
+        parentColumn = "model_id",
+        entityColumn = "model_id"
     )
     val modelQuestionEntities: List<QuestionModelEntity>,
 )

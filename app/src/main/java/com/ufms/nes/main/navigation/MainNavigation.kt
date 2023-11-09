@@ -10,12 +10,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.ufms.nes.features.form.FormsScreen
 import com.ufms.nes.features.home.HomeScreen
-import com.ufms.nes.features.template.data.model.Model
+import com.ufms.nes.features.synchronization.SynchronizationScreen
+import com.ufms.nes.domain.model.Model
 import com.ufms.nes.features.template.presentation.ui.ModelDetailsScreen
 import com.ufms.nes.features.template.presentation.ui.ModelsScreen
 
 fun NavController.navigateToModels(navOptions: NavOptions? = null) {
     this.navigate(modelNavigationRoute, navOptions)
+}
+
+fun NavController.navigateToSynchronization(navOptions: NavOptions? = null) {
+    this.navigate(synchronizationRoute, navOptions)
 }
 
 fun NavController.navigateToForms(navOptions: NavOptions? = null) {
@@ -35,6 +40,14 @@ fun NavGraphBuilder.homeScreen(
             drawerState = drawerState,
             onShortcutClick = onShortcutClick
         )
+    }
+}
+
+fun NavGraphBuilder.synchronizationScreen(
+    drawerState: DrawerState,
+) {
+    composable(route = synchronizationRoute) {
+        SynchronizationScreen(drawerState = drawerState)
     }
 }
 
@@ -93,6 +106,7 @@ enum class NavRoutes {
 
 const val homeNavigationRoute = "home_screen"
 const val modelNavigationRoute = "models_screen"
+const val synchronizationRoute = "synchronization_screen"
 const val formNavigationRoute = "forms_screen"
 const val ADD_EDIT_MODEL_NAVIGATION_ROUTE = "add_edit_model_screen"
 const val ADD_EDIT_QUESTION_NAVIGATION_ROUTE = "add_edit_question_screen"

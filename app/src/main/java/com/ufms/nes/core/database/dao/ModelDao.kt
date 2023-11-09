@@ -5,95 +5,160 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.ufms.nes.core.commons.toQuestionEntity
+import androidx.room.Update
+import com.ufms.nes.core.commons.enums.SyncState
+import com.ufms.nes.core.database.model.AnswerAlternativeEntity
 import com.ufms.nes.core.database.model.ModelEntity
 import com.ufms.nes.core.database.model.ModelWithQuestionsDataObject
 import com.ufms.nes.core.database.model.QuestionEntity
 import com.ufms.nes.core.database.model.QuestionModelEntity
-import com.ufms.nes.core.database.model.QuestionResponseEntity
-import com.ufms.nes.core.database.model.QuestionWithResponsesDataObject
-import com.ufms.nes.core.database.model.ResponseEntity
-import com.ufms.nes.features.template.data.model.Question
+import com.ufms.nes.domain.model.AnswerAlternative
+import com.ufms.nes.domain.model.Model
+import com.ufms.nes.domain.model.Question
 import kotlinx.coroutines.flow.Flow
+import java.util.UUID
 
 @Dao
 interface ModelDao {
 
-    @Query("SELECT * FROM model_entity ORDER BY name")
+    /**
+     * GET
+     */
+    @Query("SELECT * FROM model ORDER BY name")
     fun observeAllModels(): Flow<List<ModelEntity>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertModels(list: List<ModelEntity>)
-
-    @Query("DELETE FROM model_entity")
-    suspend fun clearAllModels()
+    @Query("SELECT * FROM answer_alternative WHERE question_id IN (:questionId)")
+    suspend fun getAnswerAlternativeByQuestionId(questionId: UUID): List<AnswerAlternativeEntity>
 
     @Transaction
-    suspend fun clearAllModelsAndInsertModels(list: List<ModelEntity>) {
-        clearAllModels()
-        insertModels(list)
+    @Query("SELECT * FROM model WHERE model_id IN (:modelId)")
+    suspend fun getModelWithQuestions(modelId: UUID): ModelWithQuestionsDataObject
+
+    @Transaction
+    @Query("SELECT * FROM model WHERE sync_state = :syncState")
+    suspend fun getModelsWithQuestions(syncState: SyncState): List<ModelWithQuestionsDataObject>
+
+    /**
+     * CLEAR
+     */
+    @Transaction
+    suspend fun clearSyncedData() {
+        val syncState = SyncState.SYNCED
+        clearModels(syncState)
+        clearQuestions(syncState)
+        clearQuestionModel(syncState)
+        clearAlternative(syncState)
     }
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertModel(modelEntity: ModelEntity): Long
+    @Query("DELETE FROM model WHERE sync_state = :syncState")
+    suspend fun clearModels(syncState: SyncState)
+
+    @Query("DELETE FROM question WHERE sync_state = :syncState")
+    suspend fun clearQuestions(syncState: SyncState)
+
+    @Query("DELETE FROM question_model WHERE sync_state = :syncState")
+    suspend fun clearQuestionModel(syncState: SyncState)
+
+    @Query("DELETE FROM answer_alternative WHERE sync_state = :syncState")
+    suspend fun clearAlternative(syncState: SyncState)
+
+    /**
+     * INSERT
+     */
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertResponse(responseEntity: ResponseEntity): Long
+    suspend fun insertModel(modelEntity: ModelEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAnswerAlternative(answerAlternativeEntity: AnswerAlternativeEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertModelQuestionEntities(modelQuestionEntities: List<QuestionModelEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertQuestionResponseEntities(questionResponseEntities: List<QuestionResponseEntity>)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertQuestion(questionEntity: QuestionEntity): Long
-
-    @Query("SELECT * FROM model_entity WHERE modelId IN (:modelId)")
-    suspend fun getModelById(modelId: String): ModelEntity?
-
-    @Query("SELECT * FROM response_entity WHERE responseId IN (:responseId)")
-    suspend fun getResponseById(responseId: String): ResponseEntity?
+    suspend fun insertQuestion(questionEntity: QuestionEntity)
 
     @Transaction
-    @Query("SELECT * FROM model_entity WHERE modelId IN (:modelId)")
-    suspend fun getModelWithQuestions(modelId: String): ModelWithQuestionsDataObject
+    suspend fun insertModel(model: Model, syncState: SyncState) {
+        val modelID = model.id ?: UUID.randomUUID()
+        val modelEntity = ModelEntity(
+            modelId = modelID,
+            name = model.name,
+            syncState = syncState
+        )
 
-    @Transaction
-    @Query("SELECT * FROM question_entity WHERE questionId IN (:questionId)")
-    suspend fun getQuestionWithResponses(questionId: String): QuestionWithResponsesDataObject
+        insertModel(modelEntity)
 
-    @Transaction
-    suspend fun insertModel(
-        modelEntity: ModelEntity,
-        questions: List<Question>,
-    ) {
-
-        val modelQuestionEntities = mutableListOf<QuestionModelEntity>()
-
-        val modelId = insertModel(modelEntity)
-
-        questions.forEach { question ->
-            val questionId = insertQuestion(question.toQuestionEntity())
-
-            val questionResponseEntities = mutableListOf<QuestionResponseEntity>()
-
-            question.responses.forEach {
-                val responseId = insertResponse(ResponseEntity(response = it))
-
-                questionResponseEntities.add(
-                    QuestionResponseEntity(questionId = questionId, responseId = responseId)
-                )
-            }
-
-            insertQuestionResponseEntities(questionResponseEntities)
-
-            modelQuestionEntities.add(
-                QuestionModelEntity(modelId = modelId, questionId = questionId)
-            )
-        }
-
+        // Insert Questions
+        val modelQuestionEntities = insertQuestions(model.questions, modelID, syncState)
         insertModelQuestionEntities(modelQuestionEntities)
     }
-}
 
+    private suspend fun insertQuestions(
+        questions: List<Question>,
+        modelId: UUID,
+        syncState: SyncState
+    ): List<QuestionModelEntity> {
+        val modelQuestionEntities = mutableListOf<QuestionModelEntity>()
+
+        questions.forEach { question ->
+            val questionId = question.id ?: UUID.randomUUID()
+            val questionEntity = QuestionEntity(
+                questionId = questionId,
+                question = question.question,
+                ordinance = question.portaria,
+                isObjective = question.isObjective,
+                syncState = syncState
+            )
+
+            insertQuestion(questionEntity)
+
+            modelQuestionEntities.add(
+                QuestionModelEntity(
+                    modelId = modelId, questionId = questionId, syncState = syncState
+                )
+            )
+
+            // Insert Answer Alternatives
+            insertAnswerAlternatives(question.responses, questionId, syncState)
+        }
+
+        return modelQuestionEntities
+    }
+
+    private suspend fun insertAnswerAlternatives(
+        answerAlternatives: List<AnswerAlternative>,
+        questionId: UUID,
+        syncState: SyncState
+    ) {
+        answerAlternatives.forEach { alternative ->
+            val localId = alternative.id ?: UUID.randomUUID()
+            val answerAlternativeEntity = AnswerAlternativeEntity(
+                alternativeId = localId,
+                questionId = questionId,
+                description = alternative.description,
+                syncState = syncState
+            )
+
+            insertAnswerAlternative(answerAlternativeEntity)
+        }
+    }
+
+    /**
+     * UPDATE
+     */
+    @Update
+    fun updateModel(model: ModelEntity)
+
+    @Update
+    fun updateQuestion(question: QuestionEntity)
+
+    @Update
+    fun updateQuestionModel(model: QuestionModelEntity)
+
+    @Query("UPDATE answer_alternative SET sync_state = :syncState WHERE question_id = :questionId")
+    fun updateAnswerAlternative(questionId: UUID, syncState: SyncState)
+
+    @Query("UPDATE question_model SET sync_state = :syncState WHERE model_id = :modelId")
+    fun updateQuestionModel(modelId: UUID, syncState: SyncState)
+}

@@ -3,7 +3,7 @@ package com.ufms.nes.features.template.presentation.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ufms.nes.features.template.data.repository.ModelRepository
+import com.ufms.nes.domain.repository.ModelLocalRepository
 import com.ufms.nes.features.template.presentation.state.ModelDetailsUiState
 import com.ufms.nes.main.navigation.MODEL_ID_ARG
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,11 +13,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class ModelDetailsViewModel @Inject constructor(
-    private val modelRepository: ModelRepository,
+    private val modelLocalRepository: ModelLocalRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -32,18 +33,26 @@ class ModelDetailsViewModel @Inject constructor(
         )
 
     init {
-        if (modelId != null) {
-            loadModel(modelId)
+        modelId?.toUUID()?.let {
+            loadModel(it)
         }
     }
 
-    private fun loadModel(modelId: String) {
+    fun String.toUUID(): UUID? {
+        return try {
+            UUID.fromString(this)
+        } catch (e: IllegalArgumentException) {
+            null  // Handle invalid UUID string
+        }
+    }
+
+    private fun loadModel(modelId: UUID) {
         viewModelScope.launch {
-            modelRepository.getModelById(modelId.toInt()).let { model ->
+            modelLocalRepository.getModelById(modelId).let { model ->
                 if (model != null) {
                     _modelDetailsUiState.update {
                         it.copy(
-                            name = model.name.orEmpty(),
+                            name = model.name,
                             questions = model.questions
                         )
                     }

@@ -38,7 +38,7 @@ import com.ufms.nes.R
 import com.ufms.nes.core.ui.CardColor
 import com.ufms.nes.core.ui.components.SmallTopBar
 import com.ufms.nes.core.ui.components.TopBarData
-import com.ufms.nes.features.template.data.model.Question
+import com.ufms.nes.domain.model.Question
 import com.ufms.nes.features.template.presentation.state.ModelDetailsUiState
 import com.ufms.nes.features.template.presentation.viewmodel.ModelDetailsViewModel
 
@@ -137,7 +137,9 @@ fun QuestionDetailRow(
                 ExposedDropdown(
                     expanded = expanded,
                     onExpanded = { expanded = it },
-                    items = question.responses
+                    items = question.responses.map {
+                        it.description.orEmpty()
+                    }
                 )
             } else {
                 Text(
