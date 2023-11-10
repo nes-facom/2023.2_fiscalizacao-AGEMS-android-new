@@ -14,10 +14,8 @@ data class FormResponseDto(
     @SerialName("usuario_criacao")
     val usuario_criacao: String,
 
-    @Contextual
     @SerialName("data_criacao")
-    @Serializable(LocalDateSerializer::class)
-    val data_criacao: LocalDate,
+    val data_criacao: Long,
 
     @SerialName("unidade")
     val unidade: String?,

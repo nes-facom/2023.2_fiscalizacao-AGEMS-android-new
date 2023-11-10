@@ -26,7 +26,7 @@ class FormPagingSource(
             LoadResult.Page(
                 data = forms.results!!.mapFromListModel(),
                 prevKey = if (currentPage == 0) null else currentPage - 1,
-                nextKey = if (forms.results!!.isEmpty()) null else currentPage + 1
+                nextKey = if (forms.results!!.isEmpty() || currentPage == forms.totalPages) null else currentPage + 1
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)

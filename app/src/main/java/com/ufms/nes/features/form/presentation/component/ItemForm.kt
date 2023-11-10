@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.ufms.nes.core.commons.convertLongToFormattedDate
 import com.ufms.nes.features.form.data.model.Form
 
 @Composable
@@ -43,7 +44,7 @@ fun ItemForm(
         ) {
             Text(text = form.user, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth(0.3f))
             Text(text = form.unit.toString(), maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth(0.4f))
-            Text(text = form.creationDate.toString(), maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth(0.8f))
+            Text(text = form.creationDate.convertLongToFormattedDate(), maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth(0.8f))
         }
     }
 }

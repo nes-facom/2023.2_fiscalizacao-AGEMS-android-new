@@ -17,14 +17,26 @@ package com.ufms.nes.features.form.data.model
  */
 
 
+import com.ufms.nes.core.commons.LocalDateSerializer
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.time.LocalDate
 
 /**
  * Immutable model class for an article
  */
+@Serializable
 data class Form(
+    @SerialName("id")
     val id: Int,
+
+    @SerialName("user")
     val user: String,
-    val creationDate: LocalDate,
+
+    @SerialName("creationDate")
+//    @Serializable(with = LocalDateSerializer::class)
+    val creationDate: Long,
+
+    @SerialName("unit")
     val unit: String?
 )

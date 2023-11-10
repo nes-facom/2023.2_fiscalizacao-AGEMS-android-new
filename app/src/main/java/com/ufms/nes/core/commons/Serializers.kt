@@ -18,3 +18,16 @@ object LocalDateSerializer : KSerializer<LocalDate> {
         encoder.encodeString(value.toString())
     }
 }
+
+object LocalDateSerializerL : KSerializer<LocalDate> {
+    override val descriptor = PrimitiveSerialDescriptor("LocalDate", PrimitiveKind.LONG)
+
+    override fun deserialize(decoder: Decoder): LocalDate {
+        return LocalDate.parse(decoder.decodeString())
+    }
+
+    override fun serialize(encoder: Encoder, value: LocalDate) {
+//        encoder.encodeString(value.toString())
+        encoder.encodeLong(value.toEpochDay())
+    }
+}

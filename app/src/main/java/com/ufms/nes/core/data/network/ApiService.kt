@@ -81,10 +81,10 @@ class ApiService @Inject constructor(
 
         val body = response.body<Formulario>()
         var res = ResponseDto<List<FormResponseDto>>()
-        println("RESPONSEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ${res}")
+
         res.results = body.formularios
         res.page = currentPage
-        res.totalPages = body.paginaMax + 1
+        res.totalPages = body.paginaMax
         return res
 //        var res = ResponseDto<List<FormResponseDto>>()
 //        val items = (1..35).map {
