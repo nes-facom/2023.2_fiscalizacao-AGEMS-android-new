@@ -1,8 +1,8 @@
 package com.ufms.nes.features.authentication.data.service
 
 import com.ufms.nes.BuildConfig
-import com.ufms.nes.features.authentication.data.model.UserResponse
 import com.ufms.nes.features.authentication.data.model.User
+import com.ufms.nes.features.authentication.data.model.UserResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.header

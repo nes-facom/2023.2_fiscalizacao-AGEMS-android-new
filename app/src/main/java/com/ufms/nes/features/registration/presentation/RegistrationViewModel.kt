@@ -1,6 +1,5 @@
 package com.ufms.nes.features.registration.presentation
 
-import android.os.Handler
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ufms.nes.core.commons.Constants
@@ -15,8 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeout
-import java.util.Timer
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -113,8 +111,8 @@ class RegistrationViewModel @Inject constructor(
                 else -> {
                     try {
                         repository.registerUser(user = createUser()).let { result ->
-                            if (result is Resource.Success) {
-                                _uiState.update {
+                           if (result is Resource.Success) {
+                            _uiState.update {
                                     it.copy(registrationMessage = Constants.REGISTRATION_SUCCESS)
                                     it.copy(isUserRegistered = true)
                                 }
@@ -143,7 +141,8 @@ class RegistrationViewModel @Inject constructor(
             email = _uiState.value.email,
             cargo = _uiState.value.cargo,
             password = _uiState.value.password,
-            passwordConfirmation = _uiState.value.passwordConfirmation
+            passwordConfirmation = _uiState.value.passwordConfirmation,
+            dateCreated = Calendar.getInstance().timeInMillis
         )
 }
 

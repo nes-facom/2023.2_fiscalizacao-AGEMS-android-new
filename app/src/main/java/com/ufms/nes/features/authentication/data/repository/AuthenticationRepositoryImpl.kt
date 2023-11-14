@@ -23,8 +23,10 @@ class AuthenticationRepositoryImpl @Inject constructor(
 
             Resource.Success(data = result)
         } catch (ex: ClientRequestException) {
+
             Resource.Error(data = null, error = ex.response.getHttpExceptionMessage())
         } catch (ex: Throwable) {
+
             Resource.Error(data = null, error = ERROR_MESSAGE)
         }
     }

@@ -1,10 +1,8 @@
 package com.ufms.nes.features.authentication.data.model
 
-import com.ufms.nes.core.commons.LocalDateSerializer
 import com.ufms.nes.features.authentication.data.enums.UserType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.time.LocalDate
 
 @Serializable
 data class User(
@@ -18,8 +16,7 @@ data class User(
 
     @SerialName("senhaConfirmacao") private val passwordConfirmation: String? = null,
 
-    @Serializable(with = LocalDateSerializer::class)
-    @SerialName("dataCriacao") private val dateCreated: LocalDate? = null,
+    @SerialName("data_criacao") private val dateCreated: Long? = null,
 
     @SerialName("cargo") private val cargo: String? = null,
 
