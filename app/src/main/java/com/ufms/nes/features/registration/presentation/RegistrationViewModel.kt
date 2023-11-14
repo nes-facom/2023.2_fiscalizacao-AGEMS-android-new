@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ufms.nes.core.commons.Constants
 import com.ufms.nes.core.commons.Resource
 import com.ufms.nes.core.commons.Validators
-import com.ufms.nes.features.authentication.data.model.User
+import com.ufms.nes.features.authentication.data.model.UserDTO
 import com.ufms.nes.features.authentication.data.repository.AuthenticationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -136,7 +136,7 @@ class RegistrationViewModel @Inject constructor(
     }
 
     private fun createUser() =
-        User(
+        UserDTO(
             name = _uiState.value.nome,
             email = _uiState.value.email,
             cargo = _uiState.value.cargo,

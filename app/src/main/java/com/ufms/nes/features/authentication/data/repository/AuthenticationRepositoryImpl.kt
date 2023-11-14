@@ -2,20 +2,20 @@ package com.ufms.nes.features.authentication.data.repository
 
 import com.ufms.nes.core.commons.Constants.ERROR_MESSAGE
 import com.ufms.nes.core.commons.Resource
+import com.ufms.nes.core.data.network.ApiService
 import com.ufms.nes.core.utils.getHttpExceptionMessage
-import com.ufms.nes.features.authentication.data.datastore.DataStorePreferences
-import com.ufms.nes.features.authentication.data.model.User
+import com.ufms.nes.features.authentication.data.datastore.LocalService
+import com.ufms.nes.features.authentication.data.model.UserDTO
 import com.ufms.nes.features.authentication.data.model.UserResponse
-import com.ufms.nes.features.authentication.data.service.ApiService
 import io.ktor.client.plugins.ClientRequestException
 import javax.inject.Inject
 
 class AuthenticationRepositoryImpl @Inject constructor(
     private val service: ApiService,
-    private val dataStore: DataStorePreferences
+    private val dataStore: LocalService
 ) : AuthenticationRepository {
 
-    override suspend fun registerUser(user: User): Resource<UserResponse> {
+    override suspend fun registerUser(user: UserDTO): Resource<UserResponse> {
         return try {
             val result = service.registerUser(user)
 
@@ -31,7 +31,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun loginUser(user: User): Resource<UserResponse> {
+    override suspend fun loginUser(user: UserDTO): Resource<UserResponse> {
         return try {
             val result = service.loginUser(user)
 
@@ -47,12 +47,24 @@ class AuthenticationRepositoryImpl @Inject constructor(
 
     private suspend fun saveInfoInCache(result: UserResponse) {
         result.accessToken?.let {
-            dataStore.saveStringValue(ACCESS_TOKEN_KEY, it)
+            dataStore.saveBearerToken(it)
         }
         result.refreshToken?.let {
-            dataStore.saveStringValue(REFRESH_TOKEN_KEY, it)
+            dataStore.saveRefreshToken(it)
         }
         dataStore.saveUserLogged(true)
+    }
+
+    override suspend fun refreshToken(): Resource<UserResponse> {
+        return try {
+            val result = service.refreshToken()
+
+            saveInfoInCache(result)
+
+            Resource.Success(data = result)
+        } catch (ex: Throwable) {
+            Resource.Error(data = null, error = ERROR_MESSAGE)
+        }
     }
 
     companion object {
