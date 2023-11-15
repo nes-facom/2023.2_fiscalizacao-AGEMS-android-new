@@ -1,4 +1,4 @@
-package com.ufms.nes.core.database.model
+package com.ufms.nes.data.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -8,9 +8,9 @@ import com.ufms.nes.core.commons.verifyResponse
 import com.ufms.nes.data.network.model.request.AddModelDTO
 import com.ufms.nes.data.network.model.request.QuestionDTO
 import com.ufms.nes.data.network.model.request.ResponseTypeDTO
-import com.ufms.nes.core.database.model.AnswerAlternativeEntity
-import com.ufms.nes.core.database.model.ConsumeUnitEntity
-import com.ufms.nes.core.database.model.ModelWithQuestionsDataObject
+import com.ufms.nes.data.local.model.AnswerAlternativeEntity
+import com.ufms.nes.data.local.model.ConsumeUnitEntity
+import com.ufms.nes.data.local.model.ModelWithQuestionsDataObject
 import com.ufms.nes.domain.model.ConsumeUnit
 import com.ufms.nes.domain.model.Model
 import com.ufms.nes.domain.repository.ModelLocalRepository

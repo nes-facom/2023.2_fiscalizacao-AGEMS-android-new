@@ -1,9 +1,9 @@
-package com.ufms.nes.data.repository
+package com.ufms.nes.data.local.repository
 
 import com.ufms.nes.domain.enums.SyncState
 import com.ufms.nes.core.commons.mappers.Mappers.toConsumeUnitDomain
 import com.ufms.nes.core.database.dao.ConsumeUnitDao
-import com.ufms.nes.core.database.model.ConsumeUnitEntity
+import com.ufms.nes.data.local.model.ConsumeUnitEntity
 import com.ufms.nes.domain.model.ConsumeUnit
 import com.ufms.nes.domain.repository.ConsumeUnitRepository
 import kotlinx.coroutines.flow.Flow

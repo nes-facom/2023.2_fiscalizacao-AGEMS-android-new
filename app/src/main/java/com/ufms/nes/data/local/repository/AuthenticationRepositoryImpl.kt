@@ -1,11 +1,11 @@
-package com.ufms.nes.data.repository
+package com.ufms.nes.data.local.repository
 
 import com.ufms.nes.core.commons.Constants.ERROR_MESSAGE
 import com.ufms.nes.core.commons.Resource
 import com.ufms.nes.domain.LocalService
 import com.ufms.nes.data.network.model.UserDTO
 import com.ufms.nes.data.network.model.response.UserResponse
-import com.ufms.nes.core.data.network.ApiService
+import com.ufms.nes.core.network.ApiService
 import com.ufms.nes.domain.repository.AuthenticationRepository
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.statement.bodyAsText

@@ -1,8 +1,7 @@
-package com.ufms.nes.core.data.di
+package com.ufms.nes.data.cache
 
 import android.content.Context
 import com.ufms.nes.domain.LocalService
-import com.ufms.nes.data.cache.LocalServiceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,7 +11,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object LocalModule {
+object CacheModule {
 
     @Singleton
     @Provides

@@ -1,12 +1,12 @@
-package com.ufms.nes.data.di
+package com.ufms.nes.data.local
 
-import com.ufms.nes.data.repository.AuthenticationRepositoryImpl
-import com.ufms.nes.data.repository.ConsumeUnitRepositoryImpl
-import com.ufms.nes.data.repository.ModelLocalRepositoryImpl
+import com.ufms.nes.data.local.repository.AuthenticationRepositoryImpl
+import com.ufms.nes.data.local.repository.ConsumeUnitRepositoryImpl
+import com.ufms.nes.data.local.repository.ModelLocalRepositoryImpl
 import com.ufms.nes.domain.repository.ModelLocalRepository
 import com.ufms.nes.domain.repository.NetworkRepository
-import com.ufms.nes.data.repository.NetworkRepositoryImpl
-import com.ufms.nes.data.repository.UserDataRepositoryImpl
+import com.ufms.nes.data.network.repository.NetworkRepositoryImpl
+import com.ufms.nes.data.local.repository.UserDataRepositoryImpl
 import com.ufms.nes.domain.repository.AuthenticationRepository
 import com.ufms.nes.domain.repository.ConsumeUnitRepository
 import com.ufms.nes.domain.repository.UserDataRepository

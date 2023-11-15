@@ -1,7 +1,7 @@
-package com.ufms.nes.data.repository
+package com.ufms.nes.data.network.repository
 
 import com.ufms.nes.core.commons.APIResult
-import com.ufms.nes.core.data.network.ApiService
+import com.ufms.nes.core.network.ApiService
 import com.ufms.nes.data.network.model.request.AddConsumeUnitDTO
 import com.ufms.nes.data.network.model.request.AddModelDTO
 import com.ufms.nes.data.network.model.response.AddModelResponseDTO

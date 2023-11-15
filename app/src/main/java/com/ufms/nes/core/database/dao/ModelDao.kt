@@ -7,11 +7,11 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import com.ufms.nes.domain.enums.SyncState
-import com.ufms.nes.core.database.model.AnswerAlternativeEntity
-import com.ufms.nes.core.database.model.ModelEntity
-import com.ufms.nes.core.database.model.ModelWithQuestionsDataObject
-import com.ufms.nes.core.database.model.QuestionEntity
-import com.ufms.nes.core.database.model.QuestionModelEntity
+import com.ufms.nes.data.local.model.AnswerAlternativeEntity
+import com.ufms.nes.data.local.model.ModelEntity
+import com.ufms.nes.data.local.model.ModelWithQuestionsDataObject
+import com.ufms.nes.data.local.model.QuestionEntity
+import com.ufms.nes.data.local.model.QuestionModelEntity
 import com.ufms.nes.domain.model.AnswerAlternative
 import com.ufms.nes.domain.model.Model
 import com.ufms.nes.domain.model.Question

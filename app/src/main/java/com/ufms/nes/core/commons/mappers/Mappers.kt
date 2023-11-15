@@ -5,8 +5,8 @@ import com.ufms.nes.data.network.model.response.AddModelResponseDTO
 import com.ufms.nes.data.network.model.response.AnswerAlternativeResponseDTO
 import com.ufms.nes.data.network.model.response.ConsumeUnitItemResponseDTO
 import com.ufms.nes.data.network.model.response.QuestionResponseDTO
-import com.ufms.nes.core.database.model.ConsumeUnitEntity
-import com.ufms.nes.core.database.model.ModelEntity
+import com.ufms.nes.data.local.model.ConsumeUnitEntity
+import com.ufms.nes.data.local.model.ModelEntity
 import com.ufms.nes.domain.model.AnswerAlternative
 import com.ufms.nes.domain.model.ConsumeUnit
 import com.ufms.nes.domain.model.Model

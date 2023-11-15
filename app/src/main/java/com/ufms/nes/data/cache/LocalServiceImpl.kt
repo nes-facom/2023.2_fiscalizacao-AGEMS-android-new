@@ -9,8 +9,8 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.ufms.nes.BuildConfig
-import com.ufms.nes.data.repository.AuthenticationRepositoryImpl.Companion.ACCESS_TOKEN_KEY
-import com.ufms.nes.data.repository.AuthenticationRepositoryImpl.Companion.REFRESH_TOKEN_KEY
+import com.ufms.nes.data.local.repository.AuthenticationRepositoryImpl.Companion.ACCESS_TOKEN_KEY
+import com.ufms.nes.data.local.repository.AuthenticationRepositoryImpl.Companion.REFRESH_TOKEN_KEY
 import com.ufms.nes.domain.LocalService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

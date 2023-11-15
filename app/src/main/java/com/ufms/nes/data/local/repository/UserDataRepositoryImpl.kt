@@ -1,4 +1,4 @@
-package com.ufms.nes.data.repository
+package com.ufms.nes.data.local.repository
 
 import com.ufms.nes.domain.repository.UserDataRepository
 import com.ufms.nes.domain.LocalService

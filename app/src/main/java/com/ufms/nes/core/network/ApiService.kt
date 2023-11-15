@@ -1,4 +1,4 @@
-package com.ufms.nes.core.data.network
+package com.ufms.nes.core.network
 
 import com.ufms.nes.BuildConfig
 import com.ufms.nes.data.network.model.request.AddConsumeUnitDTO
