@@ -1,12 +1,14 @@
 package com.ufms.nes.features.template.data.repository
 
+import com.ufms.nes.core.commons.APIResult
 import com.ufms.nes.core.data.network.ApiService
+import com.ufms.nes.core.data.network.model.request.AddConsumeUnitDTO
 import com.ufms.nes.core.data.network.model.request.AddModelDTO
 import com.ufms.nes.core.data.network.model.response.AddModelResponseDTO
+import com.ufms.nes.core.data.network.model.response.ConsumeUnitItemResponseDTO
 import com.ufms.nes.core.data.network.model.response.ModelResponseDTO
-import com.ufms.nes.domain.repository.NetworkRepository
-import com.ufms.nes.core.commons.APIResult
 import com.ufms.nes.core.data.network.model.response.ModelsResponseDTO
+import com.ufms.nes.domain.repository.NetworkRepository
 import java.util.UUID
 import javax.inject.Inject
 
@@ -49,6 +51,26 @@ class NetworkRepositoryImpl @Inject constructor(
             val models = service.getModelsObjects()
 
             APIResult.Success(models)
+        } catch (e: Exception) {
+            APIResult.Error(null)
+        }
+    }
+
+    override suspend fun getConsumeUnits(): APIResult<List<ConsumeUnitItemResponseDTO>> {
+        return try {
+            val models = service.getConsumeUnits()
+
+            APIResult.Success(models)
+        } catch (e: Exception) {
+            APIResult.Error(null)
+        }
+    }
+
+    override suspend fun saveConsumeUnit(unit: AddConsumeUnitDTO): APIResult<ConsumeUnitItemResponseDTO> {
+        return try {
+            val result = service.registerConsumeUnit(unit)
+
+            APIResult.Success(result)
         } catch (e: Exception) {
             APIResult.Error(null)
         }
