@@ -30,4 +30,7 @@
     <string name="confirm_exit">Tem certeza de que deseja sair?</string>
     <string name="load_failed">Falha ao carregar mais items</string>
     <string name="no_items_found">Nenhum item encontrado</string>
+    <string name="user">Usuário: %1$s</string>
+    <string name="unit">Unidade: %1$s</string>
+    <string name="creation_date">Data de Criação: %1$s</string>
 </resources>

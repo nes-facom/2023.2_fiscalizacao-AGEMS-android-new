@@ -46,8 +46,7 @@ fun LoadingNextPageItem(modifier: Modifier) {
 @Composable
 fun ErrorMessage(
     message: String,
-    modifier: Modifier = Modifier,
-    onClickRetry: () -> Unit
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier.padding(10.dp),

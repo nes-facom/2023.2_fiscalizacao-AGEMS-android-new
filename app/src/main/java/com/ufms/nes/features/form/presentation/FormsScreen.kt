@@ -1,13 +1,9 @@
 package com.ufms.nes.features.form.presentation
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,11 +22,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
@@ -43,7 +35,6 @@ import com.ufms.nes.features.form.util.ErrorMessage
 import com.ufms.nes.features.form.util.LoadingNextPageItem
 import com.ufms.nes.features.form.util.PageLoader
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FormsScreen(
     viewModel: FormViewModel = hiltViewModel()
@@ -96,51 +87,8 @@ fun FormsScreen(
     ) {
 
         LazyColumn(
-            modifier = Modifier.padding(it)
+            modifier = Modifier.padding(it).padding(horizontal = 16.dp)
         ) {
-            stickyHeader(
-                key = "header"
-            ) {
-                Row (
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .defaultMinSize(minHeight = 48.dp)
-                        .background(color = Color.LightGray)
-                        .padding(horizontal = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = "USUÁRIO",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.fillMaxWidth(0.3f),
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    Text(
-                        text = "UNIDADE",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.fillMaxWidth(0.4f),
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    Text(
-                        text = "DATA DE CRIAÇÃO",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.fillMaxWidth(0.8f),
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
-                Divider(
-                    modifier = Modifier.fillMaxSize(),
-                    thickness = 1.dp,
-                    color = Color.DarkGray
-                )
-            }
             item { Spacer(modifier = Modifier.padding(4.dp)) }
             if (formPagingItems.itemCount == 0) {
                 item {
@@ -172,8 +120,8 @@ fun FormsScreen(
                         item {
                             ErrorMessage(
                                 modifier = Modifier.fillParentMaxSize(),
-                                message = R.string.load_failed.toString(),
-                                onClickRetry = { retry() })
+                                message = R.string.load_failed.toString()
+                            )
                         }
                     }
 
