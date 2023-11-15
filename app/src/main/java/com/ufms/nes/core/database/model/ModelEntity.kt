@@ -1,22 +1,14 @@
 package com.ufms.nes.core.database.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ufms.nes.core.model.Model
+import com.ufms.nes.core.commons.enums.SyncState
+import java.util.UUID
 
-@Entity(tableName = "models")
+@Entity(tableName = "model")
 data class ModelEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
-    val name: String
-) {
-    fun toModel(): Model = Model(
-        id = id,
-        name = name,
-    )
-}
-
-fun List<ModelEntity>.toModel() : List<Model> =
-    this.map {
-        it.toModel()
-    }
+    @PrimaryKey @ColumnInfo(name = "model_id") var modelId: UUID,
+    @ColumnInfo(name = "name") var name: String = "",
+    @ColumnInfo(name = "sync_state") var syncState: SyncState
+)

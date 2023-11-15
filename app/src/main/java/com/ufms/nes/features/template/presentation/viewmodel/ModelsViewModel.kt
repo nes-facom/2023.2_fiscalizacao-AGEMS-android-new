@@ -1,9 +1,9 @@
-package com.ufms.nes.features.models.presentation
+package com.ufms.nes.features.template.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ufms.nes.core.model.Model
-import com.ufms.nes.features.models.data.repository.ModelRepository
+import com.ufms.nes.domain.model.Model
+import com.ufms.nes.domain.repository.ModelLocalRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -22,7 +22,7 @@ data class ModelUiState(
 
 @HiltViewModel
 class ModelsViewModel @Inject constructor(
-    private val modelRepository: ModelRepository
+    private val modelLocalRepository: ModelLocalRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ModelUiState())
@@ -42,22 +42,15 @@ class ModelsViewModel @Inject constructor(
             it.copy(isLoading = true)
         }
         viewModelScope.launch {
-            modelRepository.getModels()
+            modelLocalRepository.getModelsList()
                 .catch {
                     _uiState.update {
                         it.copy(isError = true, isLoading = false)
                     }
                 }
-                .collect {
-                    it.data?.let { models ->
-                        _uiState.update {
-                            it.copy(models = models, isLoading = false)
-                        }
-                    }
-                    it.error?.let { error ->
-                        _uiState.update {
-                            it.copy(isError = true, isLoading = false)
-                        }
+                .collect { models ->
+                    _uiState.update {
+                        it.copy(models = models, isLoading = false)
                     }
                 }
         }

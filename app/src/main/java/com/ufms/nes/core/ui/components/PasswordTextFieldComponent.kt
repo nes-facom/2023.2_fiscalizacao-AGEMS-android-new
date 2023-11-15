@@ -22,6 +22,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.ufms.nes.R
+import com.ufms.nes.core.commons.Constants.EMPTY
 
 @Composable
 fun PasswordTextFieldComponent(
@@ -33,7 +34,7 @@ fun PasswordTextFieldComponent(
 
     val localFocusManager = LocalFocusManager.current
     val password = remember {
-        mutableStateOf("")
+        mutableStateOf(EMPTY)
     }
 
     val passwordVisible = remember {
@@ -59,7 +60,7 @@ fun PasswordTextFieldComponent(
             onTextSelected(it)
         },
         leadingIcon = {
-            Icon(imageVector = leadingIcon, contentDescription = "")
+            Icon(imageVector = leadingIcon, contentDescription = EMPTY)
         },
         trailingIcon = {
 

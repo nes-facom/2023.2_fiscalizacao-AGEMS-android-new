@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
@@ -21,6 +23,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -51,6 +54,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val userLogged = verifyUserLogged(uiState)
+            val windowSize = calculateWindowSizeClass(this)
 
             DisposableEffect(userLogged) {
                 onDispose { }
@@ -60,6 +64,7 @@ class MainActivity : ComponentActivity() {
                 AgemsApplicationTheme {
                     AgemsApp(
                         userLogged = userLogged,
+                        windowSize = windowSize,
                         deleteUserPreferences = {
                             viewModel.deleteUserPreferences()
                         }
