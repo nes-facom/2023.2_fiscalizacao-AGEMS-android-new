@@ -1,8 +1,8 @@
 package com.ufms.nes.core.data.di
 
 import android.content.Context
-import com.ufms.nes.features.authentication.data.datastore.LocalService
-import com.ufms.nes.features.authentication.data.datastore.LocalServiceImpl
+import com.ufms.nes.domain.LocalService
+import com.ufms.nes.data.cache.LocalServiceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

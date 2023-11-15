@@ -1,15 +1,15 @@
 package com.ufms.nes.core.data.network
 
 import com.ufms.nes.BuildConfig
-import com.ufms.nes.core.data.network.model.request.AddConsumeUnitDTO
-import com.ufms.nes.core.data.network.model.request.AddModelDTO
-import com.ufms.nes.core.data.network.model.response.AddModelResponseDTO
-import com.ufms.nes.core.data.network.model.response.ConsumeUnitItemResponseDTO
-import com.ufms.nes.core.data.network.model.response.ModelResponseDTO
-import com.ufms.nes.core.data.network.model.response.ModelsResponseDTO
-import com.ufms.nes.features.authentication.data.datastore.LocalService
-import com.ufms.nes.features.authentication.data.model.UserDTO
-import com.ufms.nes.features.authentication.data.model.UserResponse
+import com.ufms.nes.data.network.model.request.AddConsumeUnitDTO
+import com.ufms.nes.data.network.model.request.AddModelDTO
+import com.ufms.nes.data.network.model.response.AddModelResponseDTO
+import com.ufms.nes.data.network.model.response.ConsumeUnitItemResponseDTO
+import com.ufms.nes.data.network.model.response.ModelResponseDTO
+import com.ufms.nes.data.network.model.response.ModelsResponseDTO
+import com.ufms.nes.domain.LocalService
+import com.ufms.nes.data.network.model.UserDTO
+import com.ufms.nes.data.network.model.response.UserResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get

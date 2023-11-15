@@ -1,6 +1,6 @@
 package com.ufms.nes.domain.repository
 
-import com.ufms.nes.core.commons.enums.SyncState
+import com.ufms.nes.domain.enums.SyncState
 import com.ufms.nes.core.database.model.AnswerAlternativeEntity
 import com.ufms.nes.core.database.model.ModelEntity
 import com.ufms.nes.core.database.model.ModelWithQuestionsDataObject

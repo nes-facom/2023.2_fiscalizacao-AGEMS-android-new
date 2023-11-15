@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.ufms.nes.core.commons.enums.SyncState
+import com.ufms.nes.domain.enums.SyncState
 import com.ufms.nes.core.database.model.AnswerAlternativeEntity
 import com.ufms.nes.core.database.model.ModelEntity
 import com.ufms.nes.core.database.model.ModelWithQuestionsDataObject

@@ -3,7 +3,7 @@ package com.ufms.nes.core.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ufms.nes.core.commons.enums.SyncState
+import com.ufms.nes.domain.enums.SyncState
 import java.util.UUID
 
 @Entity(tableName = "consume_unit")

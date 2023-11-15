@@ -1,12 +1,12 @@
 package com.ufms.nes.domain.repository
 
 import com.ufms.nes.core.commons.APIResult
-import com.ufms.nes.core.data.network.model.request.AddConsumeUnitDTO
-import com.ufms.nes.core.data.network.model.request.AddModelDTO
-import com.ufms.nes.core.data.network.model.response.AddModelResponseDTO
-import com.ufms.nes.core.data.network.model.response.ConsumeUnitItemResponseDTO
-import com.ufms.nes.core.data.network.model.response.ModelResponseDTO
-import com.ufms.nes.core.data.network.model.response.ModelsResponseDTO
+import com.ufms.nes.data.network.model.request.AddConsumeUnitDTO
+import com.ufms.nes.data.network.model.request.AddModelDTO
+import com.ufms.nes.data.network.model.response.AddModelResponseDTO
+import com.ufms.nes.data.network.model.response.ConsumeUnitItemResponseDTO
+import com.ufms.nes.data.network.model.response.ModelResponseDTO
+import com.ufms.nes.data.network.model.response.ModelsResponseDTO
 import java.util.UUID
 
 interface NetworkRepository {

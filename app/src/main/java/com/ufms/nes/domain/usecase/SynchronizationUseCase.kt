@@ -1,13 +1,13 @@
 package com.ufms.nes.domain.usecase
 
-import com.ufms.nes.core.commons.enums.SyncState
+import com.ufms.nes.domain.enums.SyncState
 import com.ufms.nes.core.commons.mappers.Mappers.toConsumeUnit
 import com.ufms.nes.core.commons.mappers.Mappers.toConsumeUnitDTO
 import com.ufms.nes.core.commons.mappers.Mappers.toModelDomain
 import com.ufms.nes.core.commons.verifyResponse
-import com.ufms.nes.core.data.network.model.request.AddModelDTO
-import com.ufms.nes.core.data.network.model.request.QuestionDTO
-import com.ufms.nes.core.data.network.model.request.ResponseTypeDTO
+import com.ufms.nes.data.network.model.request.AddModelDTO
+import com.ufms.nes.data.network.model.request.QuestionDTO
+import com.ufms.nes.data.network.model.request.ResponseTypeDTO
 import com.ufms.nes.core.database.model.AnswerAlternativeEntity
 import com.ufms.nes.core.database.model.ConsumeUnitEntity
 import com.ufms.nes.core.database.model.ModelWithQuestionsDataObject
@@ -15,7 +15,7 @@ import com.ufms.nes.domain.model.ConsumeUnit
 import com.ufms.nes.domain.model.Model
 import com.ufms.nes.domain.repository.ModelLocalRepository
 import com.ufms.nes.domain.repository.NetworkRepository
-import com.ufms.nes.features.consumeunit.data.ConsumeUnitRepository
+import com.ufms.nes.domain.repository.ConsumeUnitRepository
 import javax.inject.Inject
 
 class SynchronizationUseCase @Inject constructor(
