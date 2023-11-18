@@ -10,13 +10,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.ufms.nes.domain.model.ConsumeUnit
 import com.ufms.nes.domain.model.Model
-import com.ufms.nes.features.consumeunit.presentation.AddConsumeUnitScreen
-import com.ufms.nes.features.consumeunit.presentation.ConsumeUnitScreen
-import com.ufms.nes.features.form.FormsScreen
+import com.ufms.nes.features.consumeunit.AddConsumeUnitScreen
+import com.ufms.nes.features.consumeunit.ConsumeUnitScreen
+import com.ufms.nes.features.form.screen.FormsScreen
 import com.ufms.nes.features.home.HomeScreen
 import com.ufms.nes.features.synchronization.SynchronizationScreen
-import com.ufms.nes.features.template.presentation.ui.ModelDetailsScreen
-import com.ufms.nes.features.template.presentation.ui.ModelsScreen
+import com.ufms.nes.features.template.screen.ModelDetailsScreen
+import com.ufms.nes.features.template.screen.ModelsScreen
 
 fun NavController.navigateToModels(navOptions: NavOptions? = null) {
     this.navigate(modelNavigationRoute, navOptions)
@@ -32,6 +32,14 @@ fun NavController.navigateToConsumeUnit(navOptions: NavOptions? = null) {
 
 fun NavController.navigateToForms(navOptions: NavOptions? = null) {
     this.navigate(formNavigationRoute, navOptions)
+}
+
+fun NavController.navigateToSelectModel(navOptions: NavOptions? = null) {
+    this.navigate(SELECT_MODEL_ROUTE, navOptions)
+}
+
+fun NavController.navigateToCreateModel(navOptions: NavOptions? = null) {
+    this.navigate(CREATE_FORM_ROUTE, navOptions)
 }
 
 fun NavController.navigateToAddEditQuestion(navOptions: NavOptions? = null) {
@@ -108,9 +116,10 @@ fun NavGraphBuilder.modelsScreen(
 
 fun NavGraphBuilder.formsScreen(
     drawerState: DrawerState,
+    onFloatingButtonClick: () -> Unit,
 ) {
     composable(route = formNavigationRoute) {
-        FormsScreen(drawerState = drawerState)
+        FormsScreen(drawerState = drawerState, onFloatingButtonClick = onFloatingButtonClick)
     }
 }
 
@@ -149,6 +158,8 @@ const val synchronizationRoute = "synchronization_screen"
 const val consumeUnitRoute = "consume_unit_screen"
 const val addConsumeUnitRoute = "add_consume_unit_screen"
 const val formNavigationRoute = "forms_screen"
+const val SELECT_MODEL_ROUTE = "select_model_screen"
+const val CREATE_FORM_ROUTE = "create_form_screen"
 const val ADD_EDIT_MODEL_NAVIGATION_ROUTE = "add_edit_model_screen"
 const val ADD_EDIT_QUESTION_NAVIGATION_ROUTE = "add_edit_question_screen"
 const val MODEL_DETAIL_NAVIGATION_ROUTE = "model_detail_screen"

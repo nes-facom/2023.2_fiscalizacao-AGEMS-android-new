@@ -45,4 +45,11 @@
     <string name="register_unit">Cadastrar Unidade</string>
     <string name="entered_address">Endereço da unidade:</string>
     <string name="entered_type">Tipo da unidade:</string>
+    <string name="select_model">Selecionar modelo</string>
+    <string name="fill_out_form">Preencher formulário</string>
+    <string name="address">Endereço</string>
+    <string name="unit">Unidade</string>
+    <string name="observation">Observações</string>
+    <string name="add_unit_question">Adicione ao menos uma questão!</string>
+    <string name="select_alternative">Selecione a resposta</string>
 </resources>

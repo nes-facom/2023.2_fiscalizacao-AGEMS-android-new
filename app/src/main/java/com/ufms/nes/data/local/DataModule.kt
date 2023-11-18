@@ -2,6 +2,7 @@ package com.ufms.nes.data.local
 
 import com.ufms.nes.data.local.repository.AuthenticationRepositoryImpl
 import com.ufms.nes.data.local.repository.ConsumeUnitRepositoryImpl
+import com.ufms.nes.data.local.repository.FormRepositoryImpl
 import com.ufms.nes.data.local.repository.ModelLocalRepositoryImpl
 import com.ufms.nes.domain.repository.ModelLocalRepository
 import com.ufms.nes.domain.repository.NetworkRepository
@@ -9,6 +10,7 @@ import com.ufms.nes.data.network.repository.NetworkRepositoryImpl
 import com.ufms.nes.data.local.repository.UserDataRepositoryImpl
 import com.ufms.nes.domain.repository.AuthenticationRepository
 import com.ufms.nes.domain.repository.ConsumeUnitRepository
+import com.ufms.nes.domain.repository.FormRepository
 import com.ufms.nes.domain.repository.UserDataRepository
 import dagger.Binds
 import dagger.Module
@@ -43,6 +45,12 @@ interface DataModule {
     fun bindsAuthenticationRepository(
         authenticationRepository: AuthenticationRepositoryImpl
     ): AuthenticationRepository
+
+    @Singleton
+    @Binds
+    fun bindsFormRepository(
+        formRepository: FormRepositoryImpl
+    ): FormRepository
 
     @Singleton
     @Binds

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.ufms.nes.core.database.AgemsDatabase
 import com.ufms.nes.core.database.dao.ConsumeUnitDao
+import com.ufms.nes.core.database.dao.FormDao
 import com.ufms.nes.core.database.dao.ModelDao
 import dagger.Module
 import dagger.Provides
@@ -24,6 +25,11 @@ class DatabaseModule {
     @Provides
     fun provideConsumeUnitDao(agemsDatabase: AgemsDatabase): ConsumeUnitDao {
         return agemsDatabase.consumeUnitDao()
+    }
+
+    @Provides
+    fun provideFormDao(agemsDatabase: AgemsDatabase): FormDao {
+        return agemsDatabase.formDao()
     }
 
     @Provides
