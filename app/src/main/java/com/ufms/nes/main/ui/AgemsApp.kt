@@ -43,7 +43,9 @@ import com.ufms.nes.R
 import com.ufms.nes.core.ui.ContainerColor
 import com.ufms.nes.core.ui.model.drawerOptions
 import com.ufms.nes.features.authentication.presentation.loginNavigationRoute
+import com.ufms.nes.features.registration.presentation.REGISTRATION_NAVIGATION_ROUTE
 import com.ufms.nes.features.authentication.presentation.loginScreen
+import com.ufms.nes.features.registration.presentation.registrationScreen
 import com.ufms.nes.features.template.presentation.ui.AddEditModelScreen
 import com.ufms.nes.features.template.presentation.ui.AddQuestionScreen
 import com.ufms.nes.features.template.presentation.viewmodel.AddModelViewModel
@@ -101,6 +103,14 @@ fun AgemsApp(
             confirmButtonRes = R.string.confirm,
             dismissButtonRes = R.string.cancel
         )
+    }
+
+    fun navigateHome() {
+        appState.navController.navigate(NavRoutes.MainRoute.name) {
+            popUpTo(NavRoutes.AuthenticationRoute.name) {
+                inclusive = true
+            }
+        }
     }
 
     Surface {
@@ -196,13 +206,22 @@ fun AgemsApp(
                         startDestination = loginNavigationRoute,
                         route = NavRoutes.AuthenticationRoute.name
                     ) {
-                        loginScreen(onLoginSuccess = {
-                            appState.navController.navigate(NavRoutes.MainRoute.name) {
-                                popUpTo(NavRoutes.AuthenticationRoute.name) {
-                                    inclusive = true
-                                }
+                        loginScreen(
+                            onLoginSuccess = {
+                                navigateHome()
+                            },
+                            onRegistrationButtonClick = {
+                                appState.navController.navigate(REGISTRATION_NAVIGATION_ROUTE)
                             }
-                        })
+                        )
+                        registrationScreen(
+                            onRegistrationSuccess = {
+                                navigateHome()
+                            },
+                            onReturnToLoginClick = {
+                                appState.navController.navigate(loginNavigationRoute)
+                            }
+                        )
                     }
                     navigation(
                         startDestination = homeNavigationRoute,

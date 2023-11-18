@@ -46,6 +46,7 @@ import com.ufms.nes.core.ui.components.PasswordTextFieldComponent
 fun LoginScreen(
     modifier: Modifier = Modifier,
     onLoginSuccess: () -> Unit,
+    onRegistrationButtonClick: () -> Unit,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
@@ -59,6 +60,7 @@ fun LoginScreen(
         LoginContent(
             uiState = uiState,
             onEvent = loginViewModel::onEvent,
+            onRegistrationButtonClick = onRegistrationButtonClick,
             modifier = Modifier.padding(paddingValues)
         )
 
@@ -84,6 +86,7 @@ fun LoginScreen(
 fun LoginContent(
     uiState: LoginUiState,
     onEvent: (LoginEvent) -> Unit,
+    onRegistrationButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -156,7 +159,7 @@ fun LoginContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 8.dp),
-            onClick = { /*TODO() - Navegar para tela de cadastro */ },
+            onClick = { onRegistrationButtonClick() },
         ) {
             Text(text = stringResource(id = R.string.register))
         }

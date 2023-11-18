@@ -7,13 +7,38 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
+import com.ufms.nes.domain.model.Model
+import com.ufms.nes.features.authentication.presentation.loginNavigationRoute
+import com.ufms.nes.features.authentication.presentation.loginScreen
 import com.ufms.nes.features.form.FormsScreen
 import com.ufms.nes.features.home.HomeScreen
+import com.ufms.nes.features.registration.presentation.registrationScreen
 import com.ufms.nes.features.synchronization.SynchronizationScreen
-import com.ufms.nes.domain.model.Model
 import com.ufms.nes.features.template.presentation.ui.ModelDetailsScreen
 import com.ufms.nes.features.template.presentation.ui.ModelsScreen
+
+fun NavGraphBuilder.modelsScreen(
+    drawerState: DrawerState,
+    onBackClick: () -> Unit,
+    onShortcutClick: (route: String) -> Unit,
+    onRegistrationButtonClick: () -> Unit,
+    onReturnToLoginClick: () -> Unit,
+    onLoginSuccess: () -> Unit,
+    onRegistrationSuccess: () -> Unit
+) {
+    navigation(
+        startDestination = loginNavigationRoute, route = NavRoutes.AuthenticationRoute.name
+    ) {
+        loginScreen(onLoginSuccess = onLoginSuccess, onRegistrationButtonClick = onRegistrationButtonClick)
+        registrationScreen(onRegistrationSuccess = onRegistrationSuccess, onReturnToLoginClick = onReturnToLoginClick)
+    }
+    navigation(startDestination = homeNavigationRoute, route = NavRoutes.MainRoute.name) {
+        homeScreen(drawerState = drawerState, onShortcutClick = onShortcutClick)
+        formsScreen(drawerState = drawerState)
+    }
+}
 
 fun NavController.navigateToModels(navOptions: NavOptions? = null) {
     this.navigate(modelNavigationRoute, navOptions)
