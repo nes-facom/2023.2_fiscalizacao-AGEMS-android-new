@@ -12,7 +12,6 @@ data class Form(
     val user: String,
 
     @SerialName("creationDate")
-//    @Serializable(with = LocalDateSerializer::class)
     val creationDate: Long,
 
     @SerialName("unit")

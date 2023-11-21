@@ -75,10 +75,7 @@ android {
 dependencies {
 
 implementation(libs.androidx.paging.common.ktx)
-    //    implementation(libs.androidx.navigation.safe.args.generator)
     val composeBom = platform(libs.androidx.compose.bom)
-
-//    val paging_version = "3.2.1"
 
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.compose)

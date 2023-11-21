@@ -1,5 +1,7 @@
 package com.ufms.nes.core.data.network
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.ufms.nes.BuildConfig
 import com.ufms.nes.core.data.network.model.request.AddModelDTO
 import com.ufms.nes.core.data.network.model.response.AddModelResponseDTO
@@ -8,8 +10,6 @@ import com.ufms.nes.core.data.network.model.response.ModelsResponseDTO
 import com.ufms.nes.features.authentication.data.datastore.LocalService
 import com.ufms.nes.features.authentication.data.model.UserDTO
 import com.ufms.nes.features.authentication.data.model.UserResponse
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.ufms.nes.features.form.data.model.FormResponseDto
 import com.ufms.nes.features.form.data.model.ResponseDto
 import io.ktor.client.HttpClient
@@ -21,9 +21,9 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
-import java.util.UUID
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.util.UUID
 import javax.inject.Inject
 
 class ApiService @Inject constructor(
@@ -91,27 +91,6 @@ class ApiService @Inject constructor(
         res.page = currentPage
         res.totalPages = body.paginaMax
         return res
-//        var res = ResponseDto<List<FormResponseDto>>()
-//        val items = (1..35).map {
-//            FormResponseDto(
-//                id = it,
-//                user = "User $it",
-//                model = "Model $it",
-//                creationDate = LocalDateTime.now(),
-//                unit = "Unit $it"
-//            )
-//        }.toList()
-//
-//        val chunkedItems = items.chunked<FormResponseDto>(pageSize)
-//
-//        if (currentPage >= chunkedItems.size) return res
-//
-//        res.results = chunkedItems[currentPage]
-//        res.page = currentPage
-//        res.totalPages = chunkedItems.size
-//        res.totalResults = items.size
-//
-//        return res
     }
 
     suspend fun getModelsObjects(): ModelsResponseDTO {
