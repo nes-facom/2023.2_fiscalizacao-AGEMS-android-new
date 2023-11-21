@@ -7,6 +7,6 @@ import java.util.UUID
 
 @Serializable
 data class ModelResponseDTO(
-    @SerialName("id") @Serializable(with = UUIDSerializer::class)val id: UUID,
+    @SerialName("uuid") @Serializable(with = UUIDSerializer::class)val id: UUID,
     @SerialName("nome") val name: String
 )

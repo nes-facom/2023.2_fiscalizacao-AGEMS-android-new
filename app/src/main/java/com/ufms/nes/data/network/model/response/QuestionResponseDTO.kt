@@ -7,7 +7,7 @@ import java.util.UUID
 
 @Serializable
 data class QuestionResponseDTO(
-    @SerialName("id") @Serializable(with = UUIDSerializer::class) var id: UUID,
+    @SerialName("uuid") @Serializable(with = UUIDSerializer::class) var id: UUID,
     @SerialName("pergunta") var question: String? = null,
     @SerialName("objetiva") var objective: Boolean? = null,
     @SerialName("portaria") var portaria: String? = null,

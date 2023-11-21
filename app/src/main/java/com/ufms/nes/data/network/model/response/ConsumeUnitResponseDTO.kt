@@ -7,7 +7,7 @@ import java.util.UUID
 
 @Serializable
 data class ConsumeUnitItemResponseDTO(
-    @SerialName("id") @Serializable(with = UUIDSerializer::class) var id: UUID,
+    @SerialName("uuid") @Serializable(with = UUIDSerializer::class) var id: UUID,
     @SerialName("nome") var name: String,
     @SerialName("endereco") var address: String,
     @SerialName("tipo") var type: String,
