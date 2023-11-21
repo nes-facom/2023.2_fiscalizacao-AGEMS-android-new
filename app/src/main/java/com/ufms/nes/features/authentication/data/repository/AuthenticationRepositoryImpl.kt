@@ -2,12 +2,12 @@ package com.ufms.nes.features.authentication.data.repository
 
 import com.ufms.nes.core.commons.Constants.ERROR_MESSAGE
 import com.ufms.nes.core.commons.Resource
+import com.ufms.nes.core.data.network.ApiService
+import com.ufms.nes.core.utils.getHttpExceptionMessage
 import com.ufms.nes.features.authentication.data.datastore.LocalService
 import com.ufms.nes.features.authentication.data.model.UserDTO
 import com.ufms.nes.features.authentication.data.model.UserResponse
-import com.ufms.nes.core.data.network.ApiService
 import io.ktor.client.plugins.ClientRequestException
-import io.ktor.client.statement.bodyAsText
 import javax.inject.Inject
 
 class AuthenticationRepositoryImpl @Inject constructor(
@@ -18,8 +18,15 @@ class AuthenticationRepositoryImpl @Inject constructor(
     override suspend fun registerUser(user: UserDTO): Resource<UserResponse> {
         return try {
             val result = service.registerUser(user)
+
+            saveInfoInCache(result)
+
             Resource.Success(data = result)
-        } catch (ex: Exception) {
+        } catch (ex: ClientRequestException) {
+
+            Resource.Error(data = null, error = ex.response.getHttpExceptionMessage())
+        } catch (ex: Throwable) {
+
             Resource.Error(data = null, error = ERROR_MESSAGE)
         }
     }
@@ -32,10 +39,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
 
             Resource.Success(data = result)
         } catch (ex: ClientRequestException) {
-            val exceptionMessage =
-                ex.response.bodyAsText().substringAfter("\"error\":\"").removeSuffix("\"}")
-
-            Resource.Error(data = null, error = exceptionMessage)
+            Resource.Error(data = null, error = ex.response.getHttpExceptionMessage())
         } catch (ex: Throwable) {
             Resource.Error(data = null, error = ERROR_MESSAGE)
         }
