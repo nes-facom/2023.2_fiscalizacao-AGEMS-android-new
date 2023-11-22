@@ -27,6 +27,7 @@ object Mappers {
     )
 
     fun ConsumeUnitEntity.toConsumeUnitDTO(): AddConsumeUnitDTO = AddConsumeUnitDTO(
+        idLocal = unitId,
         name = name,
         address = address,
         type = type

@@ -95,4 +95,8 @@ class ModelLocalRepositoryImpl @Inject constructor(
     override suspend fun updateQuestionForm(questionId: UUID, newQuestionId: UUID) {
         modelDao.updateQuestionForm(questionId, newQuestionId)
     }
+
+    override suspend fun updateUnitIdInForm(unitId: UUID, newUnitId: UUID) {
+        modelDao.updateUnitIdInForm(unitId, newUnitId)
+    }
 }

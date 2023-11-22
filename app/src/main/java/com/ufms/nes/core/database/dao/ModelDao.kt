@@ -164,4 +164,8 @@ interface ModelDao {
 
     @Query("UPDATE question_model SET sync_state = :syncState WHERE model_id = :modelId")
     fun updateQuestionModel(modelId: UUID, syncState: SyncState)
+
+    @Query("UPDATE form_entity SET unit_id = :newUnitId WHERE unit_id = :unitId")
+    fun updateUnitIdInForm(unitId: UUID, newUnitId: UUID)
+
 }

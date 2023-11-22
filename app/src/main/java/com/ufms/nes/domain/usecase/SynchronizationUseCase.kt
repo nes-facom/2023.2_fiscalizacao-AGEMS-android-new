@@ -86,9 +86,13 @@ class SynchronizationUseCase @Inject constructor(
 
         networkRepository.saveConsumeUnit(consumeUnitDTO).verifyResponse(
             onError = {},
-            onSuccess = {
+            onSuccess = { consumeUnitResponseDto ->
                 consumeUnit.syncState = SyncState.SYNCED
                 consumeUnitRepository.updateConsumeUnit(consumeUnit)
+
+                consumeUnitResponseDto.idLocal?.let { idLocal ->
+                    localRepository.updateUnitIdInForm(idLocal, consumeUnitResponseDto.id)
+                }
             }
         )
     }

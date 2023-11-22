@@ -31,5 +31,6 @@ interface ModelLocalRepository {
     suspend fun updateQuestionModel(modelId: UUID, syncState: SyncState)
 
     suspend fun updateQuestionForm(questionId: UUID, newQuestionId: UUID)
+    suspend fun updateUnitIdInForm(unitId: UUID, newUnitId: UUID)
 
 }
