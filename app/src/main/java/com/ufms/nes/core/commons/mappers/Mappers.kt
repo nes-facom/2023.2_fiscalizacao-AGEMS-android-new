@@ -58,6 +58,7 @@ object Mappers {
         return this.map { modelResponse ->
             Model(
                 id = modelResponse.id,
+                idLocal = modelResponse.idLocal,
                 name = modelResponse.name.orEmpty(),
                 questions = modelResponse.questions.toQuestion()
             )
@@ -68,6 +69,7 @@ object Mappers {
 
         return Question(
             id = this.id,
+            idLocal = this.idLocal,
             question = this.question,
             isObjective = this.objective,
             portaria = this.portaria,

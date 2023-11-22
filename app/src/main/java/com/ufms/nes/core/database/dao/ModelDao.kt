@@ -159,6 +159,9 @@ interface ModelDao {
     @Query("UPDATE answer_alternative SET sync_state = :syncState WHERE question_id = :questionId")
     fun updateAnswerAlternative(questionId: UUID, syncState: SyncState)
 
+    @Query("UPDATE question_form SET question_id = :newQuestionId WHERE question_id = :questionId")
+    fun updateQuestionForm(questionId: UUID, newQuestionId: UUID)
+
     @Query("UPDATE question_model SET sync_state = :syncState WHERE model_id = :modelId")
     fun updateQuestionModel(modelId: UUID, syncState: SyncState)
 }

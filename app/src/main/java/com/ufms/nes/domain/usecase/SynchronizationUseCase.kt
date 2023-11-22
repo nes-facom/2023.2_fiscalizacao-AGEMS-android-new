@@ -103,8 +103,19 @@ class SynchronizationUseCase @Inject constructor(
         networkRepository.saveModel(modelDTO)
             .verifyResponse(
                 onError = {},
-                onSuccess = {
+                onSuccess = { modelResponseDTO ->
                     setSyncedData(model)
+
+
+                    modelResponseDTO.questions.forEach { questionResponseDTO ->
+
+                        questionResponseDTO.idLocal?.let {
+                            localRepository.updateQuestionForm(
+                                it,
+                                questionResponseDTO.id
+                            )
+                        }
+                    }
                 }
             )
     }
@@ -142,6 +153,7 @@ class SynchronizationUseCase @Inject constructor(
             }
 
             QuestionDTO(
+                idLocal = pair.component1().questionId,
                 question = pair.component1().question,
                 objective = pair.component1().isObjective,
                 portaria = pair.component1().ordinance,
@@ -150,6 +162,7 @@ class SynchronizationUseCase @Inject constructor(
         }
 
         return AddModelDTO(
+            idLocal = this.modelEntity.modelId,
             name = this.modelEntity.name,
             questions = ArrayList(questions)
         )
@@ -167,3 +180,12 @@ class SynchronizationUseCase @Inject constructor(
         }
     }
 }
+
+/**
+ * Quando atualizar Modelo
+ * - Atualizar ID da Questao no QuestionFormEntity
+ * - Atualizar ID da Questao no ResponseEntity
+ *
+ * Quando atualizar unidade
+ * - Atualizar ID da Unidade no FormEntity
+ */

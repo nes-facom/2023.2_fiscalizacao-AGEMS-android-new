@@ -91,4 +91,8 @@ class ModelLocalRepositoryImpl @Inject constructor(
     override suspend fun updateAnswerAlternative(questionId: UUID, syncState: SyncState) {
         modelDao.updateAnswerAlternative(questionId, syncState)
     }
+
+    override suspend fun updateQuestionForm(questionId: UUID, newQuestionId: UUID) {
+        modelDao.updateQuestionForm(questionId, newQuestionId)
+    }
 }
