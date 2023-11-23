@@ -1,7 +1,12 @@
 package com.ufms.nes.features.authentication.data.repository
 
 import com.ufms.nes.core.commons.Constants.ERROR_MESSAGE
+import com.ufms.nes.core.commons.Resource
 import com.ufms.nes.core.data.network.ApiService
+import com.ufms.nes.features.Mocks.loginSuccessfulAuthToken
+import com.ufms.nes.features.Mocks.loginSuccessfulRefreshToken
+import com.ufms.nes.features.Mocks.registerSuccessfulAuthToken
+import com.ufms.nes.features.Mocks.registerSuccessfulRefreshToken
 import com.ufms.nes.features.authentication.data.datastore.LocalService
 import com.ufms.nes.features.authentication.data.model.UserDTO
 import com.ufms.nes.features.authentication.data.model.UserResponse
@@ -20,7 +25,6 @@ class AuthenticationRepositoryImplTest {
 
     @MockK
     private lateinit var apiService: ApiService
-    private var apiServiceK = mockk<ApiService>()
     private lateinit var authRepository: AuthenticationRepository
     private var localService: LocalService = mockk()
 
@@ -33,24 +37,54 @@ class AuthenticationRepositoryImplTest {
     }
 
     @Test
-    fun loginUser() = runBlocking {
-        coEvery { apiService.loginUser(userMock) } returns UserResponse("0912", "2190")
+    fun loginUser_eventUnSuccessful() = runBlocking {
+        coEvery { apiService.loginUser(userMock) } returns UserResponse(loginSuccessfulAuthToken, loginSuccessfulRefreshToken)
         coEvery { localService.saveBearerToken(any()) } just Runs
         coEvery { localService.saveRefreshToken(any()) } just Runs
         coEvery { localService.saveUserLogged(any()) } just Runs
 
         val result = authRepository.loginUser(userMock)
-        println("************************************* ${result}")
-        assertTrue(true)
-//        assertEquals("0912", result.data?.accessToken)
-//        assertEquals("2190", result.data?.refreshToken)
+
+        assertTrue(result.data is UserResponse)
+        assertEquals(loginSuccessfulAuthToken, result.data?.accessToken)
+        assertEquals(loginSuccessfulRefreshToken, result.data?.refreshToken)
     }
 
     @Test
     fun loginUser_throwException() = runBlocking {
         coEvery { apiService.loginUser(userMock) } throws Exception("this is a test")
+        coEvery { localService.saveBearerToken(any()) } just Runs
+        coEvery { localService.saveRefreshToken(any()) } just Runs
+        coEvery { localService.saveUserLogged(any()) } just Runs
 
         val result = authRepository.loginUser(userMock)
+
+        assertEquals(ERROR_MESSAGE, result.error)
+    }
+    @Test
+    fun registerUser_eventUnSuccessful() = runBlocking {
+        coEvery { apiService.registerUser(userMock) } returns UserResponse(registerSuccessfulAuthToken, registerSuccessfulRefreshToken)
+        coEvery { localService.saveBearerToken(any()) } just Runs
+        coEvery { localService.saveRefreshToken(any()) } just Runs
+        coEvery { localService.saveUserLogged(any()) } just Runs
+
+        val result = authRepository.registerUser(userMock)
+
+        assertTrue(result is Resource)
+        assertTrue(result.data is UserResponse)
+        assertTrue(result.data is UserResponse)
+        assertEquals(registerSuccessfulAuthToken, result.data?.accessToken)
+        assertEquals(registerSuccessfulRefreshToken, result.data?.refreshToken)
+    }
+
+    @Test
+    fun registerUser_throwException() = runBlocking {
+        coEvery { apiService.registerUser(userMock) } throws Exception("this is a test")
+        coEvery { localService.saveBearerToken(any()) } just Runs
+        coEvery { localService.saveRefreshToken(any()) } just Runs
+        coEvery { localService.saveUserLogged(any()) } just Runs
+
+        val result = authRepository.registerUser(userMock)
 
         assertEquals(ERROR_MESSAGE, result.error)
     }
