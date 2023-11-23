@@ -110,12 +110,11 @@ class SynchronizationUseCase @Inject constructor(
                 onSuccess = { modelResponseDTO ->
                     setSyncedData(model)
 
-
                     modelResponseDTO.questions.forEach { questionResponseDTO ->
 
-                        questionResponseDTO.idLocal?.let {
-                            localRepository.updateQuestionForm(
-                                it,
+                        questionResponseDTO.idLocal?.let { currentQuestionId ->
+                            localRepository.updateQuestionRelations(
+                                currentQuestionId,
                                 questionResponseDTO.id
                             )
                         }

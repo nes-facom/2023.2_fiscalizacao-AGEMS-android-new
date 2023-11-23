@@ -168,4 +168,13 @@ interface ModelDao {
     @Query("UPDATE form_entity SET unit_id = :newUnitId WHERE unit_id = :unitId")
     fun updateUnitIdInForm(unitId: UUID, newUnitId: UUID)
 
+    @Query("UPDATE response_entity SET question_id = :newQuestionId WHERE question_id = :currentQuestionId")
+    fun updateResponseEntity(currentQuestionId: UUID, newQuestionId: UUID)
+
+    @Transaction
+    fun updateQuestionRelations(currentLocalId: UUID, newBackendId: UUID) {
+        updateQuestionForm(currentLocalId, newBackendId)
+        updateResponseEntity(currentLocalId, newBackendId)
+    }
+
 }

@@ -92,11 +92,11 @@ class ModelLocalRepositoryImpl @Inject constructor(
         modelDao.updateAnswerAlternative(questionId, syncState)
     }
 
-    override suspend fun updateQuestionForm(questionId: UUID, newQuestionId: UUID) {
-        modelDao.updateQuestionForm(questionId, newQuestionId)
-    }
-
     override suspend fun updateUnitIdInForm(unitId: UUID, newUnitId: UUID) {
         modelDao.updateUnitIdInForm(unitId, newUnitId)
+    }
+
+    override suspend fun updateQuestionRelations(currentLocalId: UUID, newBackendId: UUID) {
+        modelDao.updateQuestionRelations(currentLocalId, newBackendId)
     }
 }

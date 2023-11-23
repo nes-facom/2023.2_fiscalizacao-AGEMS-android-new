@@ -30,7 +30,7 @@ interface ModelLocalRepository {
     suspend fun updateAnswerAlternative(questionId: UUID, syncState: SyncState)
     suspend fun updateQuestionModel(modelId: UUID, syncState: SyncState)
 
-    suspend fun updateQuestionForm(questionId: UUID, newQuestionId: UUID)
     suspend fun updateUnitIdInForm(unitId: UUID, newUnitId: UUID)
 
+    suspend fun updateQuestionRelations(currentLocalId: UUID, newBackendId: UUID)
 }
