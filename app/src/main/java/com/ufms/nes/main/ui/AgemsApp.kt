@@ -53,6 +53,9 @@ import com.ufms.nes.core.ui.components.NesDialog
 import com.ufms.nes.main.navigation.ADD_EDIT_MODEL_NAVIGATION_ROUTE
 import com.ufms.nes.main.navigation.ADD_EDIT_QUESTION_NAVIGATION_ROUTE
 import com.ufms.nes.main.navigation.NavRoutes
+import com.ufms.nes.main.navigation.addConsumeUnitScreen
+import com.ufms.nes.main.navigation.consumeUnitRoute
+import com.ufms.nes.main.navigation.consumeUnitScreen
 import com.ufms.nes.main.navigation.formNavigationRoute
 import com.ufms.nes.main.navigation.formsScreen
 import com.ufms.nes.main.navigation.homeNavigationRoute
@@ -60,7 +63,9 @@ import com.ufms.nes.main.navigation.homeScreen
 import com.ufms.nes.main.navigation.modelDetailScreen
 import com.ufms.nes.main.navigation.modelNavigationRoute
 import com.ufms.nes.main.navigation.modelsScreen
+import com.ufms.nes.main.navigation.navigateToAddConsumeUnit
 import com.ufms.nes.main.navigation.navigateToAddEditQuestion
+import com.ufms.nes.main.navigation.navigateToConsumeUnit
 import com.ufms.nes.main.navigation.navigateToForms
 import com.ufms.nes.main.navigation.navigateToModelDetail
 import com.ufms.nes.main.navigation.navigateToModels
@@ -162,8 +167,13 @@ fun AgemsApp(
                                     formNavigationRoute -> {
                                         appState.navController.navigateToForms()
                                     }
+
                                     synchronizationRoute -> {
                                         appState.navController.navigateToSynchronization()
+                                    }
+
+                                    consumeUnitRoute -> {
+                                        appState.navController.navigateToConsumeUnit()
                                     }
                                 }
                             },
@@ -249,6 +259,20 @@ fun AgemsApp(
                             onBackClick = { appState.onBackClick() }
                         )
                         synchronizationScreen(drawerState)
+                        consumeUnitScreen(
+                            modifier = customModifier,
+                            drawerState = drawerState,
+                            onFloatingButtonClick = {
+                                appState.navController.navigateToAddConsumeUnit()
+                            },
+                            onConsumeUnitClick = {
+
+                            }
+                        )
+                        addConsumeUnitScreen(
+                            modifier = customModifier,
+                            onBack = { appState.onBackClick() }
+                        )
                     }
 
                     navigation(
