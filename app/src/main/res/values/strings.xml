@@ -49,4 +49,11 @@
     <string name="unit">Unidade: %1$s</string>
     <string name="creation_date">Data de Criação: %1$s</string>
     <string name="loading">Carregando...</string>
+    <string name="tab_unit">Unidades</string>
+    <string name="consume_unit_empty">Não há unidades cadastradas</string>
+    <string name="save_unit">Salvar unidade</string>
+    <string name="entered_name">Nome da unidade:</string>
+    <string name="register_unit">Cadastrar Unidade</string>
+    <string name="entered_address">Endereço da unidade:</string>
+    <string name="entered_type">Tipo da unidade:</string>
 </resources>

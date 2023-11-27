@@ -3,8 +3,10 @@ package com.ufms.nes.core.data.network
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.ufms.nes.BuildConfig
+import com.ufms.nes.core.data.network.model.request.AddConsumeUnitDTO
 import com.ufms.nes.core.data.network.model.request.AddModelDTO
 import com.ufms.nes.core.data.network.model.response.AddModelResponseDTO
+import com.ufms.nes.core.data.network.model.response.ConsumeUnitItemResponseDTO
 import com.ufms.nes.core.data.network.model.response.ModelResponseDTO
 import com.ufms.nes.core.data.network.model.response.ModelsResponseDTO
 import com.ufms.nes.features.authentication.data.datastore.LocalService
@@ -119,6 +121,26 @@ class ApiService @Inject constructor(
             headers {
                 append(HttpHeaders.Authorization, "Bearer $bearerToken")
             }
+        }.body()
+    }
+
+    suspend fun getConsumeUnits(): List<ConsumeUnitItemResponseDTO> {
+        val bearerToken = localService.getBearerToken()
+        return client.get("${BuildConfig.BASE_URL}/unidade/todas") {
+            headers {
+                append(HttpHeaders.Authorization, "Bearer $bearerToken")
+            }
+        }.body()
+    }
+
+    suspend fun registerConsumeUnit(unit: AddConsumeUnitDTO): ConsumeUnitItemResponseDTO {
+        val bearerToken = localService.getBearerToken()
+        return client.post("${BuildConfig.BASE_URL}/unidade/add") {
+            header(HttpHeaders.ContentType, ContentType.Application.Json)
+            headers {
+                append(HttpHeaders.Authorization, "Bearer $bearerToken")
+            }
+            setBody(unit)
         }.body()
     }
 }

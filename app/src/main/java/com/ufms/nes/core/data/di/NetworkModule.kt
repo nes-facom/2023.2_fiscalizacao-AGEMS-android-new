@@ -1,9 +1,10 @@
 package com.ufms.nes.core.data.di
 
 import android.util.Log
+import com.ufms.nes.BuildConfig
+import com.ufms.nes.core.data.network.ApiService
 import com.ufms.nes.features.authentication.data.datastore.LocalService
 import com.ufms.nes.features.authentication.data.model.UserResponse
-import com.ufms.nes.core.data.network.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,10 +21,10 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.accept
-import io.ktor.client.request.get
-import io.ktor.client.request.parameter
-import io.ktor.client.request.url
+import io.ktor.client.request.headers
+import io.ktor.client.request.post
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import javax.inject.Singleton
@@ -54,11 +55,17 @@ object NetworkModule {
             install(Auth) {
                 bearer {
                     refreshTokens {
-                        val token = client.get {
+                        val refreshToken = localService.getRefreshToken()
+                        val token = client.post("${BuildConfig.BASE_URL}/usuarios/renovar-token") {
+                            headers {
+                                append(HttpHeaders.Authorization, "Bearer $refreshToken")
+                            }
                             markAsRefreshTokenRequest()
-                            url("refreshToken")
-                            parameter("refreshToken", localService.getRefreshToken())
                         }.body<UserResponse>()
+
+                        token.accessToken?.let { localService.saveBearerToken(it) }
+                        token.refreshToken?.let { localService.saveRefreshToken(it) }
+
                         BearerTokens(
                             accessToken = token.accessToken.orEmpty(),
                             refreshToken = token.refreshToken.orEmpty()
