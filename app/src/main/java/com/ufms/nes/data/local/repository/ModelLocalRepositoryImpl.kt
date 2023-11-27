@@ -4,10 +4,12 @@ import com.ufms.nes.domain.enums.SyncState
 import com.ufms.nes.core.commons.mappers.Mappers.toModel
 import com.ufms.nes.core.database.dao.ModelDao
 import com.ufms.nes.data.local.model.AnswerAlternativeEntity
+import com.ufms.nes.data.local.model.FormEntity
 import com.ufms.nes.data.local.model.ModelEntity
 import com.ufms.nes.data.local.model.ModelWithQuestionsDataObject
 import com.ufms.nes.data.local.model.QuestionEntity
 import com.ufms.nes.data.local.model.QuestionModelEntity
+import com.ufms.nes.data.local.model.ResponseEntity
 import com.ufms.nes.domain.model.AnswerAlternative
 import com.ufms.nes.domain.model.Model
 import com.ufms.nes.domain.model.Question
@@ -32,6 +34,14 @@ class ModelLocalRepositoryImpl @Inject constructor(
 
     override suspend fun getAllUnSyncedModel(): List<ModelWithQuestionsDataObject> {
         return modelDao.getModelsWithQuestions(SyncState.EDITED)
+    }
+
+    override suspend fun getAllUnSyncedForm(): List<FormEntity> {
+        return modelDao.getAllUnSyncedForm(SyncState.EDITED)
+    }
+
+    override suspend fun getAllResponseByFormId(formId: UUID): List<ResponseEntity> {
+        return modelDao.getAllResponseByFormId(formId)
     }
 
     override suspend fun getModelById(id: UUID): Model {
@@ -96,7 +106,19 @@ class ModelLocalRepositoryImpl @Inject constructor(
         modelDao.updateUnitIdInForm(unitId, newUnitId)
     }
 
+    override suspend fun updateModelIdInForm(modelId: UUID, newModelId: UUID) {
+        modelDao.updateModelIdInForm(modelId, newModelId)
+    }
+
     override suspend fun updateQuestionRelations(currentLocalId: UUID, newBackendId: UUID) {
         modelDao.updateQuestionRelations(currentLocalId, newBackendId)
+    }
+
+    override suspend fun updateFormId(currentId: UUID, newId: UUID) {
+        modelDao.updateFormId(currentId, newId, SyncState.SYNCED)
+    }
+
+    override suspend fun updateResponseId(currentId: UUID, newId: UUID) {
+        modelDao.updateResponseId(currentId, newId)
     }
 }

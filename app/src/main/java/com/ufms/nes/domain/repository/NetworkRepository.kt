@@ -2,7 +2,9 @@ package com.ufms.nes.domain.repository
 
 import com.ufms.nes.core.commons.APIResult
 import com.ufms.nes.data.network.model.request.AddConsumeUnitDTO
+import com.ufms.nes.data.network.model.request.AddFormDTO
 import com.ufms.nes.data.network.model.request.AddModelDTO
+import com.ufms.nes.data.network.model.response.AddFormResponseDTO
 import com.ufms.nes.data.network.model.response.AddModelResponseDTO
 import com.ufms.nes.data.network.model.response.ConsumeUnitItemResponseDTO
 import com.ufms.nes.data.network.model.response.ModelResponseDTO
@@ -14,6 +16,8 @@ interface NetworkRepository {
     suspend fun getModels(): APIResult<List<ModelResponseDTO>>
 
     suspend fun saveModel(model: AddModelDTO): APIResult<AddModelResponseDTO>
+
+    suspend fun saveForm(form: AddFormDTO): APIResult<AddFormResponseDTO>
 
     suspend fun getModelById(modelId: UUID): APIResult<AddModelResponseDTO>
 

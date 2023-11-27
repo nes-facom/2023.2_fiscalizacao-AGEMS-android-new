@@ -1,21 +1,26 @@
 package com.ufms.nes.domain.usecase
 
-import com.ufms.nes.domain.enums.SyncState
 import com.ufms.nes.core.commons.mappers.Mappers.toConsumeUnit
 import com.ufms.nes.core.commons.mappers.Mappers.toConsumeUnitDTO
 import com.ufms.nes.core.commons.mappers.Mappers.toModelDomain
+import com.ufms.nes.core.commons.mappers.Mappers.toResponseDTO
 import com.ufms.nes.core.commons.verifyResponse
+import com.ufms.nes.data.local.model.AnswerAlternativeEntity
+import com.ufms.nes.data.local.model.ConsumeUnitEntity
+import com.ufms.nes.data.local.model.FormEntity
+import com.ufms.nes.data.local.model.ModelWithQuestionsDataObject
+import com.ufms.nes.data.local.model.ResponseEntity
+import com.ufms.nes.data.network.model.request.AddFormDTO
 import com.ufms.nes.data.network.model.request.AddModelDTO
 import com.ufms.nes.data.network.model.request.QuestionDTO
 import com.ufms.nes.data.network.model.request.ResponseTypeDTO
-import com.ufms.nes.data.local.model.AnswerAlternativeEntity
-import com.ufms.nes.data.local.model.ConsumeUnitEntity
-import com.ufms.nes.data.local.model.ModelWithQuestionsDataObject
+import com.ufms.nes.domain.enums.SyncState
 import com.ufms.nes.domain.model.ConsumeUnit
 import com.ufms.nes.domain.model.Model
+import com.ufms.nes.domain.repository.ConsumeUnitRepository
 import com.ufms.nes.domain.repository.ModelLocalRepository
 import com.ufms.nes.domain.repository.NetworkRepository
-import com.ufms.nes.domain.repository.ConsumeUnitRepository
+import java.util.UUID
 import javax.inject.Inject
 
 class SynchronizationUseCase @Inject constructor(
@@ -53,6 +58,16 @@ class SynchronizationUseCase @Inject constructor(
         )
     }
 
+    suspend fun sendForms() {
+        val formsDb = localRepository.getAllUnSyncedForm()
+
+        formsDb.forEach { formEntity ->
+            val responses = localRepository.getAllResponseByFormId(formEntity.formId)
+
+            sendForm(formEntity, responses)
+        }
+    }
+
     suspend fun sendModels() {
         val modelsDb = localRepository.getAllUnSyncedModel()
 
@@ -81,6 +96,10 @@ class SynchronizationUseCase @Inject constructor(
         getConsumeUnits()
     }
 
+    suspend fun syncForms() {
+        sendForms()
+    }
+
     private suspend fun sendConsumeUnit(consumeUnit: ConsumeUnitEntity) {
         val consumeUnitDTO = consumeUnit.toConsumeUnitDTO()
 
@@ -101,6 +120,33 @@ class SynchronizationUseCase @Inject constructor(
         localRepository.clearSyncedData()
     }
 
+    private suspend fun sendForm(formEntity: FormEntity, responses: List<ResponseEntity>) {
+        val formDTO = formEntity.toFormDTO(responses)
+
+        networkRepository.saveForm(formDTO)
+            .verifyResponse(
+                onError = {},
+                onSuccess = { addFormResponseDTO ->
+
+                    validateIDs(
+                        current = addFormResponseDTO.idLocal,
+                        new = addFormResponseDTO.id
+                    ) { currentId, newId ->
+                        localRepository.updateFormId(currentId, newId)
+                    }
+
+                    addFormResponseDTO.responses.forEach { responseDTO ->
+                        validateIDs(
+                            current = responseDTO.idLocal,
+                            new = responseDTO.id
+                        ) { currentId, newId ->
+                            localRepository.updateResponseId(currentId, newId)
+                        }
+                    }
+                }
+            )
+    }
+
     private suspend fun sendModel(model: ModelWithQuestionsDataObject) {
         val modelDTO = model.toAddModelDTO()
 
@@ -109,6 +155,13 @@ class SynchronizationUseCase @Inject constructor(
                 onError = {},
                 onSuccess = { modelResponseDTO ->
                     setSyncedData(model)
+
+                    validateIDs(
+                        current = modelResponseDTO.idLocal,
+                        new = modelResponseDTO.id
+                    ) { currentId, newId ->
+                        localRepository.updateModelIdInForm(currentId, newId)
+                    }
 
                     modelResponseDTO.questions.forEach { questionResponseDTO ->
 
@@ -142,6 +195,16 @@ class SynchronizationUseCase @Inject constructor(
                 syncState = SyncState.SYNCED
             )
         }
+    }
+
+    private fun FormEntity.toFormDTO(responses: List<ResponseEntity>): AddFormDTO {
+        return AddFormDTO(
+            idModel = this.modelId,
+            idLocal = this.formId,
+            idUnit = this.unitId,
+            responses = ArrayList(responses.toResponseDTO()),
+            observation = this.observation
+        )
     }
 
     private suspend fun ModelWithQuestionsDataObject.toAddModelDTO(): AddModelDTO {
@@ -182,13 +245,14 @@ class SynchronizationUseCase @Inject constructor(
             consumeUnitRepository.insertConsumeUnit(consumeUnit, SyncState.SYNCED)
         }
     }
-}
 
-/**
- * Quando atualizar Modelo
- * - Atualizar ID da Questao no QuestionFormEntity
- * - Atualizar ID da Questao no ResponseEntity
- *
- * Quando atualizar unidade
- * - Atualizar ID da Unidade no FormEntity
- */
+    private suspend fun validateIDs(
+        current: UUID?,
+        new: UUID?,
+        completion: suspend (UUID, UUID) -> Unit
+    ) {
+        if (current != null && new != null) {
+            completion(current, new)
+        }
+    }
+}

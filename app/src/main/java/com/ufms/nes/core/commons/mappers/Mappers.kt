@@ -7,6 +7,8 @@ import com.ufms.nes.data.network.model.response.ConsumeUnitItemResponseDTO
 import com.ufms.nes.data.network.model.response.QuestionResponseDTO
 import com.ufms.nes.data.local.model.ConsumeUnitEntity
 import com.ufms.nes.data.local.model.ModelEntity
+import com.ufms.nes.data.local.model.ResponseEntity
+import com.ufms.nes.data.network.model.request.ResponseDTO
 import com.ufms.nes.domain.model.AnswerAlternative
 import com.ufms.nes.domain.model.ConsumeUnit
 import com.ufms.nes.domain.model.Model
@@ -38,6 +40,17 @@ object Mappers {
         name = name,
         address = address,
         type = type
+    )
+
+    fun List<ResponseEntity>.toResponseDTO(): List<ResponseDTO> =
+        this.map {
+            it.toResponseDTO()
+        }
+
+    fun ResponseEntity.toResponseDTO(): ResponseDTO = ResponseDTO(
+        idLocal = responseId,
+        idQuestion = questionId,
+        response = response,
     )
 
     fun List<ModelEntity>.toModel(): List<Model> =

@@ -80,7 +80,6 @@ fun ConsumeUnitScreen(
                         tint = Color.Gray,
                         modifier = Modifier
                             .size(100.dp)
-                            .padding(top = 24.dp)
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
@@ -96,7 +95,9 @@ fun ConsumeUnitScreen(
                     verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
                     items(uiState.consumeUnits) {
-                        ModelItem(label = it.name, onModelClick = { onConsumeUnitClick(it) })
+                        it.name?.let { itemName ->
+                            ModelItem(label = itemName, onModelClick = { onConsumeUnitClick(it) })
+                        }
                     }
                 }
             }

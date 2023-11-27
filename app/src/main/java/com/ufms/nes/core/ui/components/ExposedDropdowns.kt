@@ -113,17 +113,20 @@ fun UnitExposedDropdown(
             }
         ) {
             items.forEach { item ->
-                Text(
-                    text = item.name,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 10.dp)
-                        .defaultMinSize(minHeight = 48.dp)
-                        .clickable {
-                            onSelectUnit(item)
-                            onExpanded(false)
-                        }
-                )
+                item.name?.let { itemName ->
+                    Text(
+                        text = itemName,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 10.dp)
+                            .defaultMinSize(minHeight = 48.dp)
+                            .clickable {
+                                onSelectUnit(item)
+                                onExpanded(false)
+                            }
+                    )
+                }
+
             }
         }
     }

@@ -9,8 +9,8 @@ import java.util.UUID
 @Entity(tableName = "consume_unit")
 data class ConsumeUnitEntity(
     @PrimaryKey @ColumnInfo(name = "unit_id") var unitId: UUID,
-    @ColumnInfo(name = "name") var name: String,
-    @ColumnInfo(name = "address") var address: String,
-    @ColumnInfo(name = "type") var type: String,
+    @ColumnInfo(name = "name") var name: String?,
+    @ColumnInfo(name = "address") var address: String?,
+    @ColumnInfo(name = "type") var type: String?,
     @ColumnInfo(name = "sync_state") var syncState: SyncState
 )

@@ -9,6 +9,8 @@ import com.ufms.nes.data.network.model.response.ModelResponseDTO
 import com.ufms.nes.data.network.model.response.ModelsResponseDTO
 import com.ufms.nes.domain.LocalService
 import com.ufms.nes.data.network.model.UserDTO
+import com.ufms.nes.data.network.model.request.AddFormDTO
+import com.ufms.nes.data.network.model.response.AddFormResponseDTO
 import com.ufms.nes.data.network.model.response.UserResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -76,6 +78,17 @@ class ApiService @Inject constructor(
                 append(HttpHeaders.Authorization, "Bearer $bearerToken")
             }
             setBody(model)
+        }.body()
+    }
+
+    suspend fun registerForm(form: AddFormDTO): AddFormResponseDTO {
+        val bearerToken = localService.getBearerToken()
+        return client.post("${BuildConfig.BASE_URL}/form/add") {
+            header(HttpHeaders.ContentType, ContentType.Application.Json)
+            headers {
+                append(HttpHeaders.Authorization, "Bearer $bearerToken")
+            }
+            setBody(form)
         }.body()
     }
 

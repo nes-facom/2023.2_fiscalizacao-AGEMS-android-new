@@ -6,6 +6,7 @@ import java.util.UUID
 data class Form(
     val id: UUID? = null,
     val unitId: UUID,
+    val modelId: UUID,
     val responses: List<Response> = emptyList(),
     val observation: String = "",
     val dateCreated: Long = Calendar.getInstance().timeInMillis

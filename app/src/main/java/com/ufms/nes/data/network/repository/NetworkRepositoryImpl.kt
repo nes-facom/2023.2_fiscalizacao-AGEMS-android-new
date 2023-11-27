@@ -3,7 +3,9 @@ package com.ufms.nes.data.network.repository
 import com.ufms.nes.core.commons.APIResult
 import com.ufms.nes.core.network.ApiService
 import com.ufms.nes.data.network.model.request.AddConsumeUnitDTO
+import com.ufms.nes.data.network.model.request.AddFormDTO
 import com.ufms.nes.data.network.model.request.AddModelDTO
+import com.ufms.nes.data.network.model.response.AddFormResponseDTO
 import com.ufms.nes.data.network.model.response.AddModelResponseDTO
 import com.ufms.nes.data.network.model.response.ConsumeUnitItemResponseDTO
 import com.ufms.nes.data.network.model.response.ModelResponseDTO
@@ -29,6 +31,16 @@ class NetworkRepositoryImpl @Inject constructor(
     override suspend fun saveModel(model: AddModelDTO): APIResult<AddModelResponseDTO> {
         return try {
             val result = service.registerModel(model)
+
+            APIResult.Success(result)
+        } catch (e: Exception) {
+            APIResult.Error(null)
+        }
+    }
+
+    override suspend fun saveForm(form: AddFormDTO): APIResult<AddFormResponseDTO> {
+        return try {
+            val result = service.registerForm(form)
 
             APIResult.Success(result)
         } catch (e: Exception) {

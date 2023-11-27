@@ -30,9 +30,11 @@ interface FormDao {
 
         val formEntity = FormEntity(
             formId = formId,
+            modelId = form.modelId,
             unitId = form.unitId,
             observation = form.observation,
-            dateCreated = form.dateCreated
+            dateCreated = form.dateCreated,
+            syncState = syncState
         )
 
         insertForm(formEntity)

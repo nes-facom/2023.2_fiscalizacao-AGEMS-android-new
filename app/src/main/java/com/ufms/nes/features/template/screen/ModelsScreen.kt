@@ -1,11 +1,9 @@
 package com.ufms.nes.features.template.screen
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,7 +14,6 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.NotificationsNone
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.DrawerState
@@ -73,48 +70,39 @@ fun ModelsScreen(
         }
     ) { paddingValues ->
 
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-
-            if (uiState.models.isEmpty()) {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.NotificationsNone,
-                        contentDescription = null,
-                        tint = Color.Gray,
-                        modifier = Modifier
-                            .size(100.dp)
-                            .padding(top = 24.dp)
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = "Não há modelos cadastrados",
-                        color = Color.Gray
-                    )
-                }
-            } else {
-                LazyColumn(
-                    Modifier
-                        .fillMaxSize()
-                        .padding(24.dp)
-                        .pullRefresh(refreshState),
-                    verticalArrangement = Arrangement.spacedBy(5.dp)
-                ) {
-                    items(uiState.models) {
-                        ModelItem(label = it.name, onModelClick = { onModelClick(it) })
-                    }
-                }
-
-                PullRefreshIndicator(
-                    refreshing = uiState.isLoading, state = refreshState,
-                    modifier = Modifier.align(Alignment.TopCenter)
+        if (uiState.models.isEmpty()) {
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Icon(
+                    imageVector = Icons.Default.NotificationsNone,
+                    contentDescription = null,
+                    tint = Color.Gray,
+                    modifier = Modifier
+                        .size(100.dp)
                 )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Não há modelos cadastrados",
+                    color = Color.Gray
+                )
+            }
+        } else {
+            LazyColumn(
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(24.dp)
+                    .pullRefresh(refreshState),
+                verticalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                items(uiState.models) {
+                    ModelItem(label = it.name, onModelClick = { onModelClick(it) })
+                }
             }
         }
     }

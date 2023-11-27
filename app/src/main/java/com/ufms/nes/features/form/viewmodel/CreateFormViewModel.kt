@@ -81,16 +81,19 @@ class CreateFormViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.value.unit?.id?.let { unitId ->
-                val form = Form(
-                    unitId = unitId,
-                    responses = _uiState.value.responses.map { it.toResponse() },
-                    observation = _uiState.value.observation
-                )
+                _uiState.value.modelSelected?.id?.let { modelId ->
+                    val form = Form(
+                        unitId = unitId,
+                        modelId = modelId,
+                        responses = _uiState.value.responses.map { it.toResponse() },
+                        observation = _uiState.value.observation
+                    )
 
-                formRepository.insertForm(form, SyncState.EDITED)
+                    formRepository.insertForm(form, SyncState.EDITED)
 
-                _uiState.update {
-                    it.copy(formSaved = true)
+                    _uiState.update {
+                        it.copy(formSaved = true)
+                    }
                 }
             }
         }
