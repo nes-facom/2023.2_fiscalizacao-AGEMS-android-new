@@ -74,7 +74,12 @@ android {
 
 dependencies {
 
+implementation(libs.androidx.paging.common.ktx)
     val composeBom = platform(libs.androidx.compose.bom)
+
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
+
     implementation(composeBom)
     androidTestImplementation(composeBom)
 

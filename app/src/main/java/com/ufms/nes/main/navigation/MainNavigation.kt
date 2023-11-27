@@ -15,10 +15,10 @@ import com.ufms.nes.features.consumeunit.presentation.AddConsumeUnitScreen
 import com.ufms.nes.features.consumeunit.presentation.ConsumeUnitScreen
 import com.ufms.nes.features.authentication.presentation.loginNavigationRoute
 import com.ufms.nes.features.authentication.presentation.loginScreen
-import com.ufms.nes.features.form.FormsScreen
 import com.ufms.nes.features.home.HomeScreen
 import com.ufms.nes.features.registration.presentation.registrationScreen
 import com.ufms.nes.features.synchronization.SynchronizationScreen
+import com.ufms.nes.features.form.presentation.FormsScreen
 import com.ufms.nes.features.template.presentation.ui.ModelDetailsScreen
 import com.ufms.nes.features.template.presentation.ui.ModelsScreen
 
