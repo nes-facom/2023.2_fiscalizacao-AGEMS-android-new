@@ -7,41 +7,16 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import com.ufms.nes.domain.model.ConsumeUnit
 import com.ufms.nes.domain.model.Model
-import com.ufms.nes.features.consumeunit.presentation.AddConsumeUnitScreen
-import com.ufms.nes.features.consumeunit.presentation.ConsumeUnitScreen
-import com.ufms.nes.features.authentication.presentation.loginNavigationRoute
-import com.ufms.nes.features.authentication.presentation.loginScreen
+import com.ufms.nes.features.consumeunit.screen.AddConsumeUnitScreen
+import com.ufms.nes.features.consumeunit.screen.ConsumeUnitScreen
+import com.ufms.nes.features.form.screen.FormsScreen
 import com.ufms.nes.features.home.HomeScreen
-import com.ufms.nes.features.registration.presentation.registrationScreen
 import com.ufms.nes.features.synchronization.SynchronizationScreen
-import com.ufms.nes.features.form.presentation.FormsScreen
-import com.ufms.nes.features.template.presentation.ui.ModelDetailsScreen
-import com.ufms.nes.features.template.presentation.ui.ModelsScreen
-
-fun NavGraphBuilder.modelsScreen(
-    drawerState: DrawerState,
-    onBackClick: () -> Unit,
-    onShortcutClick: (route: String) -> Unit,
-    onRegistrationButtonClick: () -> Unit,
-    onReturnToLoginClick: () -> Unit,
-    onLoginSuccess: () -> Unit,
-    onRegistrationSuccess: () -> Unit
-) {
-    navigation(
-        startDestination = loginNavigationRoute, route = NavRoutes.AuthenticationRoute.name
-    ) {
-        loginScreen(onLoginSuccess = onLoginSuccess, onRegistrationButtonClick = onRegistrationButtonClick)
-        registrationScreen(onRegistrationSuccess = onRegistrationSuccess, onReturnToLoginClick = onReturnToLoginClick)
-    }
-    navigation(startDestination = homeNavigationRoute, route = NavRoutes.MainRoute.name) {
-        homeScreen(drawerState = drawerState, onShortcutClick = onShortcutClick)
-        formsScreen(drawerState = drawerState)
-    }
-}
+import com.ufms.nes.features.template.screen.ModelDetailsScreen
+import com.ufms.nes.features.template.screen.ModelsScreen
 
 fun NavController.navigateToModels(navOptions: NavOptions? = null) {
     this.navigate(modelNavigationRoute, navOptions)
@@ -57,6 +32,14 @@ fun NavController.navigateToConsumeUnit(navOptions: NavOptions? = null) {
 
 fun NavController.navigateToForms(navOptions: NavOptions? = null) {
     this.navigate(formNavigationRoute, navOptions)
+}
+
+fun NavController.navigateToSelectModel(navOptions: NavOptions? = null) {
+    this.navigate(SELECT_MODEL_ROUTE, navOptions)
+}
+
+fun NavController.navigateToCreateModel(navOptions: NavOptions? = null) {
+    this.navigate(CREATE_FORM_ROUTE, navOptions)
 }
 
 fun NavController.navigateToAddEditQuestion(navOptions: NavOptions? = null) {
@@ -133,9 +116,10 @@ fun NavGraphBuilder.modelsScreen(
 
 fun NavGraphBuilder.formsScreen(
     drawerState: DrawerState,
+    onFloatingButtonClick: () -> Unit,
 ) {
     composable(route = formNavigationRoute) {
-        FormsScreen(drawerState = drawerState)
+        FormsScreen(drawerState = drawerState, onFloatingButtonClick = onFloatingButtonClick)
     }
 }
 
@@ -174,6 +158,8 @@ const val synchronizationRoute = "synchronization_screen"
 const val consumeUnitRoute = "consume_unit_screen"
 const val addConsumeUnitRoute = "add_consume_unit_screen"
 const val formNavigationRoute = "forms_screen"
+const val SELECT_MODEL_ROUTE = "select_model_screen"
+const val CREATE_FORM_ROUTE = "create_form_screen"
 const val ADD_EDIT_MODEL_NAVIGATION_ROUTE = "add_edit_model_screen"
 const val ADD_EDIT_QUESTION_NAVIGATION_ROUTE = "add_edit_question_screen"
 const val MODEL_DETAIL_NAVIGATION_ROUTE = "model_detail_screen"

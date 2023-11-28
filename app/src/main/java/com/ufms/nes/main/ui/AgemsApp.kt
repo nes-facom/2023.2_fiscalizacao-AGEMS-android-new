@@ -42,17 +42,22 @@ import androidx.navigation.compose.navigation
 import com.ufms.nes.R
 import com.ufms.nes.core.ui.ContainerColor
 import com.ufms.nes.core.ui.model.drawerOptions
-import com.ufms.nes.features.authentication.presentation.loginNavigationRoute
-import com.ufms.nes.features.registration.presentation.REGISTRATION_NAVIGATION_ROUTE
-import com.ufms.nes.features.authentication.presentation.loginScreen
-import com.ufms.nes.features.registration.presentation.registrationScreen
-import com.ufms.nes.features.template.presentation.ui.AddEditModelScreen
-import com.ufms.nes.features.template.presentation.ui.AddQuestionScreen
-import com.ufms.nes.features.template.presentation.viewmodel.AddModelViewModel
+import com.ufms.nes.features.authentication.login.loginNavigationRoute
+import com.ufms.nes.features.authentication.login.loginScreen
+import com.ufms.nes.features.template.screen.AddEditModelScreen
+import com.ufms.nes.features.template.screen.AddQuestionScreen
+import com.ufms.nes.features.template.viewmodel.AddModelViewModel
 import com.ufms.nes.core.ui.components.NesDialog
+import com.ufms.nes.features.form.screen.CreateFormScreen
+import com.ufms.nes.features.form.viewmodel.CreateFormViewModel
+import com.ufms.nes.features.form.screen.SelectModelScreen
+import com.ufms.nes.features.authentication.register.REGISTRATION_NAVIGATION_ROUTE
+import com.ufms.nes.features.authentication.register.registrationScreen
 import com.ufms.nes.main.navigation.ADD_EDIT_MODEL_NAVIGATION_ROUTE
 import com.ufms.nes.main.navigation.ADD_EDIT_QUESTION_NAVIGATION_ROUTE
+import com.ufms.nes.main.navigation.CREATE_FORM_ROUTE
 import com.ufms.nes.main.navigation.NavRoutes
+import com.ufms.nes.main.navigation.SELECT_MODEL_ROUTE
 import com.ufms.nes.main.navigation.addConsumeUnitScreen
 import com.ufms.nes.main.navigation.consumeUnitRoute
 import com.ufms.nes.main.navigation.consumeUnitScreen
@@ -66,9 +71,11 @@ import com.ufms.nes.main.navigation.modelsScreen
 import com.ufms.nes.main.navigation.navigateToAddConsumeUnit
 import com.ufms.nes.main.navigation.navigateToAddEditQuestion
 import com.ufms.nes.main.navigation.navigateToConsumeUnit
+import com.ufms.nes.main.navigation.navigateToCreateModel
 import com.ufms.nes.main.navigation.navigateToForms
 import com.ufms.nes.main.navigation.navigateToModelDetail
 import com.ufms.nes.main.navigation.navigateToModels
+import com.ufms.nes.main.navigation.navigateToSelectModel
 import com.ufms.nes.main.navigation.navigateToSynchronization
 import com.ufms.nes.main.navigation.synchronizationRoute
 import com.ufms.nes.main.navigation.synchronizationScreen
@@ -253,7 +260,12 @@ fun AgemsApp(
                                 appState.navController.navigateToModelDetail(modelId = it.id.toString())
                             }
                         )
-                        formsScreen(drawerState = drawerState)
+                        formsScreen(
+                            drawerState = drawerState,
+                            onFloatingButtonClick = {
+                                appState.navController.navigateToSelectModel()
+                            }
+                        )
                         modelDetailScreen(
                             modifier = customModifier,
                             onBackClick = { appState.onBackClick() }
@@ -273,6 +285,26 @@ fun AgemsApp(
                             modifier = customModifier,
                             onBack = { appState.onBackClick() }
                         )
+                        composable(route = SELECT_MODEL_ROUTE) {
+                            val viewModel =
+                                it.sharedViewModel<CreateFormViewModel>(appState.navController)
+                            SelectModelScreen(
+                                modifier = customModifier,
+                                onModelClick = { appState.navController.navigateToCreateModel() },
+                                onBack = { appState.onBackClick() },
+                                modelsViewModel = viewModel
+                            )
+                        }
+                        composable(route = CREATE_FORM_ROUTE) {
+                            val viewModel =
+                                it.sharedViewModel<CreateFormViewModel>(appState.navController)
+                            CreateFormScreen(
+                                modifier = customModifier,
+                                onBackClick = { appState.onBackClick() },
+                                onFormSaved = { appState.navController.navigateToForms() },
+                                viewModel = viewModel
+                            )
+                        }
                     }
 
                     navigation(

@@ -17,6 +17,7 @@ class SynchronizationViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             useCase.syncModels()
             useCase.syncConsumeUnit()
+            useCase.syncForms()
         }
     }
 
@@ -24,13 +25,7 @@ class SynchronizationViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             useCase.sendModels()
             useCase.sendConsumeUnits()
-        }
-    }
-
-    fun getAll() {
-        viewModelScope.launch(Dispatchers.IO) {
-            useCase.getModels()
-            useCase.getConsumeUnits()
+            useCase.sendForms()
         }
     }
 }

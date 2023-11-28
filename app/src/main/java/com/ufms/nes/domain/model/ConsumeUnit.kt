@@ -4,7 +4,7 @@ import java.util.UUID
 
 data class ConsumeUnit(
     val id: UUID? = null,
-    var name: String,
-    var address: String,
-    var type: String
+    var name: String?,
+    var address: String?,
+    var type: String?
 )

@@ -1,16 +1,20 @@
 package com.ufms.nes.core.commons.mappers
 
-import com.ufms.nes.core.data.network.model.request.AddConsumeUnitDTO
-import com.ufms.nes.core.data.network.model.response.AddModelResponseDTO
-import com.ufms.nes.core.data.network.model.response.AnswerAlternativeResponseDTO
-import com.ufms.nes.core.data.network.model.response.ConsumeUnitItemResponseDTO
-import com.ufms.nes.core.data.network.model.response.QuestionResponseDTO
-import com.ufms.nes.core.database.model.ConsumeUnitEntity
-import com.ufms.nes.core.database.model.ModelEntity
+import com.ufms.nes.data.network.model.request.AddConsumeUnitDTO
+import com.ufms.nes.data.network.model.response.AddModelResponseDTO
+import com.ufms.nes.data.network.model.response.AnswerAlternativeResponseDTO
+import com.ufms.nes.data.network.model.response.ConsumeUnitItemResponseDTO
+import com.ufms.nes.data.network.model.response.QuestionResponseDTO
+import com.ufms.nes.data.local.model.ConsumeUnitEntity
+import com.ufms.nes.data.local.model.ModelEntity
+import com.ufms.nes.data.local.model.ResponseEntity
+import com.ufms.nes.data.network.model.request.ResponseDTO
+import com.ufms.nes.data.network.model.response.FormResponseDto
 import com.ufms.nes.domain.model.AnswerAlternative
 import com.ufms.nes.domain.model.ConsumeUnit
 import com.ufms.nes.domain.model.Model
 import com.ufms.nes.domain.model.Question
+import com.ufms.nes.features.form.util.Form
 
 object Mappers {
 
@@ -27,6 +31,7 @@ object Mappers {
     )
 
     fun ConsumeUnitEntity.toConsumeUnitDTO(): AddConsumeUnitDTO = AddConsumeUnitDTO(
+        idLocal = unitId,
         name = name,
         address = address,
         type = type
@@ -37,6 +42,17 @@ object Mappers {
         name = name,
         address = address,
         type = type
+    )
+
+    fun List<ResponseEntity>.toResponseDTO(): List<ResponseDTO> =
+        this.map {
+            it.toResponseDTO()
+        }
+
+    fun ResponseEntity.toResponseDTO(): ResponseDTO = ResponseDTO(
+        idLocal = responseId,
+        idQuestion = questionId,
+        response = response,
     )
 
     fun List<ModelEntity>.toModel(): List<Model> =
@@ -58,6 +74,7 @@ object Mappers {
         return this.map { modelResponse ->
             Model(
                 id = modelResponse.id,
+                idLocal = modelResponse.idLocal,
                 name = modelResponse.name.orEmpty(),
                 questions = modelResponse.questions.toQuestion()
             )
@@ -68,6 +85,7 @@ object Mappers {
 
         return Question(
             id = this.id,
+            idLocal = this.idLocal,
             question = this.question,
             isObjective = this.objective,
             portaria = this.portaria,
@@ -92,6 +110,19 @@ object Mappers {
     private fun List<AnswerAlternativeResponseDTO>.toAnswerAlternative(): List<AnswerAlternative> {
         return this.map {
             it.toAnswerAlternative()
+        }
+    }
+
+    fun FormResponseDto.mapFromEntity() = Form(
+        id = this.id,
+        unit = this.unit,
+        creationDate = this.dateCreated,
+        user = this.userCreated
+    )
+
+    fun List<FormResponseDto>.mapFromListModel(): List<Form> {
+        return this.map {
+            it.mapFromEntity()
         }
     }
 }

@@ -6,12 +6,14 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.ufms.nes.core.commons.enums.SyncState
-import com.ufms.nes.core.database.model.AnswerAlternativeEntity
-import com.ufms.nes.core.database.model.ModelEntity
-import com.ufms.nes.core.database.model.ModelWithQuestionsDataObject
-import com.ufms.nes.core.database.model.QuestionEntity
-import com.ufms.nes.core.database.model.QuestionModelEntity
+import com.ufms.nes.domain.enums.SyncState
+import com.ufms.nes.data.local.model.AnswerAlternativeEntity
+import com.ufms.nes.data.local.model.FormEntity
+import com.ufms.nes.data.local.model.ModelEntity
+import com.ufms.nes.data.local.model.ModelWithQuestionsDataObject
+import com.ufms.nes.data.local.model.QuestionEntity
+import com.ufms.nes.data.local.model.QuestionModelEntity
+import com.ufms.nes.data.local.model.ResponseEntity
 import com.ufms.nes.domain.model.AnswerAlternative
 import com.ufms.nes.domain.model.Model
 import com.ufms.nes.domain.model.Question
@@ -37,6 +39,13 @@ interface ModelDao {
     @Transaction
     @Query("SELECT * FROM model WHERE sync_state = :syncState")
     suspend fun getModelsWithQuestions(syncState: SyncState): List<ModelWithQuestionsDataObject>
+
+    //    @Transaction
+    @Query("SELECT * FROM form_entity WHERE sync_state = :syncState")
+    suspend fun getAllUnSyncedForm(syncState: SyncState): List<FormEntity>//List<FormWithQuestionsDataObject>
+
+    @Query("SELECT * FROM response_entity WHERE form_id =:formId")
+    suspend fun getAllResponseByFormId(formId: UUID): List<ResponseEntity>
 
     /**
      * CLEAR
@@ -159,6 +168,30 @@ interface ModelDao {
     @Query("UPDATE answer_alternative SET sync_state = :syncState WHERE question_id = :questionId")
     fun updateAnswerAlternative(questionId: UUID, syncState: SyncState)
 
+    @Query("UPDATE question_form SET question_id = :newQuestionId WHERE question_id = :questionId")
+    fun updateQuestionForm(questionId: UUID, newQuestionId: UUID)
+
     @Query("UPDATE question_model SET sync_state = :syncState WHERE model_id = :modelId")
     fun updateQuestionModel(modelId: UUID, syncState: SyncState)
+
+    @Query("UPDATE form_entity SET unit_id = :newUnitId WHERE unit_id = :unitId")
+    fun updateUnitIdInForm(unitId: UUID, newUnitId: UUID)
+
+    @Query("UPDATE form_entity SET model_id = :newModelId WHERE model_id = :modelId")
+    fun updateModelIdInForm(modelId: UUID, newModelId: UUID)
+
+    @Query("UPDATE response_entity SET question_id = :newQuestionId WHERE question_id = :currentQuestionId")
+    fun updateResponseEntity(currentQuestionId: UUID, newQuestionId: UUID)
+
+    @Transaction
+    fun updateQuestionRelations(currentLocalId: UUID, newBackendId: UUID) {
+        updateQuestionForm(currentLocalId, newBackendId)
+        updateResponseEntity(currentLocalId, newBackendId)
+    }
+
+    @Query("UPDATE form_entity SET form_id = :newId, sync_state = :syncState WHERE form_id = :currentId")
+    suspend fun updateFormId(currentId: UUID, newId: UUID, syncState: SyncState)
+
+    @Query("UPDATE response_entity SET response_id = :newId WHERE response_id = :currentId")
+    suspend fun updateResponseId(currentId: UUID, newId: UUID)
 }
