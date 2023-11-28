@@ -1,12 +1,12 @@
-package com.ufms.nes.features.consumeunit.presentation
+package com.ufms.nes.features.consumeunit.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ufms.nes.core.commons.Constants.EMPTY
-import com.ufms.nes.core.commons.enums.SyncState
+import com.ufms.nes.domain.enums.SyncState
 import com.ufms.nes.domain.model.ConsumeUnit
-import com.ufms.nes.features.consumeunit.data.ConsumeUnitRepository
-import com.ufms.nes.features.template.presentation.viewmodel.isBlankOrEmpty
+import com.ufms.nes.domain.repository.ConsumeUnitRepository
+import com.ufms.nes.features.template.viewmodel.isBlankOrEmpty
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

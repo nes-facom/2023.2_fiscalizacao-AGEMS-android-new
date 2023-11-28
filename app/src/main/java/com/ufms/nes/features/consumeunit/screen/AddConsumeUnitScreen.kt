@@ -1,4 +1,4 @@
-package com.ufms.nes.features.consumeunit.presentation
+package com.ufms.nes.features.consumeunit.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,6 +27,8 @@ import com.ufms.nes.R
 import com.ufms.nes.core.ui.components.IconData
 import com.ufms.nes.core.ui.components.SmallTopBar
 import com.ufms.nes.core.ui.components.TopBarData
+import com.ufms.nes.features.consumeunit.viewmodel.AddConsumeUnitUiState
+import com.ufms.nes.features.consumeunit.viewmodel.AddConsumeUnitViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

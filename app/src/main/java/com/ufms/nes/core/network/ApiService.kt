@@ -14,6 +14,8 @@ import com.ufms.nes.data.network.model.UserDTO
 import com.ufms.nes.data.network.model.request.AddFormDTO
 import com.ufms.nes.data.network.model.response.AddFormResponseDTO
 import com.ufms.nes.data.network.model.response.UserResponse
+import com.ufms.nes.data.network.model.response.FormResponseDto
+import com.ufms.nes.data.network.model.response.ResponseFormDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -66,7 +68,7 @@ class ApiService @Inject constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    suspend fun getForms(currentPage: Int, pageSize: Int): ResponseDto<List<FormResponseDto>> {
+    suspend fun getForms(currentPage: Int, pageSize: Int): ResponseFormDto<List<FormResponseDto>> {
         val bearerToken = localService.getBearerToken()
 
         val response = client.get("${BuildConfig.BASE_URL}/form/todos/?pagina=${currentPage}&quantidade=${pageSize}") {
@@ -87,7 +89,7 @@ class ApiService @Inject constructor(
         )
 
         val body = response.body<Formulario>()
-        var res = ResponseDto<List<FormResponseDto>>()
+        val res = ResponseFormDto<List<FormResponseDto>>()
 
         res.results = body.formularios
         res.page = currentPage

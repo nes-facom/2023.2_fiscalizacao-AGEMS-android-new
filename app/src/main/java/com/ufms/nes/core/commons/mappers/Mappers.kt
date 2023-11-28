@@ -9,10 +9,12 @@ import com.ufms.nes.data.local.model.ConsumeUnitEntity
 import com.ufms.nes.data.local.model.ModelEntity
 import com.ufms.nes.data.local.model.ResponseEntity
 import com.ufms.nes.data.network.model.request.ResponseDTO
+import com.ufms.nes.data.network.model.response.FormResponseDto
 import com.ufms.nes.domain.model.AnswerAlternative
 import com.ufms.nes.domain.model.ConsumeUnit
 import com.ufms.nes.domain.model.Model
 import com.ufms.nes.domain.model.Question
+import com.ufms.nes.features.form.util.Form
 
 object Mappers {
 
@@ -108,6 +110,19 @@ object Mappers {
     private fun List<AnswerAlternativeResponseDTO>.toAnswerAlternative(): List<AnswerAlternative> {
         return this.map {
             it.toAnswerAlternative()
+        }
+    }
+
+    fun FormResponseDto.mapFromEntity() = Form(
+        id = this.id,
+        unit = this.unit,
+        creationDate = this.dateCreated,
+        user = this.userCreated
+    )
+
+    fun List<FormResponseDto>.mapFromListModel(): List<Form> {
+        return this.map {
+            it.mapFromEntity()
         }
     }
 }

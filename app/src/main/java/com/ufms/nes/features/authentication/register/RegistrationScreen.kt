@@ -1,4 +1,4 @@
-package com.ufms.nes.features.registration.presentation
+package com.ufms.nes.features.authentication.register
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

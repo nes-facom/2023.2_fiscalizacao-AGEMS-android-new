@@ -1,5 +1,8 @@
 package com.ufms.nes.data.network.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.ufms.nes.core.commons.APIResult
 import com.ufms.nes.core.network.ApiService
 import com.ufms.nes.data.network.model.request.AddConsumeUnitDTO
@@ -11,6 +14,9 @@ import com.ufms.nes.data.network.model.response.ConsumeUnitItemResponseDTO
 import com.ufms.nes.data.network.model.response.ModelResponseDTO
 import com.ufms.nes.data.network.model.response.ModelsResponseDTO
 import com.ufms.nes.domain.repository.NetworkRepository
+import com.ufms.nes.features.form.util.FormPagingSource
+import com.ufms.nes.features.form.util.Form
+import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 import javax.inject.Inject
 
@@ -86,5 +92,14 @@ class NetworkRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             APIResult.Error(null)
         }
+    }
+
+    override suspend fun getForms(): Flow<PagingData<Form>> {
+        return Pager(
+            config = PagingConfig(pageSize = 10, prefetchDistance = 1),
+            pagingSourceFactory = {
+                FormPagingSource(service)
+            }
+        ).flow
     }
 }

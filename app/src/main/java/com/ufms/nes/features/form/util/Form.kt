@@ -1,4 +1,4 @@
-package com.ufms.nes.features.form.data.model
+package com.ufms.nes.features.form.util
 
 import com.ufms.nes.core.commons.UUIDSerializer
 import kotlinx.serialization.SerialName

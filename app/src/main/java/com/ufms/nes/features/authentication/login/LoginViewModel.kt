@@ -1,4 +1,4 @@
-package com.ufms.nes.features.authentication
+package com.ufms.nes.features.authentication.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,12 +1,12 @@
-package com.ufms.nes.features.registration.presentation
+package com.ufms.nes.features.authentication.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ufms.nes.core.commons.Constants
 import com.ufms.nes.core.commons.Resource
 import com.ufms.nes.core.commons.Validators
-import com.ufms.nes.features.authentication.data.model.UserDTO
-import com.ufms.nes.features.authentication.data.repository.AuthenticationRepository
+import com.ufms.nes.data.network.model.UserDTO
+import com.ufms.nes.domain.repository.AuthenticationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -111,13 +111,14 @@ class RegistrationViewModel @Inject constructor(
                 else -> {
                     try {
                         repository.registerUser(user = createUser()).let { result ->
-                           if (result is Resource.Success) {
-                            _uiState.update {
-                                    it.copy(registrationMessage = Constants.REGISTRATION_SUCCESS)
-                                    it.copy(isUserRegistered = true)
+                            if (result is Resource.Success) {
+                                _uiState.update {
+                                    it.copy(
+                                        registrationMessage = Constants.REGISTRATION_SUCCESS,
+                                        isUserRegistered = true
+                                    )
                                 }
-                            }
-                            else {
+                            } else {
                                 _uiState.update {
                                     it.copy(registrationMessage = result.error)
                                 }

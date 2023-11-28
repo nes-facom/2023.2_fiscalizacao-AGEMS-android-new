@@ -1,8 +1,8 @@
-package com.ufms.nes.features.form.data.model
+package com.ufms.nes.data.network.model.response
 
 import kotlinx.serialization.SerialName
 
-class ResponseDto<T : Any?> {
+class ResponseFormDto<T : Any?> {
     @SerialName("results")
     var results: T? = null
 

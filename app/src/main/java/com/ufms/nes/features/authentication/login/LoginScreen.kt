@@ -1,4 +1,4 @@
-package com.ufms.nes.features.authentication
+package com.ufms.nes.features.authentication.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column

@@ -1,9 +1,9 @@
-package com.ufms.nes.features.consumeunit.presentation
+package com.ufms.nes.features.consumeunit.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ufms.nes.domain.model.ConsumeUnit
-import com.ufms.nes.features.consumeunit.data.ConsumeUnitRepository
+import com.ufms.nes.domain.repository.ConsumeUnitRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

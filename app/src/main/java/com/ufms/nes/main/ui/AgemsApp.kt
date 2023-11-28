@@ -42,8 +42,8 @@ import androidx.navigation.compose.navigation
 import com.ufms.nes.R
 import com.ufms.nes.core.ui.ContainerColor
 import com.ufms.nes.core.ui.model.drawerOptions
-import com.ufms.nes.features.authentication.loginNavigationRoute
-import com.ufms.nes.features.authentication.loginScreen
+import com.ufms.nes.features.authentication.login.loginNavigationRoute
+import com.ufms.nes.features.authentication.login.loginScreen
 import com.ufms.nes.features.template.screen.AddEditModelScreen
 import com.ufms.nes.features.template.screen.AddQuestionScreen
 import com.ufms.nes.features.template.viewmodel.AddModelViewModel
@@ -51,6 +51,8 @@ import com.ufms.nes.core.ui.components.NesDialog
 import com.ufms.nes.features.form.screen.CreateFormScreen
 import com.ufms.nes.features.form.viewmodel.CreateFormViewModel
 import com.ufms.nes.features.form.screen.SelectModelScreen
+import com.ufms.nes.features.authentication.register.REGISTRATION_NAVIGATION_ROUTE
+import com.ufms.nes.features.authentication.register.registrationScreen
 import com.ufms.nes.main.navigation.ADD_EDIT_MODEL_NAVIGATION_ROUTE
 import com.ufms.nes.main.navigation.ADD_EDIT_QUESTION_NAVIGATION_ROUTE
 import com.ufms.nes.main.navigation.CREATE_FORM_ROUTE

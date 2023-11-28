@@ -1,4 +1,4 @@
-package com.ufms.nes.features.consumeunit
+package com.ufms.nes.features.consumeunit.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,6 +32,7 @@ import com.ufms.nes.R
 import com.ufms.nes.core.ui.components.DrawerTopBar
 import com.ufms.nes.core.ui.components.ModelItem
 import com.ufms.nes.domain.model.ConsumeUnit
+import com.ufms.nes.features.consumeunit.viewmodel.ConsumeUnitViewModel
 
 @Composable
 fun ConsumeUnitScreen(

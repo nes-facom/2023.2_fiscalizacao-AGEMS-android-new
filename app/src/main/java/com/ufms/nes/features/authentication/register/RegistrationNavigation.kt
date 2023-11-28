@@ -1,4 +1,4 @@
-package com.ufms.nes.features.registration.presentation
+package com.ufms.nes.features.authentication.register
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable

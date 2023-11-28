@@ -40,7 +40,6 @@
     <string name="add_alternative">Adicione ao menos uma alternativa</string>
     <string name="add">Adicionar</string>
     <string name="synchronization">Sincronizar</string>
-    <string name="download_data">Baixar dados</string>
     <string name="send_data">Enviar dados</string>
     <string name="sync_all">Sincronizar tudo</string>
     <string name="load_failed">Falha ao carregar mais items</string>
@@ -48,14 +47,7 @@
     <string name="user">Usuário: %1$s</string>
     <string name="unit">Unidade: %1$s</string>
     <string name="creation_date">Data de Criação: %1$s</string>
-    <string name="loading">Carregando...</string>
-    <string name="tab_unit">Unidades</string>
-    <string name="consume_unit_empty">Não há unidades cadastradas</string>
-    <string name="save_unit">Salvar unidade</string>
-    <string name="entered_name">Nome da unidade:</string>
-    <string name="register_unit">Cadastrar Unidade</string>
-    <string name="entered_address">Endereço da unidade:</string>
-    <string name="entered_type">Tipo da unidade:</string>
+    <string name="loading">Carregando…</string>
     <string name="tab_unit">Unidades</string>
     <string name="consume_unit_empty">Não há unidades cadastradas</string>
     <string name="save_unit">Salvar unidade</string>
@@ -65,9 +57,6 @@
     <string name="entered_type">Tipo da unidade:</string>
     <string name="select_model">Selecionar modelo</string>
     <string name="fill_out_form">Preencher formulário</string>
-    <string name="address">Endereço</string>
-    <string name="unit">Unidade</string>
     <string name="observation">Observações</string>
     <string name="add_unit_question">Adicione ao menos uma questão!</string>
-    <string name="select_alternative">Selecione a resposta</string>
 </resources>

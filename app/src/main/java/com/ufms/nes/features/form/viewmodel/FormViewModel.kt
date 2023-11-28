@@ -1,11 +1,11 @@
-package com.ufms.nes.features.form.presentation
+package com.ufms.nes.features.form.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.ufms.nes.features.form.data.model.Form
-import com.ufms.nes.features.form.data.repository.FormRepository
+import com.ufms.nes.domain.repository.NetworkRepository
+import com.ufms.nes.features.form.util.Form
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -14,10 +14,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FormViewModel @Inject constructor(
-    private val repository: FormRepository
+    private val repository: NetworkRepository
 ) : ViewModel() {
 
-    private val _formsState: MutableStateFlow<PagingData<Form>> = MutableStateFlow(value = PagingData.empty())
+    private val _formsState: MutableStateFlow<PagingData<Form>> =
+        MutableStateFlow(value = PagingData.empty())
 
     val formsState: MutableStateFlow<PagingData<Form>> get() = _formsState
 

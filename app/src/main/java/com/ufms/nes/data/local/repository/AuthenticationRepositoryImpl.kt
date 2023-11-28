@@ -6,6 +6,7 @@ import com.ufms.nes.domain.LocalService
 import com.ufms.nes.data.network.model.UserDTO
 import com.ufms.nes.data.network.model.response.UserResponse
 import com.ufms.nes.core.network.ApiService
+import com.ufms.nes.core.utils.getHttpExceptionMessage
 import com.ufms.nes.domain.repository.AuthenticationRepository
 import io.ktor.client.plugins.ClientRequestException
 import javax.inject.Inject

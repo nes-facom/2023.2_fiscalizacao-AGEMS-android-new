@@ -1,4 +1,4 @@
-package com.ufms.nes.features.form.presentation.component
+package com.ufms.nes.features.form.util
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +19,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ufms.nes.R
 import com.ufms.nes.core.commons.convertLongToFormattedDate
-import com.ufms.nes.features.form.data.model.Form
 
 @Composable
 fun ItemForm(

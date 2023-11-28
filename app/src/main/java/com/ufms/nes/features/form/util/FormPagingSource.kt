@@ -1,11 +1,11 @@
-package com.ufms.nes.features.form.data
+package com.ufms.nes.features.form.util
 
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.ufms.nes.core.data.network.ApiService
-import com.ufms.nes.features.form.data.model.Form
+import com.ufms.nes.core.commons.mappers.Mappers.mapFromListModel
+import com.ufms.nes.core.network.ApiService
 import io.ktor.utils.io.errors.IOException
 
 const val STARTING_KEY = 0
