@@ -43,21 +43,29 @@ fun ItemForm(
                 .padding(8.dp),
             verticalArrangement = Arrangement.Center,
         ) {
-            Text(
-                text = stringResource(R.string.user, form.user),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
+            form.user?.let {
+                Text(
+                    text = stringResource(R.string.user, it),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
             Text(
                 text = stringResource(R.string.unit, form.unit.toString()),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Text(
-                text = stringResource(R.string.creation_date, form.creationDate.convertLongToFormattedDate()),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
+            form.creationDate?.let {
+                Text(
+                    text =
+                    stringResource(
+                        R.string.creation_date,
+                        it.convertLongToFormattedDate()
+                    ),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
 }
