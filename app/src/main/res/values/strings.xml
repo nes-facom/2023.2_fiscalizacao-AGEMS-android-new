@@ -8,6 +8,11 @@
     <string name="forget_password">Esqueceu a senha?</string>
     <string name="enter">Entrar</string>
     <string name="register">Cadastrar</string>
+    <string name="registration_screen_title">Novo Usuário</string>
+    <string name="password_confirmation">Confirme a senha</string>
+    <string name="return_to_login_screen">Retornar ao Login</string>
+    <string name="nome">Nome</string>
+    <string name="role">Cargo</string>
 
     <string name="tab_home">Home</string>
     <string name="hide_password">Esconder senha</string>
@@ -38,6 +43,19 @@
     <string name="download_data">Baixar dados</string>
     <string name="send_data">Enviar dados</string>
     <string name="sync_all">Sincronizar tudo</string>
+    <string name="load_failed">Falha ao carregar mais items</string>
+    <string name="no_items_found">Nenhum item encontrado</string>
+    <string name="user">Usuário: %1$s</string>
+    <string name="unit">Unidade: %1$s</string>
+    <string name="creation_date">Data de Criação: %1$s</string>
+    <string name="loading">Carregando...</string>
+    <string name="tab_unit">Unidades</string>
+    <string name="consume_unit_empty">Não há unidades cadastradas</string>
+    <string name="save_unit">Salvar unidade</string>
+    <string name="entered_name">Nome da unidade:</string>
+    <string name="register_unit">Cadastrar Unidade</string>
+    <string name="entered_address">Endereço da unidade:</string>
+    <string name="entered_type">Tipo da unidade:</string>
     <string name="tab_unit">Unidades</string>
     <string name="consume_unit_empty">Não há unidades cadastradas</string>
     <string name="save_unit">Salvar unidade</string>

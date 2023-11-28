@@ -2,9 +2,9 @@ package com.ufms.nes.data.network
 
 import android.util.Log
 import com.ufms.nes.BuildConfig
-import com.ufms.nes.core.network.ApiService
-import com.ufms.nes.domain.LocalService
-import com.ufms.nes.data.network.model.response.UserResponse
+import com.ufms.nes.core.data.network.ApiService
+import com.ufms.nes.features.authentication.data.datastore.LocalService
+import com.ufms.nes.features.authentication.data.model.UserResponse
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

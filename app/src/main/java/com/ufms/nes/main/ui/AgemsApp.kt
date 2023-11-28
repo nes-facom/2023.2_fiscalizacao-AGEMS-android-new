@@ -115,6 +115,14 @@ fun AgemsApp(
         )
     }
 
+    fun navigateHome() {
+        appState.navController.navigate(NavRoutes.MainRoute.name) {
+            popUpTo(NavRoutes.AuthenticationRoute.name) {
+                inclusive = true
+            }
+        }
+    }
+
     Surface {
         ModalNavigationDrawer(
             drawerState = drawerState,
@@ -213,13 +221,22 @@ fun AgemsApp(
                         startDestination = loginNavigationRoute,
                         route = NavRoutes.AuthenticationRoute.name
                     ) {
-                        loginScreen(onLoginSuccess = {
-                            appState.navController.navigate(NavRoutes.MainRoute.name) {
-                                popUpTo(NavRoutes.AuthenticationRoute.name) {
-                                    inclusive = true
-                                }
+                        loginScreen(
+                            onLoginSuccess = {
+                                navigateHome()
+                            },
+                            onRegistrationButtonClick = {
+                                appState.navController.navigate(REGISTRATION_NAVIGATION_ROUTE)
                             }
-                        })
+                        )
+                        registrationScreen(
+                            onRegistrationSuccess = {
+                                navigateHome()
+                            },
+                            onReturnToLoginClick = {
+                                appState.navController.navigate(loginNavigationRoute)
+                            }
+                        )
                     }
                     navigation(
                         startDestination = homeNavigationRoute,

@@ -8,7 +8,6 @@ import com.ufms.nes.data.network.model.response.UserResponse
 import com.ufms.nes.core.network.ApiService
 import com.ufms.nes.domain.repository.AuthenticationRepository
 import io.ktor.client.plugins.ClientRequestException
-import io.ktor.client.statement.bodyAsText
 import javax.inject.Inject
 
 class AuthenticationRepositoryImpl @Inject constructor(
@@ -19,8 +18,15 @@ class AuthenticationRepositoryImpl @Inject constructor(
     override suspend fun registerUser(user: UserDTO): Resource<UserResponse> {
         return try {
             val result = service.registerUser(user)
+
+            saveInfoInCache(result)
+
             Resource.Success(data = result)
-        } catch (ex: Exception) {
+        } catch (ex: ClientRequestException) {
+
+            Resource.Error(data = null, error = ex.response.getHttpExceptionMessage())
+        } catch (ex: Throwable) {
+
             Resource.Error(data = null, error = ERROR_MESSAGE)
         }
     }
@@ -33,10 +39,7 @@ class AuthenticationRepositoryImpl @Inject constructor(
 
             Resource.Success(data = result)
         } catch (ex: ClientRequestException) {
-            val exceptionMessage =
-                ex.response.bodyAsText().substringAfter("\"error\":\"").removeSuffix("\"}")
-
-            Resource.Error(data = null, error = exceptionMessage)
+            Resource.Error(data = null, error = ex.response.getHttpExceptionMessage())
         } catch (ex: Throwable) {
             Resource.Error(data = null, error = ERROR_MESSAGE)
         }

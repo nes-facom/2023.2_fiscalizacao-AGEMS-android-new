@@ -1,10 +1,8 @@
 package com.ufms.nes.data.network.model
 
-import com.ufms.nes.core.commons.LocalDateSerializer
-import com.ufms.nes.domain.enums.UserType
+import com.ufms.nes.features.authentication.data.enums.UserType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.time.LocalDate
 
 @Serializable
 data class UserDTO(
@@ -12,8 +10,11 @@ data class UserDTO(
     @SerialName("nome") private val name: String? = null,
     @SerialName("email") private val email: String? = null,
     @SerialName("senha") private val password: String? = null,
-    @Serializable(with = LocalDateSerializer::class)
-    @SerialName("dataCriacao") private val dateCreated: LocalDate? = null,
+
+    @SerialName("senhaConfirmacao") private val passwordConfirmation: String? = null,
+
+    @SerialName("data_criacao") private val dateCreated: Long? = null,
+
     @SerialName("cargo") private val cargo: String? = null,
     @SerialName("funcao") private val userType: String? = UserType.ADMIN.name
 )
