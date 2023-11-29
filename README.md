@@ -28,17 +28,31 @@ A solução proposta foi a criação de um aplicativo que cadastra modelos de fo
 - [Android Studio](https://developer.android.com/studio);
   - Android SDK Plataform (versão 8.0 ou superior);
 
-**Observação:** As dependências e bibliotecas utilizadas já estão contidas no projeto no `build.gradle` da aplicação.
+- [git](https://git-scm.com/);
+  - git;
+
+**Observação:** As dependências e bibliotecas utilizadas já estão contidas no projeto no arquivo `build.gradle` na raiz do repositório.
 
 ## Instalação / Implantação
 
 1. Clone o repositório.
 3. Abra o projeto no Android Studio.
-4. Sincronize o projeto
+4. Sincronize o projeto (ctrl + shift + O ou elefante no canto superior direito)
 5. Adicione as linhas abaixo no arquivo local.properties.
 ```
-BASE_URL=http://10.0.2.2:8080  # Este é a URL base para acesso ao backend.
-DS_NAME=agems  # Este é o nome do banco local.
+BASE_URL é a URL base para acesso ao backend.
+
+Rodando aplicação em device físico (com api rodando na mesma máquina do android studio):
+BASE_URL=http://10.0.2.2:8080 (macOS)
+BASE_URL=http://ip da máquina:8080 (windows e linux)
+
+Rodando aplicação no emulador do android studio:
+BASE_URL=http://localhost:8080 (pode precisar de configuração de acordo com ambiente)
+
+DS_NAME é o nome do banco local.
+DS_NAME=agems
+
+Detalhes: https://developer.android.com/studio/run/emulator-networking.html
 ```
 
 ## Autores e histórico
